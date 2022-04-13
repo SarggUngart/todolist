@@ -3,6 +3,7 @@ import './App.css';
 import {TasksType, ToDoList} from "./Components/ToDoList";
 import {v1} from "uuid";
 
+
 export type FilteredValueType = 'All' | 'Active' | 'Completed'
 
 function App() {

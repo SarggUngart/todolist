@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, FC, useState} from 'react';
 import {FilteredValueType} from "../App";
+import styles from "../Components/ToDoList.module.css"
 
 
 export type TasksType = {
@@ -19,7 +20,10 @@ type ToDoListPropsType = {
 }
 
 export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filteredTasks, addTask, changeStatus}) => {
+
   const [titleInput, setTitleInput] = useState('')
+  const [error, setError] = useState(false)
+
 
   const onclickRemoveHandler = (id: string) => {
     removeTask(id)
@@ -38,6 +42,9 @@ export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filte
     if (trimmedInputTitle !== '') {
       addTask(trimmedInputTitle.trim())
       setTitleInput('')
+      setError(false)
+    } else {
+      setError(true)
     }
   }
 
@@ -46,32 +53,36 @@ export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filte
   }
 
   const onKeyPressAddTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    setError(false)
     if (e.key === 'Enter') {
       addNewTask()
     }
   }
 
+  const onChangeCheckBoxHandler = (taskId: string, isDone: boolean) => {
+    changeStatus(taskId, isDone)
+  }
+
   return (
     <div>
       <h3>{title}</h3>
-      <div>
-        <input value={titleInput}
+      <div className={'inputWrapper'}>
+        <input className={error ? styles.error : ''}
+               value={titleInput}
                onChange={onChangeInputHandler}
                onKeyPress={onKeyPressAddTaskHandler}
         />
         <button onClick={onClickAddTaskHandler}>+</button>
+        {error && <div className={styles.errorMsg}>value is empty</div>}
       </div>
 
       <ul>
         {tasks.map((el) => {
 
-            const onChangeCheckBoxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-              changeStatus(el.id, e.currentTarget.checked)
-            }
 
             return (
               <li key={el.id}><input
-                onChange={onChangeCheckBoxHandler}
+                onChange={(e) => onChangeCheckBoxHandler(el.id, e.currentTarget.checked)}
                 type="checkbox"
                 checked={el.isDone}/>
                 <span>{el.title}</span>

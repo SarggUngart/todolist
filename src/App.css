@@ -1,7 +1,16 @@
 
-ul{
+ul {
     padding-left: 20px;
 }
+
+.inputWrapper{
+    height: 35px;
+}
+
+input:focus {
+    outline: none;
+}
+
 
 li {
     list-style: none;
@@ -23,3 +32,4 @@ li {
 .removeBtn {
     margin-left: auto;
 }
+
