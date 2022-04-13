@@ -16,7 +16,7 @@ function App() {
     {id: v1(), title: "GraphQL", isDone: false}
   ])
 
-  const [filter, setFilter] = useState('All')
+  const [filter, setFilter] = useState<FilteredValueType>('All')
 
   const removeTask = (id: string) => {
     setTasks(tasks.filter(t => t.id !== id))
@@ -55,6 +55,7 @@ function App() {
         filteredTasks={filteredTasks}
         addTask={addTask}
         changeStatus={changeStatus}
+        filter={filter}
       />
     </div>
   );

@@ -5,3 +5,13 @@
 .errorMsg {
     color: red;
 }
+
+.btnActive{
+    background-color: aquamarine;
+}
+
+.doneTask{
+    opacity: 0.5;
+    text-decoration: line-through;
+
+}

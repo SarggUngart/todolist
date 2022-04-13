@@ -17,9 +17,19 @@ type ToDoListPropsType = {
   filteredTasks: (value: FilteredValueType) => void
   addTask: (title: string) => void
   changeStatus: (taskId: string, isDone: boolean) => void
+  filter: FilteredValueType
+
 }
 
-export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filteredTasks, addTask, changeStatus}) => {
+export const ToDoList: FC<ToDoListPropsType> = ({
+                                                  title,
+                                                  tasks,
+                                                  removeTask,
+                                                  filteredTasks,
+                                                  addTask,
+                                                  changeStatus,
+                                                  filter
+                                                }) => {
 
   const [titleInput, setTitleInput] = useState('')
   const [error, setError] = useState(false)
@@ -79,13 +89,14 @@ export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filte
       <ul>
         {tasks.map((el) => {
 
-
             return (
               <li key={el.id}><input
                 onChange={(e) => onChangeCheckBoxHandler(el.id, e.currentTarget.checked)}
                 type="checkbox"
                 checked={el.isDone}/>
-                <span>{el.title}</span>
+                <span
+                  className={el.isDone ? styles.doneTask : ''}
+                >{el.title}</span>
                 <button className={'removeBtn'} onClick={() => onclickRemoveHandler(el.id)}>x</button>
               </li>
             )
@@ -94,9 +105,15 @@ export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filte
       </ul>
 
       <div>
-        <button onClick={() => onClickFilterHandler('All')}>All</button>
-        <button onClick={() => onClickFilterHandler('Active')}>Active</button>
-        <button onClick={() => onClickFilterHandler('Completed')}>Completed</button>
+        <button className={filter === 'All' ? styles.btnActive : ''}
+                onClick={() => onClickFilterHandler('All')}>All
+        </button>
+        <button className={filter === 'Active' ? styles.btnActive : ''}
+                onClick={() => onClickFilterHandler('Active')}>Active
+        </button>
+        <button className={filter === 'Completed' ? styles.btnActive : ''}
+                onClick={() => onClickFilterHandler('Completed')}>Completed
+        </button>
       </div>
     </div>
 
