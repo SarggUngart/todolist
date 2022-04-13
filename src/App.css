@@ -1,13 +1,25 @@
-li{
+
+ul{
+    padding-left: 20px;
+}
+
+li {
     list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px auto;
 }
 
 .App {
-  padding: 30px;
-  display: flex;
+    padding: 30px;
+    display: flex;
 }
 
 .App > div {
-  margin-right: 50px;
+    margin-right: 50px;
 }
 
+.removeBtn {
+    margin-left: auto;
+}

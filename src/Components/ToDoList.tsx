@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {ChangeEvent, MouseEvent, FC, useState} from 'react';
 import {FilteredValueType} from "../App";
 
 
@@ -14,11 +14,13 @@ type ToDoListPropsType = {
   tasks: TasksType[]
   removeTask: (id: string) => void
   filteredTasks: (value: FilteredValueType) => void
+  addTask: (title: string) => void
 }
 
-export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filteredTasks}) => {
+export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filteredTasks, addTask}) => {
+  const [titleInput, setTitleInput] = useState('')
 
-  const onclickHandler = (id: string) => {
+  const onclickRemoveHandler = (id: string) => {
     removeTask(id)
   }
 
@@ -26,20 +28,31 @@ export const ToDoList: FC<ToDoListPropsType> = ({title, tasks, removeTask, filte
     filteredTasks(value)
   }
 
+  const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitleInput(e.currentTarget.value)
+  }
+
+  const onClickAddTaskHandler = () => {
+    addTask(titleInput)
+    setTitleInput('')
+  }
+
   return (
     <div>
       <h3>{title}</h3>
       <div>
-        <input/>
-        <button>+</button>
+        <input value={titleInput}
+               onChange={onChangeInputHandler}
+        />
+        <button onClick={onClickAddTaskHandler}>+</button>
       </div>
 
       <ul>
         {tasks.map((el) => {
             return (
               <li key={el.id}><input type="checkbox" checked={el.isDone}/>
-                <button onClick={() => onclickHandler(el.id)}>x</button>
                 <span>{el.title}</span>
+                <button className={'removeBtn'} onClick={() => onclickRemoveHandler(el.id)}>x</button>
               </li>
             )
           }
