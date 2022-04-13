@@ -11,7 +11,8 @@ function App() {
     {id: v1(), title: "HTML&CSS", isDone: true},
     {id: v1(), title: "JS", isDone: true},
     {id: v1(), title: "React", isDone: false},
-    {id: v1(), title: "Redux", isDone: false}
+    {id: v1(), title: "Redux", isDone: false},
+    {id: v1(), title: "GraphQL", isDone: false}
   ])
 
   const [filter, setFilter] = useState('All')
@@ -40,6 +41,10 @@ function App() {
     setTasks([newTask, ...tasks])
   }
 
+  const changeStatus = (taskId: string, isDone: boolean) => {
+    setTasks(tasks.map(el => el.id === taskId ? {...el, isDone} : el))
+  }
+
   return (
     <div className="App">
       <ToDoList
@@ -48,6 +53,7 @@ function App() {
         removeTask={removeTask}
         filteredTasks={filteredTasks}
         addTask={addTask}
+        changeStatus={changeStatus}
       />
     </div>
   );
