@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, FC, useState} from 'react';
-import {FilteredValueType} from "../App";
-import styles from "../Components/ToDoList.module.css"
+import {FilteredValueType} from "../../App";
+import styles from "./ToDoList.module.css"
+import {CheckBox} from "../CheckBox/CheckBox";
 
 
 export type TasksType = {
@@ -90,10 +91,14 @@ export const ToDoList: FC<ToDoListPropsType> = ({
         {tasks.map((el) => {
 
             return (
-              <li key={el.id}><input
-                onChange={(e) => onChangeCheckBoxHandler(el.id, e.currentTarget.checked)}
-                type="checkbox"
-                checked={el.isDone}/>
+              <li key={el.id}>
+                <CheckBox isDone={el.isDone} callBack={(isDone)=>onChangeCheckBoxHandler(el.id, isDone)}/>
+
+                {/*<input*/}
+                {/*onChange={(e) => onChangeCheckBoxHandler(el.id, e.currentTarget.checked)}*/}
+                {/*type="checkbox"*/}
+                {/*checked={el.isDone}/>*/}
+
                 <span
                   className={el.isDone ? styles.doneTask : ''}
                 >{el.title}</span>
