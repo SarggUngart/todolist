@@ -3,7 +3,7 @@ ul {
     padding-left: 20px;
 }
 
-.inputWrapper{
+.inputWrapper {
     height: 35px;
 }
 
@@ -33,3 +33,15 @@ li {
     margin-left: auto;
 }
 
+.todolistHeader{
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    padding-left: 20px;
+    display: inline-block;
+    margin: 0;
+}

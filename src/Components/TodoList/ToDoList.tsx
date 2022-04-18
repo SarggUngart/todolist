@@ -10,48 +10,41 @@ export type TasksType = {
   isDone: boolean
 }
 
-
 type ToDoListPropsType = {
+  todolistId: string
   title: string
   tasks: TasksType[]
-  removeTask: (id: string) => void
-  filteredTasks: (value: FilteredValueType) => void
-  addTask: (title: string) => void
-  changeStatus: (taskId: string, isDone: boolean) => void
+  removeTask: (todolistId: string, id: string) => void
+  filteredTasks: (todolistId: string, value: FilteredValueType) => void
+  addTask: (todolistId: string, title: string) => void
+  changeStatus: (todolistId: string, taskId: string, isDone: boolean) => void
   filter: FilteredValueType
-
+  removeTodoList: (todolistId: string) => void
 }
 
 export const ToDoList: FC<ToDoListPropsType> = ({
+                                                  todolistId,
                                                   title,
                                                   tasks,
                                                   removeTask,
                                                   filteredTasks,
                                                   addTask,
                                                   changeStatus,
-                                                  filter
+                                                  filter,
+                                                  removeTodoList
                                                 }) => {
 
   const [titleInput, setTitleInput] = useState('')
   const [error, setError] = useState(false)
 
-
-  const onclickRemoveHandler = (id: string) => {
-    removeTask(id)
-  }
-
-  const onClickFilterHandler = (value: FilteredValueType) => {
-    filteredTasks(value)
-  }
-
-  const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitleInput(e.currentTarget.value)
-  }
+  // const onClickFilterHandler = (todolistId: string, value: FilteredValueType) => {
+  //
+  // }
 
   const addNewTask = () => {
     let trimmedInputTitle = titleInput.trim()
     if (trimmedInputTitle !== '') {
-      addTask(trimmedInputTitle.trim())
+      addTask(todolistId, trimmedInputTitle.trim())
       setTitleInput('')
       setError(false)
     } else {
@@ -63,6 +56,10 @@ export const ToDoList: FC<ToDoListPropsType> = ({
     addNewTask()
   }
 
+  const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitleInput(e.currentTarget.value)
+  }
+
   const onKeyPressAddTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(false)
     if (e.key === 'Enter') {
@@ -70,13 +67,17 @@ export const ToDoList: FC<ToDoListPropsType> = ({
     }
   }
 
-  const onChangeCheckBoxHandler = (taskId: string, isDone: boolean) => {
-    changeStatus(taskId, isDone)
+  const onChangeCheckBoxHandler = (todolistId: string, taskId: string, isDone: boolean) => {
+    changeStatus(todolistId, taskId, isDone)
   }
+
 
   return (
     <div>
-      <h3>{title}</h3>
+      <div className={'todolistHeader'}>
+        <h3 className={'title'}>{title}</h3>
+        <button onClick={() => removeTodoList(todolistId)}>x</button>
+      </div>
       <div className={'inputWrapper'}>
         <input className={error ? styles.error : ''}
                value={titleInput}
@@ -92,7 +93,7 @@ export const ToDoList: FC<ToDoListPropsType> = ({
 
             return (
               <li key={el.id}>
-                <CheckBox isDone={el.isDone} callBack={(isDone)=>onChangeCheckBoxHandler(el.id, isDone)}/>
+                <CheckBox isDone={el.isDone} callBack={(isDone) => onChangeCheckBoxHandler(todolistId, el.id, isDone)}/>
 
                 {/*<input*/}
                 {/*onChange={(e) => onChangeCheckBoxHandler(el.id, e.currentTarget.checked)}*/}
@@ -102,7 +103,7 @@ export const ToDoList: FC<ToDoListPropsType> = ({
                 <span
                   className={el.isDone ? styles.doneTask : ''}
                 >{el.title}</span>
-                <button className={'removeBtn'} onClick={() => onclickRemoveHandler(el.id)}>x</button>
+                <button className={'removeBtn'} onClick={() => removeTask(todolistId, el.id)}>x</button>
               </li>
             )
           }
@@ -111,13 +112,13 @@ export const ToDoList: FC<ToDoListPropsType> = ({
 
       <div>
         <button className={filter === 'All' ? styles.btnActive : ''}
-                onClick={() => onClickFilterHandler('All')}>All
+                onClick={() => filteredTasks(todolistId, 'All')}>All
         </button>
         <button className={filter === 'Active' ? styles.btnActive : ''}
-                onClick={() => onClickFilterHandler('Active')}>Active
+                onClick={() => filteredTasks(todolistId, 'Active')}>Active
         </button>
         <button className={filter === 'Completed' ? styles.btnActive : ''}
-                onClick={() => onClickFilterHandler('Completed')}>Completed
+                onClick={() => filteredTasks(todolistId, 'Completed')}>Completed
         </button>
       </div>
     </div>
