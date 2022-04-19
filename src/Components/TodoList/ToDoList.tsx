@@ -3,6 +3,7 @@ import {FilteredValueType} from "../../App";
 import styles from "./ToDoList.module.css"
 import {CheckBox} from "../CheckBox/CheckBox";
 import AddItemForm from "../AddItemForm/AddItemForm";
+import EditableSpan from "../../EditableSpan/EditableSpan";
 
 
 export type TasksType = {
@@ -22,6 +23,9 @@ type ToDoListPropsType = {
   changeStatus: (todolistId: string, taskId: string, isDone: boolean) => void
   filter: FilteredValueType
   removeTodoList: (todolistId: string) => void
+  updateTaskTitle: (todolistId: string, id: string, newTitle: string) => void
+  updateTodoListTitle: (todolistId: string, newTitle: string) => void
+
 }
 
 export const ToDoList: FC<ToDoListPropsType> = ({
@@ -33,9 +37,14 @@ export const ToDoList: FC<ToDoListPropsType> = ({
                                                   addTask,
                                                   changeStatus,
                                                   filter,
-                                                  removeTodoList
+                                                  removeTodoList,
+                                                  updateTaskTitle,
+                                                  updateTodoListTitle
                                                 }) => {
 
+  const updateTodolistHandler = (newTitle: string) => {
+    updateTodoListTitle(todolistId, newTitle)
+  }
 
   const removeTodoListHandler = () => {
     removeTodoList(todolistId)
@@ -49,6 +58,10 @@ export const ToDoList: FC<ToDoListPropsType> = ({
     changeStatus(todolistId, taskId, isDone)
   }
 
+  const updateTaskHandler = (id: string, newTitle: string) => {
+    updateTaskTitle(todolistId, id, newTitle)
+  }
+
   const removeTaskHandler = (todolistId: string, id: string) => {
     removeTask(todolistId, id)
   }
@@ -57,10 +70,13 @@ export const ToDoList: FC<ToDoListPropsType> = ({
     filteredTasks(todolistId, value)
   }
 
+
   return (
     <div>
       <div className={'todolistHeader'}>
-        <h3 className={'title'}>{title}</h3>
+        <h3><EditableSpan callBack={updateTodolistHandler} title={title}/>
+        </h3>
+
         <button onClick={removeTodoListHandler}>x</button>
       </div>
 
@@ -69,16 +85,19 @@ export const ToDoList: FC<ToDoListPropsType> = ({
       <ul>
         {tasks.map((el) => {
 
-            return ( 
-              <li key={el.id}>
+            return (
+              <li key={el.id}
+                  className={el.isDone ? styles.doneTask : ''}>
                 <CheckBox isDone={el.isDone} callBack={(isDone) => onChangeCheckBoxHandler(todolistId, el.id, isDone)}/>
                 {/*<input*/}
                 {/*onChange={(e) => onChangeCheckBoxHandler(el.id, e.currentTarget.checked)}*/}
                 {/*type="checkbox"*/}
                 {/*checked={el.isDone}/>*/}
-                <span
-                  className={el.isDone ? styles.doneTask : ''}
-                >{el.title}</span>
+                <EditableSpan
+                  callBack={(newTitle: string) => updateTaskHandler(el.id, newTitle)}
+                  title={el.title}
+
+                />
                 <button className={'removeBtn'} onClick={() => removeTaskHandler(todolistId, el.id)}>x</button>
               </li>
             )
