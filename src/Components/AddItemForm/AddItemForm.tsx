@@ -1,9 +1,8 @@
 import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
-import styles from "../TodoList/ToDoList.module.css";
-
+import {Button, TextField} from "@material-ui/core";
 
 type AddItemFormPropsType = {
-  callBack:(newTitle:string)=>void
+  callBack: (newTitle: string) => void
 }
 
 
@@ -38,17 +37,31 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({callBack}) => {
     }
   }
 
+  const onClickInputHandler = () => {
+    setError(false)
+  }
 
   return (
     <div className={'inputWrapper'}>
-      <input className={error ? styles.error : ''}
-             value={titleInput}
-             onChange={onChangeInputHandler}
-             onKeyPress={onKeyPressAddTaskHandler}
+
+      <TextField label={error ? 'Title is required' : 'Enter title'}
+                 className={error ? 'styles.error' : ''}
+                 value={titleInput}
+                 onChange={onChangeInputHandler}
+                 onKeyPress={onKeyPressAddTaskHandler}
+                 variant='outlined'
+                 size={'small'}
+                 error={error}
+                 onClick={onClickInputHandler}
+
       />
-      <button onClick={onClickAddTaskHandler}>+</button>
-      {error && <div className={styles.errorMsg}>value is empty</div>}
-    </div>
+      <Button
+        style={{minWidth: '30px', backgroundColor: 'darkgray'}}
+        variant="contained"
+        onClick={onClickAddTaskHandler}
+      >+</Button>
+
+      </div>
   );
 };
 
