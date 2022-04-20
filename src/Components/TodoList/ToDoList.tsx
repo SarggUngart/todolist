@@ -1,8 +1,7 @@
 import React, {FC} from 'react';
 import {FilteredValueType} from "../../App";
 import styles from "./ToDoList.module.css"
-
-import AddItemForm from "../AddItemForm/AddItemForm";
+ import AddItemForm from "../AddItemForm/AddItemForm";
 import EditableTitle from "../../EditableTitle/EditableTitle";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@mui/icons-material";
@@ -122,20 +121,20 @@ export const ToDoList: FC<ToDoListPropsType> = ({
       </ul>
 
       <div style={{textAlign: 'center'}}>
-        <Button variant={filter === 'All' ? 'contained' : 'outlined'}
+        <Button variant={filter === 'All' ? 'contained' : 'text'}
                 color="primary"
                 onClick={() => filteredTasksHandler(todolistId, 'All')}
                 size={'small'}>
           All
         </Button>
 
-        <Button variant={filter === 'Active' ? 'contained' : 'outlined'}
+        <Button variant={filter === 'Active' ? 'contained' : 'text'}
                 color="primary"
                 onClick={() => filteredTasksHandler(todolistId, 'Active')}
                 size={'small'}>
           Active
         </Button>
-        <Button variant={filter === 'Completed' ? 'contained' : 'outlined'}
+        <Button variant={filter === 'Completed' ? 'contained' : 'text'}
                 color="primary"
                 onClick={() => filteredTasksHandler(todolistId, 'Completed')}
                 size={'small'}>

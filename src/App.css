@@ -1,20 +1,11 @@
-/*.inputWrapper {*/
-/*    height: 30px;*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    align-items: center;*/
-/*}*/
 
-/*input:focus {*/
-/*    outline: none;*/
-/*}*/
+
 h3 {
     display: inline-block;
 }
 
 ul {
     padding: 10px 0 0 0;
-
 }
 
 li {
@@ -26,23 +17,13 @@ li {
     margin: 5px auto;
 }
 
-
-/*.App > div {*/
-/*    margin-right: 50px;*/
-/*}*/
-
-/*.removeBtn {*/
-/*    margin-left: auto;*/
-/*}*/
-
 .todolistHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-/*.title {*/
-/*    padding-left: 20px;*/
-/*    display: inline-block;*/
-/*    margin: 0;*/
-/*}*/
+.inputWrapper {
+    display: flex;
+    align-items: center;
+}

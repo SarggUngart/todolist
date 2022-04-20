@@ -110,6 +110,9 @@ function App() {
               case 'Active' :
                 tasksForTodoList = tasksForTodoList.filter(el => !el.isDone)
                 break;
+              default: {
+
+              }
             }
 
 
