@@ -44,7 +44,9 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({callBack}) => {
   return (
     <div className={'inputWrapper'}>
 
-      <TextField label={error ? 'Title is required' : 'Enter title'}
+      <TextField
+
+        label={error ? 'Title is required' : 'Enter title'}
                  className={error ? 'styles.error' : ''}
                  value={titleInput}
                  onChange={onChangeInputHandler}

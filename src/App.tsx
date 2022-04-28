@@ -48,7 +48,6 @@ function App() {
   })
 
   //TASKS
-
   const removeTask = (todolistId: string, id: string) => {
     setTasks({...tasks, [todolistId]: tasks[todolistId].filter(el => el.id !== id)})
   }
@@ -67,7 +66,6 @@ function App() {
   }
 
   //TODOLIST
-
   const addTodoList = (title: string) => {
     let newTodoListId = v1()
     let newTodoList: TodoListsType = {id: newTodoListId, title, filter: 'All'}
@@ -111,10 +109,8 @@ function App() {
                 tasksForTodoList = tasksForTodoList.filter(el => !el.isDone)
                 break;
               default: {
-
               }
             }
-
 
             return <Grid item>
               <Paper style={{padding: '10px'}}>

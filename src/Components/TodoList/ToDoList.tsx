@@ -1,11 +1,12 @@
 import React, {FC} from 'react';
 import {FilteredValueType} from "../../App";
 import styles from "./ToDoList.module.css"
- import AddItemForm from "../AddItemForm/AddItemForm";
+import AddItemForm from "../AddItemForm/AddItemForm";
 import EditableTitle from "../../EditableTitle/EditableTitle";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@mui/icons-material";
 import {Button, Checkbox} from "@mui/material";
+import {CheckBox} from "../CheckBox/CheckBox";
 
 
 export type TasksType = {
@@ -56,7 +57,7 @@ export const ToDoList: FC<ToDoListPropsType> = ({
     addTask(todolistId, newTitle)
   }
 
-  const onChangeCheckBoxHandler = (todolistId: string, taskId: string, isDone: boolean) => {
+  const onChangeCheckBoxHandler = (taskId: string, isDone: boolean) => {
     changeStatus(todolistId, taskId, isDone)
   }
 
@@ -92,16 +93,15 @@ export const ToDoList: FC<ToDoListPropsType> = ({
 
       <ul>
         {tasks.map((el) => {
-
             return (
               <li key={el.id}
                   className={el.isDone ? styles.doneTask : ''}>
-                {/*<CheckBox isDone={el.isDone} callBack={(isDone) => onChangeCheckBoxHandler(todolistId, el.id, isDone)}/>*/}
-                <Checkbox
-                  onChange={(e) => onChangeCheckBoxHandler(todolistId, el.id, e.currentTarget.checked)}
-                  checked={el.isDone}
-                  size={'small'}
-                />
+                <CheckBox isDone={el.isDone} callBack={(isDone) => onChangeCheckBoxHandler(el.id, isDone)}/>
+                {/*<Checkbox*/}
+                {/*  onChange={(e) => onChangeCheckBoxHandler(todolistId, el.id, e.currentTarget.checked)}*/}
+                {/*  checked={el.isDone}*/}
+                {/*  size={'small'}*/}
+                {/*/>*/}
                 <EditableTitle
                   callBack={(newTitle: string) => updateTaskHandler(el.id, newTitle)}
                   title={el.title}
