@@ -30,7 +30,6 @@ const EditableTitle: FC<EditableSpanPropType> = ({title, callBack}) => {
   return (
     edit
 
-
       ? <TextField
         value={newTitle}
         onChange={onChangeHandler}

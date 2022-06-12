@@ -64,7 +64,7 @@ export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export const addTaskAC = (title: string, todolistId: string) => ({type: 'ADD-TASK', todolistId, title}) as const
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
 
-export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: string) => ({
+export const changeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean) => ({
   type: 'CHANGE-TASK-STATUS',
   todolistId,
   taskId,

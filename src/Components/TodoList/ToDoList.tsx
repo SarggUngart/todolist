@@ -5,8 +5,8 @@ import AddItemForm from "../AddItemForm/AddItemForm";
 import EditableTitle from "../../EditableTitle/EditableTitle";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@mui/icons-material";
-import {Button, Checkbox} from "@mui/material";
-import {CheckBox} from "../CheckBox/CheckBox";
+import {Button} from "@mui/material";
+import {SuperCheckBox} from "../SuperCheckBox/SuperCheckBox";
 
 
 export type TasksType = {
@@ -96,16 +96,10 @@ export const ToDoList: FC<ToDoListPropsType> = ({
             return (
               <li key={el.id}
                   className={el.isDone ? styles.doneTask : ''}>
-                <CheckBox isDone={el.isDone} callBack={(isDone) => onChangeCheckBoxHandler(el.id, isDone)}/>
-                {/*<Checkbox*/}
-                {/*  onChange={(e) => onChangeCheckBoxHandler(todolistId, el.id, e.currentTarget.checked)}*/}
-                {/*  checked={el.isDone}*/}
-                {/*  size={'small'}*/}
-                {/*/>*/}
+                <SuperCheckBox isDone={el.isDone} callBack={(isDone) => onChangeCheckBoxHandler(el.id, isDone)}/>
                 <EditableTitle
                   callBack={(newTitle: string) => updateTaskHandler(el.id, newTitle)}
                   title={el.title}
-
                 />
                 <IconButton
                   style={{marginLeft: 'auto', padding: '3px 12px 3px 3px'}}
