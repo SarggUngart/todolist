@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {FilteredValueType} from "../../App";
 import styles from "./ToDoList.module.css"
 import AddItemForm from "../AddItemForm/AddItemForm";
-import EditableTitle from "../../EditableTitle/EditableTitle";
+import EditableTitle from "../EditableTitle/EditableTitle";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@mui/icons-material";
 import {Button} from "@mui/material";

@@ -43,9 +43,7 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({callBack}) => {
 
   return (
     <div className={'inputWrapper'}>
-
       <TextField
-
         label={error ? 'Title is required' : 'Enter title'}
                  className={error ? 'styles.error' : ''}
                  value={titleInput}
@@ -55,7 +53,6 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({callBack}) => {
                  size={'small'}
                  error={error}
                  onClick={onClickInputHandler}
-
       />
       <Button
         style={{minWidth: '30px', backgroundColor: 'darkgray'}}

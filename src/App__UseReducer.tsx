@@ -1,6 +1,6 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
-import {TasksType, ToDoList} from "./Components/TodoList/ToDoList";
+import {ToDoList} from "./Components/TodoList/ToDoList";
 import {v1} from "uuid";
 import AddItemForm from "./Components/AddItemForm/AddItemForm";
 import {Header} from "./Components/Header/Header";
@@ -16,17 +16,6 @@ import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksRed
 
 
 export type FilteredValueType = 'All' | 'Active' | 'Completed'
-
-export type TodoListsType = {
-  id: string,
-  title: string,
-  filter: FilteredValueType
-}
-
-
-export type TasksStateType = {
-  [key: string]: TasksType[]
-}
 
 function App__UseReducer() {
 
@@ -88,8 +77,9 @@ function App__UseReducer() {
   }
 
   const removeTodoList = (todolistId: string) => {
-    dispatchTasks(removeTodoListAC(todolistId))
-    dispatchTodoLists(removeTodoListAC(todolistId))
+    const action = removeTodoListAC(todolistId)
+    dispatchTasks(action)
+    dispatchTodoLists(action)
   }
 
   return (

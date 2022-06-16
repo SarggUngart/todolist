@@ -1,19 +1,16 @@
-import { createRoot } from 'react-dom/client';
-import { StrictMode } from 'react';
-import App from './App';
-import reportWebVitals from "./reportWebVitals";
+import {createRoot} from 'react-dom/client';
 import './index.css';
 import React from 'react';
-import App__UseReducer from "./App__UseReducer";
+import App__Redux from "./App__Redux";
+import {Provider} from "react-redux";
+import {store} from "./store/store";
 
 const container = document.getElementById('root');
 const root = createRoot(container as HTMLElement);
 const app = (
-  <StrictMode>
-       <App__UseReducer />
-     </StrictMode>
+  <Provider store={store}>
+    <App__Redux/>
+  </Provider>
 );
 
 root.render(app);
-
-reportWebVitals();
