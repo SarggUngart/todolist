@@ -1,8 +1,28 @@
 .App {
-  padding: 30px;
-  display: flex;
+    padding: 30px;
+    display: flex;
 }
 
 .App > div {
-  margin-right: 50px;
+    margin-right: 50px;
 }
+
+li {
+    margin: 2px 0;
+    gap: 10px;
+    list-style: none;
+    display: flex;
+}
+
+li button {
+    margin-left: auto;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 30px 0;
+    padding-left: 0;
+}
+

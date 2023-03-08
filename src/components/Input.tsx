@@ -1,10 +1,13 @@
 import React from 'react';
+import {Button} from "./Button";
 
-export const Input = () => {
+
+export const Input:React.FC = () => {
   return (
     <div>
       <input/>
-      <button>+</button>
+      <Button btnName={'+'} btnOnclick={() => {
+      }}/>
     </div>
   );
 };

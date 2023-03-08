@@ -1,12 +1,21 @@
 import React from 'react';
 
-export const Button = () => {
+type BtnPropsType = {
+  btnName: string
+  btnOnclick: () => void
+}
+
+export const Button: React.FC<BtnPropsType> = (props) => {
+  const {btnName, btnOnclick} = props
+
+  const onClickHandler = () => {
+    btnOnclick()
+  }
+
   return (
-    <div>
-      <button>All</button>
-      <button>Active</button>
-      <button>Completed</button>
-    </div>
+    <>
+      <button onClick={onClickHandler}>{btnName}</button>
+    </>
   );
 };
 
