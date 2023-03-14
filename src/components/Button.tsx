@@ -2,14 +2,14 @@ import React from 'react';
 
 type BtnPropsType = {
   btnName: string
-  btnOnclick: () => void
+  onClickBtn: () => void
 }
 
 export const Button: React.FC<BtnPropsType> = (props) => {
-  const {btnName, btnOnclick} = props
+  const {btnName, onClickBtn} = props
 
   const onClickHandler = () => {
-    btnOnclick()
+    onClickBtn()
   }
 
   return (

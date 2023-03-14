@@ -9,31 +9,35 @@ import {Button} from "./Button";
 type TodolistPropsType = {
   toDoListTitle: string
   tasks: TaskType[]
-  removeTask: (id: number) => void
+  removeTask: (id: string) => void
   setStatus: (status: FilterType) => void
+  addNewTask: (inputTitle: string) => void
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
-  const {toDoListTitle, tasks, removeTask, setStatus} = props;
+  const {toDoListTitle, tasks, removeTask, setStatus, addNewTask} = props;
+
+  const filterTasksHandler = (status: FilterType) => {
+    setStatus(status)
+  }
 
 
   return (
     <div>
       <ToDoListTitle title={toDoListTitle}/>
 
-      <Input/>
+      <Input addNewTask={addNewTask}/>
 
       <Tasks tasks={tasks} removeTask={removeTask}/>
 
-
-      <Button btnName={'All'} btnOnclick={() => {
-        setStatus('All')
+      <Button btnName={'All'} onClickBtn={() => {
+        filterTasksHandler('All')
       }}/>
-      <Button btnName={'Active'} btnOnclick={() => {
-        setStatus('Active')
+      <Button btnName={'Active'} onClickBtn={() => {
+        filterTasksHandler('Active')
       }}/>
-      <Button btnName={'Completed'} btnOnclick={() => {
-        setStatus('Completed')
+      <Button btnName={'Completed'} onClickBtn={() => {
+        filterTasksHandler('Completed')
       }}/>
     </div>
   );

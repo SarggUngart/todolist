@@ -4,7 +4,7 @@ import {Button} from "./Button";
 
 type TasksPropsType = {
   tasks: TaskType[]
-  removeTask: (id: number) => void
+  removeTask: (id: string) => void
 }
 
 export const Tasks: React.FC<TasksPropsType> = (props) => {
@@ -13,13 +13,16 @@ export const Tasks: React.FC<TasksPropsType> = (props) => {
   return (
     <ul>
       {tasks.map(task => {
+
+        const removeTaskHandler = () => {
+          removeTask(task.id)
+        }
+
         return (
           <li key={task.id}>
             <input type={"checkbox"} checked={task.isDone}></input>
             <span>{task.title}</span>
-            <Button btnName={'X'} btnOnclick={() => {
-              removeTask(task.id)
-            }}/>
+            <Button btnName={'X'} onClickBtn={removeTaskHandler}/>
           </li>
         )
       })}
