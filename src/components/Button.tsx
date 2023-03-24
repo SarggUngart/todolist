@@ -12,9 +12,11 @@ export const Button: React.FC<BtnPropsType> = (props) => {
     onClickBtn()
   }
 
+
   return (
     <>
-      <button onClick={onClickHandler}>{btnName}</button>
+      <button
+        onClick={onClickHandler}>{btnName}</button>
     </>
   );
 };

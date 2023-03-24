@@ -60,6 +60,7 @@ function App(): JSX.Element {
         changeToDoListFilter={changeToDoListFilter}
         addNewTask={addNewTask}
         changeStatus={changeStatus}
+        filter={filter}
       />
     </div>
 

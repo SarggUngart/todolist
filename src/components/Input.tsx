@@ -7,17 +7,23 @@ type InputPropsType = {
 
 export const Input: React.FC<InputPropsType> = (props) => {
 
+  const [error, setError] = React.useState(false)
+
   const {addNewTask} = props
 
   const [inputTitle, setInputTitle] = React.useState('')
 
   const onChangeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setInputTitle(event.currentTarget.value)
   }
 
   const addTask = () => {
-    let trimmedTask = inputTitle.trim()
-    if (!trimmedTask) return
+    const trimmedTask = inputTitle.trim()
+    if (!trimmedTask) {
+      setError(true)
+      return
+    }
     addNewTask(inputTitle)
     setInputTitle('')
   }
@@ -32,12 +38,16 @@ export const Input: React.FC<InputPropsType> = (props) => {
     }
   }
 
+  const errorClass = error ? 'error' : '';
+
   return (
     <div>
-      <input value={inputTitle}
+      <input className={errorClass}
+             value={inputTitle}
              onChange={onChangeInputHandler}
              onKeyPress={onKeyPressInputHandler}
       />
+      {errorClass && <div className={'errorMessage'}>title is required</div>}
       <Button btnName={'+'} onClickBtn={onClickBtnHandler}/>
     </div>
   );

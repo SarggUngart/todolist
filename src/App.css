@@ -26,3 +26,21 @@ ul {
     padding-left: 0;
 }
 
+input {
+    outline: none;
+}
+
+
+.error {
+    border: 1px solid red;
+}
+
+.errorMessage {
+    font-size: 12px;
+    position: absolute;
+    color: red;
+}
+
+.filter{
+    background: teal;
+}
