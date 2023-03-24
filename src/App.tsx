@@ -21,16 +21,24 @@ function App(): JSX.Element {
 
   const [filter, setFilter] = React.useState<FilterType>('All')
 
-  let filteredTasks = tasks
 
-  switch (filter) {
-    case "Active":
-      filteredTasks = filteredTasks.filter(t => !t.isDone);
-      break;
-    case "Completed":
-      filteredTasks = filteredTasks.filter(t => t.isDone);
-      break;
-    default:
+  const getFilteredTasks = (tasks: TaskType[], filterType: FilterType) => {
+    switch (filterType) {
+      case "Active":
+        return tasks.filter(t => !t.isDone);
+      case "Completed":
+        return tasks.filter(t => t.isDone);
+      default:
+        return tasks
+    }
+  }
+
+  const changeToDoListFilter = (status: FilterType) => {
+    setFilter(status)
+  }
+
+  const changeStatus = (id: string, isDone: boolean) => {
+    setTasks([...tasks.map(t => t.id === id ? {...t, isDone: !isDone} : t)])
   }
 
   const addNewTask = (inputTitle: string) => {
@@ -42,19 +50,16 @@ function App(): JSX.Element {
     setTasks(tasks.filter(t => t.id !== id))
   }
 
-  const setStatus = (status: FilterType) => {
-    setFilter(status)
-  }
-
 
   return (
     <div className="App">
       <Todolist
         toDoListTitle={'What to learn'}
-        tasks={filteredTasks}
+        tasks={getFilteredTasks(tasks, filter)}
         removeTask={removeTask}
-        setStatus={setStatus}
+        changeToDoListFilter={changeToDoListFilter}
         addNewTask={addNewTask}
+        changeStatus={changeStatus}
       />
     </div>
 
