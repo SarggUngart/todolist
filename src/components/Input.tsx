@@ -48,7 +48,10 @@ export const Input: React.FC<InputPropsType> = (props) => {
              onKeyPress={onKeyPressInputHandler}
       />
       {errorClass && <div className={'errorMessage'}>title is required</div>}
-      <Button btnName={'+'} onClickBtn={onClickBtnHandler}/>
+      <Button
+        style={false}
+        btnName={'+'}
+        onClickBtn={onClickBtnHandler}/>
     </div>
   );
 };

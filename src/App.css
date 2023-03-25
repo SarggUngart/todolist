@@ -32,7 +32,8 @@ input {
 
 
 .error {
-    border: 1px solid red;
+    border: 2px solid red;
+    border-radius: 2px;
 }
 
 .errorMessage {
@@ -41,6 +42,6 @@ input {
     color: red;
 }
 
-.filter{
+.activeBtn{
     background: teal;
 }

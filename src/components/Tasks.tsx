@@ -25,9 +25,12 @@ export const Tasks: React.FC<TasksPropsType> = (props) => {
       {tasks.map(task => {
         return (
           <li key={task.id}>
-            <CheckBox checked={task.isDone} callBack={(event)=>changeStatusHandler(event,task.id,task.isDone)}/>
+            <CheckBox checked={task.isDone} callBack={(event) => changeStatusHandler(event, task.id, task.isDone)}/>
             <span>{task.title}</span>
-            <Button btnName={'X'} onClickBtn={() => onClickRemoveTaskHandler(task.id)}/>
+            <Button
+              style={false}
+              btnName={'X'}
+              onClickBtn={() => onClickRemoveTaskHandler(task.id)}/>
           </li>
         )
       })}

@@ -21,7 +21,6 @@ function App(): JSX.Element {
 
   const [filter, setFilter] = React.useState<FilterType>('All')
 
-
   const getFilteredTasks = (tasks: TaskType[], filterType: FilterType) => {
     switch (filterType) {
       case "Active":

@@ -17,7 +17,7 @@ type TodolistPropsType = {
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
-  const {toDoListTitle, tasks, removeTask, changeToDoListFilter, addNewTask, changeStatus,} = props;
+  const {toDoListTitle, tasks, removeTask, changeToDoListFilter, addNewTask, changeStatus,filter} = props;
 
   const onClickFilterTasksHandler = (status: FilterType) => {
     changeToDoListFilter(status)
@@ -33,16 +33,19 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
       <Tasks changeStatus={changeStatus} tasks={tasks} removeTask={removeTask}/>
 
       <Button
+        style={filter === 'All'}
         btnName={'All'} onClickBtn={() => {
         onClickFilterTasksHandler('All')
       }}/>
 
       <Button
+        style={filter=== 'Active'}
         btnName={'Active'} onClickBtn={() => {
         onClickFilterTasksHandler('Active')
       }}/>
 
       <Button
+        style={filter === 'Completed'}
         btnName={'Completed'} onClickBtn={() => {
         onClickFilterTasksHandler('Completed')
       }}/>
