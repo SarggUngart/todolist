@@ -1,23 +1,18 @@
 import React from 'react';
-import {FilterType} from "../App";
 
 type BtnPropsType = {
   btnName: string
   onClickBtn: () => void
-  style: FilterType | boolean
+  btnClass?: string
 }
 
 export const Button: React.FC<BtnPropsType> = (props) => {
-  const {btnName, onClickBtn,style } = props
-
-  const activeBtn = style ? 'activeBtn' : ''
+  const {btnName, onClickBtn, btnClass} = props
 
   return (
-    <>
-      <button
-        className={activeBtn}
-        onClick={onClickBtn}>{btnName}</button>
-    </>
+    <button
+      className={btnClass}
+      onClick={onClickBtn}>{btnName}</button>
   );
 };
 

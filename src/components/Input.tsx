@@ -6,10 +6,9 @@ type InputPropsType = {
 }
 
 export const Input: React.FC<InputPropsType> = (props) => {
+  const {addNewTask} = props
 
   const [error, setError] = React.useState(false)
-
-  const {addNewTask} = props
 
   const [inputTitle, setInputTitle] = React.useState('')
 
@@ -49,7 +48,6 @@ export const Input: React.FC<InputPropsType> = (props) => {
       />
       {errorClass && <div className={'errorMessage'}>title is required</div>}
       <Button
-        style={false}
         btnName={'+'}
         onClickBtn={onClickBtnHandler}/>
     </div>

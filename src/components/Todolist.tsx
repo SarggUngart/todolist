@@ -7,47 +7,67 @@ import {Button} from "./Button";
 
 
 type TodolistPropsType = {
+  tListId: string
+  removeTodoList: (todolistId: string) => void
   toDoListTitle: string
   tasks: TaskType[]
-  removeTask: (id: string) => void
-  changeToDoListFilter: (status: FilterType) => void
-  addNewTask: (inputTitle: string) => void
-  changeStatus: (id: string, isDone: boolean) => void
+  removeTask: (todolistId: string, id: string) => void
+  changeToDoListFilter: (todolistId: string, filter: FilterType) => void
+  addNewTask: (todolistId: string, inputTitle: string) => void
+  changeStatus: (todolistId: string, id: string, isDone: boolean) => void
   filter: FilterType
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
-  const {toDoListTitle, tasks, removeTask, changeToDoListFilter, addNewTask, changeStatus,filter} = props;
+  const {
+    tListId,
+    toDoListTitle,
+    tasks,
+    filter,
+    removeTodoList,
+    addNewTask,
+    removeTask,
+    changeToDoListFilter,
+    changeStatus,
+  } = props;
 
-  const onClickFilterTasksHandler = (status: FilterType) => {
-    changeToDoListFilter(status)
+
+  const removeTodoListHandler = () => removeTodoList(tListId)
+  const addNewTaskHandler = (inputTitle: string) => addNewTask(tListId, inputTitle)
+  const changeStatusHandler = (id: string, isDone: boolean) => {
+    changeStatus(tListId, id, isDone)
   }
-
+  const removeTaskHandler = (id: string) => {
+    removeTask(tListId, id)
+  }
+  const onClickFilterTasksHandler = (todolistId: string, filter: FilterType) => {
+    changeToDoListFilter(todolistId, filter)
+  }
 
   return (
     <div>
-      <ToDoListTitle title={toDoListTitle}/>
+      <ToDoListTitle title={toDoListTitle} removeTodoList={removeTodoListHandler}/>
 
-      <Input addNewTask={addNewTask}/>
+      <Input addNewTask={addNewTaskHandler}/>
 
-      <Tasks changeStatus={changeStatus} tasks={tasks} removeTask={removeTask}/>
+      <Tasks changeStatus={changeStatusHandler} tasks={tasks} removeTask={removeTaskHandler}/>
 
       <Button
-        style={filter === 'All'}
+        btnClass={filter === 'All' ? 'activeBtn' : ''}
         btnName={'All'} onClickBtn={() => {
-        onClickFilterTasksHandler('All')
+        onClickFilterTasksHandler(tListId, 'All')
       }}/>
 
       <Button
-        style={filter=== 'Active'}
+        btnClass={filter === 'Active' ? 'activeBtn' : ''}
         btnName={'Active'} onClickBtn={() => {
-        onClickFilterTasksHandler('Active')
+        onClickFilterTasksHandler(tListId, 'Active')
       }}/>
 
       <Button
-        style={filter === 'Completed'}
+        btnClass={filter === 'Completed' ? 'activeBtn' : ''}
         btnName={'Completed'} onClickBtn={() => {
-        onClickFilterTasksHandler('Completed')
+        onClickFilterTasksHandler(tListId, 'Completed')
       }}/>
     </div>
   );
