@@ -45,6 +45,8 @@ export const Input: React.FC<InputPropsType> = (props) => {
              value={inputTitle}
              onChange={onChangeInputHandler}
              onKeyPress={onKeyPressInputHandler}
+             onBlur={()=>setError(false)}
+             autoFocus
       />
       {errorClass && <div className={'errorMessage'}>title is required</div>}
       <Button

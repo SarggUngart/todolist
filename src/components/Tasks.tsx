@@ -2,15 +2,17 @@ import React from 'react';
 import {TaskType} from "../App";
 import {Button} from "./Button";
 import CheckBox from "./CheckBox";
+import EditableTitle from "./EditableTitle";
 
 type TasksPropsType = {
   tasks: TaskType[]
   removeTask: (id: string) => void
   changeStatus: (id: string, isDone: boolean) => void
+  onClickChangeTaskTitle: (id: string, newTaskTitle: string) => void
 }
 
 export const Tasks: React.FC<TasksPropsType> = (props) => {
-  const {tasks, removeTask, changeStatus} = props
+  const {tasks, removeTask, changeStatus, onClickChangeTaskTitle} = props
 
   const onClickRemoveTaskHandler = (id: string) => {
     removeTask(id)
@@ -27,7 +29,8 @@ export const Tasks: React.FC<TasksPropsType> = (props) => {
         return (
           <li key={task.id}>
             <CheckBox checked={task.isDone} callBack={(event) => changeStatusHandler(event, task.id, task.isDone)}/>
-            <span className={taskIsDoneClass}>{task.title}</span>
+            <EditableTitle callBack={(newTitle) => onClickChangeTaskTitle(task.id, newTitle)}
+                           titleClass={taskIsDoneClass} title={task.title}/>
             <Button
               btnName={'X'}
               onClickBtn={() => onClickRemoveTaskHandler(task.id)}/>

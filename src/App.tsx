@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
 import {v1} from "uuid";
+import {Input} from "./components/Input";
 
 type todoListsType = {
   id: string
@@ -70,12 +71,11 @@ function App(): JSX.Element {
   }
 
   const removeTask = (todolistId: string, id: string) => {
-    // const tasksForUpdate: TaskType[] = tasks[todolistId]
-    // const resultOfUpdate: TaskType[] = tasksForUpdate.filter(t => t.id !== id)
-    // const copyTasks = {...tasks}
-    // copyTasks[todolistId] = resultOfUpdate
-    // setTasks(copyTasks)
     setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== id)})
+  }
+
+  const setNewTaskTitle = (todolistId: string, id: string, newTaskTitle: string) => {
+    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === id ? {...t, title: newTaskTitle} : t)})
   }
 
   const removeTodoList = (todolistId: string) => {
@@ -83,8 +83,20 @@ function App(): JSX.Element {
     delete tasks[todolistId]
   }
 
+  const addNewTodoList = (todolistTile: string) => {
+    const newTodoList: todoListsType = {
+      id: v1(),
+      title: todolistTile,
+      filter: 'All'
+    }
+    setTodoLists([...todoLists, newTodoList])
+    setTasks({[newTodoList.id]: [], ...tasks})
+  }
+
+
   return (
     <div className="App">
+      <Input addNewTask={addNewTodoList}/>
       {todoLists.map(tl => {
         return (
           <Todolist key={tl.id}
@@ -97,6 +109,7 @@ function App(): JSX.Element {
                     changeToDoListFilter={changeToDoListFilter}
                     addNewTask={addNewTask}
                     changeStatus={changeStatus}
+                    setNewTaskTitle={setNewTaskTitle}
           />
         )
       })}

@@ -16,6 +16,7 @@ type TodolistPropsType = {
   addNewTask: (todolistId: string, inputTitle: string) => void
   changeStatus: (todolistId: string, id: string, isDone: boolean) => void
   filter: FilterType
+  setNewTaskTitle: (todolistId: string, id: string, newTaskTitle: string) => void
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
@@ -29,6 +30,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     removeTask,
     changeToDoListFilter,
     changeStatus,
+    setNewTaskTitle
   } = props;
 
 
@@ -44,13 +46,18 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     changeToDoListFilter(todolistId, filter)
   }
 
+  const onClickChangeTaskTitle = (id: string, newTaskTitle: string) => {
+    setNewTaskTitle(tListId, id, newTaskTitle)
+  }
+
   return (
     <div>
       <ToDoListTitle title={toDoListTitle} removeTodoList={removeTodoListHandler}/>
 
       <Input addNewTask={addNewTaskHandler}/>
 
-      <Tasks changeStatus={changeStatusHandler} tasks={tasks} removeTask={removeTaskHandler}/>
+      <Tasks onClickChangeTaskTitle={onClickChangeTaskTitle} changeStatus={changeStatusHandler} tasks={tasks}
+             removeTask={removeTaskHandler}/>
 
       <Button
         btnClass={filter === 'All' ? 'activeBtn' : ''}
