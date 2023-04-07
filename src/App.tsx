@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
 import {v1} from "uuid";
-import {Input} from "./components/Input";
+import {InputBtn} from "./components/InputBtn";
 
 type todoListsType = {
   id: string
@@ -74,7 +74,7 @@ function App(): JSX.Element {
     setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== id)})
   }
 
-  const setNewTaskTitle = (todolistId: string, id: string, newTaskTitle: string) => {
+  const changeTaskTitle = (todolistId: string, id: string, newTaskTitle: string) => {
     setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === id ? {...t, title: newTaskTitle} : t)})
   }
 
@@ -93,10 +93,14 @@ function App(): JSX.Element {
     setTasks({[newTodoList.id]: [], ...tasks})
   }
 
+  const changeTodoListTitle = (todoListId: string, newTitle: string) => {
+    setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title: newTitle} : tl))
+  }
+
 
   return (
     <div className="App">
-      <Input addNewTask={addNewTodoList}/>
+      <InputBtn addNewTask={addNewTodoList}/>
       {todoLists.map(tl => {
         return (
           <Todolist key={tl.id}
@@ -109,7 +113,8 @@ function App(): JSX.Element {
                     changeToDoListFilter={changeToDoListFilter}
                     addNewTask={addNewTask}
                     changeStatus={changeStatus}
-                    setNewTaskTitle={setNewTaskTitle}
+                    changeTaskTitle={changeTaskTitle}
+                    changeTodoListTitle={changeTodoListTitle}
           />
         )
       })}

@@ -5,12 +5,12 @@ type InputPropsType = {
   addNewTask: (inputTitle: string) => void
 }
 
-export const Input: React.FC<InputPropsType> = (props) => {
+export const InputBtn: React.FC<InputPropsType> = (props) => {
   const {addNewTask} = props
 
-  const [error, setError] = React.useState(false)
 
   const [inputTitle, setInputTitle] = React.useState('')
+  const [error, setError] = React.useState(false)
 
   const onChangeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
@@ -40,15 +40,15 @@ export const Input: React.FC<InputPropsType> = (props) => {
   const errorClass = error ? 'error' : '';
 
   return (
-    <div>
+    <div className={'inputWrapper'}>
       <input className={errorClass}
              value={inputTitle}
              onChange={onChangeInputHandler}
-             onKeyPress={onKeyPressInputHandler}
-             onBlur={()=>setError(false)}
+             onKeyDown={onKeyPressInputHandler}
+             onBlur={() => setError(false)}
              autoFocus
       />
-      {errorClass && <div className={'errorMessage'}>title is required</div>}
+      {errorClass && <div className={'errorMessageTitle'}>title is required</div>}
       <Button
         btnName={'+'}
         onClickBtn={onClickBtnHandler}/>

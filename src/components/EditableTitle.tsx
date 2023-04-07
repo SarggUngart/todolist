@@ -12,40 +12,60 @@ const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
 
   const [isEdit, setIsEdit] = React.useState<boolean>(false)
   const [newTitle, setNewTitle] = React.useState<string>(title)
+  const [error, setError] = React.useState<boolean>(false)
+
 
   const OnChangeEditTitleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setNewTitle(e.currentTarget.value)
-    callBack(newTitle)
   }
 
   const onBlurTitleHandler = () => {
-    setIsEdit(!isEdit)
-    callBack(newTitle)
+    changeToNewTitle()
   }
 
   const onKeyPressTitleHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      setIsEdit(false)
-      callBack(newTitle)
+      changeToNewTitle()
     }
   }
 
+  const changeToNewTitle = () => {
+    const trimmedTitle = newTitle.trim()
+    if (!trimmedTitle) {
+      setError(true)
+      return
+    } else {
+      setIsEdit(!isEdit)
+      callBack(newTitle)
+    }
+  }
+  const isError = error ? 'error' : '';
+
   return (
-    isEdit
-      ?
-      <input
-        value={newTitle}
-        autoFocus
-        onChange={OnChangeEditTitleHandler}
-        onBlur={onBlurTitleHandler}
-        onKeyPress={onKeyPressTitleHandler}
-      />
-      :
-      <span
-        onDoubleClick={() => setIsEdit(!isEdit)}
-        className={titleClass}
-      >{title}
+    <>
+      {
+        isEdit
+          ?
+          <>
+            <input
+              className={isError}
+              value={newTitle}
+              autoFocus
+              onChange={OnChangeEditTitleHandler}
+              onBlur={onBlurTitleHandler}
+              onKeyDown={onKeyPressTitleHandler}
+            />
+            {isError && <div className={'errorMessageTask'}>title is required</div>}
+          </>
+          :
+          <span
+            onDoubleClick={() => setIsEdit(!isEdit)}
+            className={titleClass}
+          >{title}
       </span>
+      }
+    </>
   );
 };
 

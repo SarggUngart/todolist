@@ -18,6 +18,7 @@ li {
     gap: 10px;
     list-style: none;
     display: flex;
+    position: relative;
 }
 
 li button {
@@ -28,12 +29,22 @@ ul {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 30px 0;
+    margin: 20px 0 10px 0;
     padding-left: 0;
+}
+
+.todoListTitle{
+    position: relative;
 }
 
 input {
     outline: none;
+}
+
+.inputWrapper {
+    max-height: 22px;
+    display: inline-block;
+    position: relative;
 }
 
 .error {
@@ -41,11 +52,19 @@ input {
     border-radius: 2px;
 }
 
-.errorMessage {
+.errorMessageTask,
+.errorMessageTitle {
+    user-select: none;
     font-size: 12px;
-    position: absolute;
     color: red;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-80%, -50%, 10px);
+    font-weight: 400;
+    width: 85px;
 }
+
 
 .activeBtn {
     background: teal;
