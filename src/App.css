@@ -3,6 +3,28 @@ h1, h2, h3, h4, h5 {
     display: inline-block;
 }
 
+ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 20px 0 10px 0;
+    padding-left: 0;
+}
+
+li {
+    margin: 2px 0;
+    list-style: none;
+    display: flex;
+    position: relative;
+}
+
+li button {
+    margin-left: auto;
+}
+
+input {
+    outline: none;
+}
 
 .App {
     padding: 30px;
@@ -13,38 +35,19 @@ h1, h2, h3, h4, h5 {
     margin-right: 50px;
 }
 
-li {
-    margin: 2px 0;
-    gap: 10px;
-    list-style: none;
-    display: flex;
-    position: relative;
-}
-
-li button {
-    margin-left: auto;
-}
-
-ul {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 20px 0 10px 0;
-    padding-left: 0;
-}
 
 .todoListTitle{
     position: relative;
-}
-
-input {
-    outline: none;
 }
 
 .inputWrapper {
     max-height: 22px;
     display: inline-block;
     position: relative;
+}
+
+.removeBtn{
+    margin: 0;
 }
 
 .error {

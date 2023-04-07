@@ -46,6 +46,7 @@ function App(): JSX.Element {
     ],
   })
 
+
   const getFilteredTasks = (tasks: TaskType[], filter: FilterType) => {
     switch (filter) {
       case "Active":

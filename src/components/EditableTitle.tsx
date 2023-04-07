@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from "./Button";
 
 type EditableTitlePropsType = {
   title: string
@@ -56,17 +57,25 @@ const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
               onBlur={onBlurTitleHandler}
               onKeyDown={onKeyPressTitleHandler}
             />
+            <Button btnName={'✓'} onClickBtn={changeToNewTitle}/>
             {isError && <div className={'errorMessageTask'}>title is required</div>}
           </>
           :
-          <span
-            onDoubleClick={() => setIsEdit(!isEdit)}
-            className={titleClass}
-          >{title}
-      </span>
+          <>
+            <span
+              onDoubleClick={() => setIsEdit(!isEdit)}
+              className={titleClass}
+            >{title}
+               </span>
+            <Button btnName={'✎'} onClickBtn={() => setIsEdit(true)}/>
+          </>
+
+
       }
+
     </>
-  );
+  )
+    ;
 };
 
 export default EditableTitle;

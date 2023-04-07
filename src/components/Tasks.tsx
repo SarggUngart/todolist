@@ -32,6 +32,7 @@ export const Tasks: React.FC<TasksPropsType> = (props) => {
             <EditableTitle callBack={(newTitle) => onClickChangeTaskTitle(task.id, newTitle)}
                            titleClass={taskIsDoneClass} title={task.title}/>
             <Button
+              btnClass={'removeBtn'}
               btnName={'X'}
               onClickBtn={() => onClickRemoveTaskHandler(task.id)}/>
           </li>
