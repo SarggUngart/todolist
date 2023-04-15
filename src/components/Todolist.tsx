@@ -3,7 +3,8 @@ import {FilterType, TaskType} from "../App";
 import {ToDoListTitle} from "./ToDoListTitle";
 import {Tasks} from "./Tasks";
 import {InputBtn} from "./InputBtn";
-import {Button} from "./Button";
+import {Btn} from "./Btn";
+
 
 type TodolistPropsType = {
   tListId: string
@@ -17,6 +18,7 @@ type TodolistPropsType = {
   filter: FilterType
   changeTaskTitle: (todolistId: string, id: string, newTaskTitle: string) => void
   changeTodoListTitle: (todoListId: string, newTitle: string) => void
+
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
@@ -34,17 +36,10 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     changeTodoListTitle
   } = props;
 
-  const [inputTitle, setInputTitle] = React.useState('')
-
   const removeTodoListHandler = () => removeTodoList(tListId)
 
-
-  const addNewTaskHandler = () => {
-    if (inputTitle.trim()) {
-      addNewTask(tListId, inputTitle)
-      setInputTitle('')
-      return
-    }
+  const addNewTaskHandler = (title:string) => {
+    addNewTask(tListId, title)
   }
   const changeStatusHandler = (id: string, isDone: boolean) => {
     changeStatus(tListId, id, isDone)
@@ -73,23 +68,28 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
       <Tasks onClickChangeTaskTitle={onClickChangeTaskTitle} changeStatus={changeStatusHandler} tasks={tasks}
              removeTask={removeTaskHandler}/>
 
-      <Button
-        btnClass={filter === 'All' ? 'activeBtn' : ''}
-        btnName={'All'} onClickBtn={() => {
-        onClickFilterTasksHandler(tListId, 'All')
-      }}/>
+        <div className="FilterBtnContainer">
+          <Btn
+            btnClass={'FilterBtn'}
+            variant={filter === 'All' ? 'contained' : 'outlined'}
+            btnName={'All'} onClickBtn={() => {
+            onClickFilterTasksHandler(tListId, 'All')
+          }}/>
 
-      <Button
-        btnClass={filter === 'Active' ? 'activeBtn' : ''}
-        btnName={'Active'} onClickBtn={() => {
-        onClickFilterTasksHandler(tListId, 'Active')
-      }}/>
+          <Btn
+            btnClass={'FilterBtn'}
+            variant={filter === 'Active' ? 'contained' : 'outlined'}
+            btnName={'Active'} onClickBtn={() => {
+            onClickFilterTasksHandler(tListId, 'Active')
+          }}/>
 
-      <Button
-        btnClass={filter === 'Completed' ? 'activeBtn' : ''}
-        btnName={'Completed'} onClickBtn={() => {
-        onClickFilterTasksHandler(tListId, 'Completed')
-      }}/>
-    </div>
+          <Btn
+            btnClass={'FilterBtn'}
+            variant={filter === 'Completed' ? 'contained' : 'outlined'}
+            btnName={'Completed'} onClickBtn={() => {
+            onClickFilterTasksHandler(tListId, 'Completed')
+          }}/>
+        </div>
+     </div>
   );
 };

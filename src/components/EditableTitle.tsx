@@ -1,5 +1,8 @@
 import React from 'react';
-import {Button} from "./Button";
+import EditIcon from '@mui/icons-material/Edit';
+import DoneIcon from '@mui/icons-material/Done';
+import {IconButton, TextField} from "@mui/material";
+
 
 type EditableTitlePropsType = {
   title: string
@@ -8,7 +11,7 @@ type EditableTitlePropsType = {
 }
 
 
-const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
+export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
   const {title, titleClass, callBack} = props
 
   const [isEdit, setIsEdit] = React.useState<boolean>(false)
@@ -21,19 +24,19 @@ const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
     setNewTitle(e.currentTarget.value)
   }
 
-  const onBlurTitleHandler = () => {
-    changeToNewTitle()
-  }
-
   const onKeyPressTitleHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       changeToNewTitle()
     }
   }
 
+  const onBlurHandler = () => {
+    changeToNewTitle()
+  }
+
   const changeToNewTitle = () => {
     const trimmedTitle = newTitle.trim()
-    if (!trimmedTitle) {
+    if (!trimmedTitle || trimmedTitle.length === 0 || trimmedTitle === '') {
       setError(true)
       return
     } else {
@@ -41,7 +44,6 @@ const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
       callBack(newTitle)
     }
   }
-  const isError = error ? 'error' : '';
 
   return (
     <>
@@ -49,16 +51,25 @@ const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
         isEdit
           ?
           <>
-            <input
-              className={isError}
+            <TextField
               value={newTitle}
-              autoFocus
               onChange={OnChangeEditTitleHandler}
-              onBlur={onBlurTitleHandler}
               onKeyDown={onKeyPressTitleHandler}
+              onBlur={onBlurHandler}
+              autoFocus
+              variant="standard"
+              error={error}
+              size={'small'}
             />
-            <Button btnName={'✓'} onClickBtn={changeToNewTitle}/>
-            {isError && <div className={'errorMessageTask'}>title is required</div>}
+
+            <IconButton
+              sx={{marginLeft: 'auto'}}
+              size={'small'}
+              onClick={changeToNewTitle}>
+              <DoneIcon
+                color={'primary'}/>
+            </IconButton>
+            {/*{isError && 'title is required'}*/}
           </>
           :
           <>
@@ -67,15 +78,16 @@ const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
               className={titleClass}
             >{title}
                </span>
-            <Button btnName={'✎'} onClickBtn={() => setIsEdit(true)}/>
+
+            <IconButton
+              sx={{marginLeft: 'auto'}}
+              size={'small'}
+              onClick={() => setIsEdit(true)}>
+              <EditIcon color={'primary'}/>
+            </IconButton>
+
           </>
-
-
       }
-
     </>
   )
-    ;
 };
-
-export default EditableTitle;

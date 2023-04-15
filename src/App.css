@@ -1,5 +1,5 @@
 h1, h2, h3, h4, h5 {
-    margin: 20px 0;
+    /*margin: 20px;*/
     display: inline-block;
 }
 
@@ -16,6 +16,7 @@ li {
     list-style: none;
     display: flex;
     position: relative;
+    justify-content: space-between
 }
 
 li button {
@@ -26,28 +27,53 @@ input {
     outline: none;
 }
 
-.App {
-    padding: 30px;
+span {
+
+    align-self: center;
+
+}
+
+.titleClass {
+    min-width: 167px;
+}
+
+/*.App {*/
+/*    padding: 30px;*/
+/*    display: flex;*/
+/*}*/
+
+/*.App > div {*/
+/*    margin-right: 50px;*/
+/*}*/
+
+
+.todoListTitleContainer {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-.App > div {
-    margin-right: 50px;
-}
-
-
-.todoListTitle{
+.todoListTitle {
     position: relative;
+    margin-bottom: 20px;
 }
 
 .inputWrapper {
-    max-height: 22px;
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
     position: relative;
+    /*align-items: end;*/
 }
 
-.removeBtn{
+.removeBtn {
     margin: 0;
+}
+
+.FilterBtnContainer {
+    display: flex;
+    margin-top: auto;
+    gap: 10px;
 }
 
 .error {

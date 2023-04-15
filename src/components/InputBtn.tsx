@@ -1,5 +1,6 @@
 import React from 'react';
-import {Button} from "./Button";
+import {IconButton, TextField} from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 type InputPropsType = {
   addNewTask: (inputTitle: string) => void
@@ -37,21 +38,31 @@ export const InputBtn: React.FC<InputPropsType> = (props) => {
     }
   }
 
-  const errorClass = error ? 'error' : '';
+  const showError = error ? 'title is required' : '';
+  const showLabel = error ? '' : 'enter a title'
 
   return (
     <div className={'inputWrapper'}>
-      <input className={errorClass}
-             value={inputTitle}
-             onChange={onChangeInputHandler}
-             onKeyDown={onKeyPressInputHandler}
-             onBlur={() => setError(false)}
-             autoFocus
+
+      <TextField
+        variant={'outlined'}
+        defaultValue="Task title"
+        label={showLabel || showError}
+        value={inputTitle}
+        onChange={onChangeInputHandler}
+        onKeyDown={onKeyPressInputHandler}
+        onBlur={() => setError(false)}
+        error={error}
+        size={'small'}
+
       />
-      {errorClass && <div className={'errorMessageTitle'}>title is required</div>}
-      <Button
-        btnName={'+'}
-        onClickBtn={onClickBtnHandler}/>
+
+
+      <IconButton
+        size={'small'}
+        onClick={onClickBtnHandler}>
+        <AddCircleIcon color={'primary'}/>
+      </IconButton>
     </div>
   );
 };

@@ -3,6 +3,8 @@ import './App.css';
 import {Todolist} from "./components/Todolist";
 import {v1} from "uuid";
 import {InputBtn} from "./components/InputBtn";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
 
 type todoListsType = {
   id: string
@@ -45,7 +47,6 @@ function App(): JSX.Element {
       {id: v1(), title: 'Beer', isDone: false}
     ],
   })
-
 
   const getFilteredTasks = (tasks: TaskType[], filter: FilterType) => {
     switch (filter) {
@@ -98,27 +99,55 @@ function App(): JSX.Element {
     setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title: newTitle} : tl))
   }
 
-
   return (
     <div className="App">
-      <InputBtn addNewTask={addNewTodoList}/>
-      {todoLists.map(tl => {
-        return (
-          <Todolist key={tl.id}
-                    tListId={tl.id}
-                    toDoListTitle={tl.title}
-                    filter={tl.filter}
-                    tasks={getFilteredTasks(tasks[tl.id], tl.filter)}
-                    removeTodoList={removeTodoList}
-                    removeTask={removeTask}
-                    changeToDoListFilter={changeToDoListFilter}
-                    addNewTask={addNewTask}
-                    changeStatus={changeStatus}
-                    changeTaskTitle={changeTaskTitle}
-                    changeTodoListTitle={changeTodoListTitle}
-          />
-        )
-      })}
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{mr: 2}}
+          >
+            <MenuIcon/>
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+            TodoLists
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+
+      <Container fixed>
+        <Grid container sx={{padding: '20px 0 50px 0'}}>
+          <InputBtn addNewTask={addNewTodoList}/>
+        </Grid>
+
+        <Grid container spacing={8}>
+          {todoLists.map(tl => {
+            return (
+              <Grid item>
+                <Paper elevation={8} sx={{p:'20px'}}>
+                  <Todolist key={tl.id}
+                            tListId={tl.id}
+                            toDoListTitle={tl.title}
+                            filter={tl.filter}
+                            tasks={getFilteredTasks(tasks[tl.id], tl.filter)}
+                            removeTodoList={removeTodoList}
+                            removeTask={removeTask}
+                            changeToDoListFilter={changeToDoListFilter}
+                            addNewTask={addNewTask}
+                            changeStatus={changeStatus}
+                            changeTaskTitle={changeTaskTitle}
+                            changeTodoListTitle={changeTodoListTitle}
+                  />
+                </Paper>
+              </Grid>
+            )
+          })}
+        </Grid>
+      </Container>
     </div>
   );
 }

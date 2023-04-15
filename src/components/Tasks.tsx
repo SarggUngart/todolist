@@ -1,8 +1,10 @@
 import React from 'react';
 import {TaskType} from "../App";
-import {Button} from "./Button";
 import CheckBox from "./CheckBox";
-import EditableTitle from "./EditableTitle";
+import {EditableTitle} from "./EditableTitle";
+import DeleteIcon from '@mui/icons-material/Delete';
+import {IconButton, List, ListItem} from '@mui/material';
+
 
 type TasksPropsType = {
   tasks: TaskType[]
@@ -23,22 +25,24 @@ export const Tasks: React.FC<TasksPropsType> = (props) => {
   }
 
   return (
-    <ul>
+    <List>
       {tasks.map(task => {
         const taskIsDoneClass = task.isDone ? 'done' : ''
         return (
-          <li key={task.id}>
+          <ListItem sx={{justifyContent:'space-between'}} disablePadding key={task.id}>
             <CheckBox checked={task.isDone} callBack={(event) => changeStatusHandler(event, task.id, task.isDone)}/>
             <EditableTitle callBack={(newTitle) => onClickChangeTaskTitle(task.id, newTitle)}
                            titleClass={taskIsDoneClass} title={task.title}/>
-            <Button
-              btnClass={'removeBtn'}
-              btnName={'X'}
-              onClickBtn={() => onClickRemoveTaskHandler(task.id)}/>
-          </li>
+            <IconButton
+              edge={'end'}
+              size={'small'}
+              onClick={() => onClickRemoveTaskHandler(task.id)}>
+              <DeleteIcon  color={'primary'}/>
+            </IconButton>
+          </ListItem>
         )
       })}
-    </ul>
+    </List>
 
   )
 }
