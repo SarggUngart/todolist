@@ -61,7 +61,7 @@ export const InputBtn: React.FC<InputPropsType> = (props) => {
       <IconButton
         size={'small'}
         onClick={onClickBtnHandler}>
-        <AddCircleIcon color={'primary'}/>
+        <AddCircleIcon color={'secondary'}/>
       </IconButton>
     </div>
   );

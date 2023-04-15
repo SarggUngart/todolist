@@ -3,7 +3,6 @@ import {Button} from "@mui/material";
 
 
 type BtnPropsType = {
-
   btnName?: string
   onClickBtn: () => void
   btnClass?: string
