@@ -28,14 +28,14 @@ export const HeaderMUI:React.FC<HeaderMUIType> = (props) => {
         TodoLists
       </Typography>
 
-      <FormGroup>
+      <FormGroup sx={{mr: 10}}>
         <FormControlLabel
 
           control={
-          <MaterialUISwitch sx={{m: 1}} defaultChecked
+          <MaterialUISwitch sx={{m: 1}}
                                      onChange={(e) => setIsDarkMode(e.currentTarget.checked)}
           />}
-          label={isDarkMode ? 'Night mode' : 'Light mode'}
+          label={isDarkMode ? 'Dark' : 'Light'}
         />
       </FormGroup>
 

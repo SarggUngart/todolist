@@ -6,7 +6,7 @@ import {InputBtn} from "./components/InputBtn";
 import {Container, createTheme, CssBaseline, Grid, Paper, ThemeProvider} from "@mui/material";
 import HeaderMUI from "./UI/HeaderMUI";
 
-type todoListsType = {
+export type todoListsType = {
   id: string
   title: string
   filter: FilterType
@@ -49,6 +49,44 @@ function App(): JSX.Element {
 
   const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
 
+
+//TASKS:
+  const changeStatus = (todolistId: string, id: string, isDone: boolean) => {
+    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === id ? {...t, isDone: !isDone} : t)})
+  }
+  const addNewTask = (todolistId: string, inputTitle: string) => {
+    const newTask: TaskType = {id: v1(), title: inputTitle, isDone: false}
+    setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
+  }
+  const removeTask = (todolistId: string, id: string) => {
+    setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== id)})
+  }
+  const changeTaskTitle = (todolistId: string, id: string, newTaskTitle: string) => {
+    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === id ? {...t, title: newTaskTitle} : t)})
+  }
+
+//TODOLIST:
+  const addNewTodoList = (todolistTile: string) => {
+    const newTodoList: todoListsType = {
+      id: v1(),
+      title: todolistTile,
+      filter: 'All'
+    }
+    setTodoLists([...todoLists, newTodoList])
+    setTasks({[newTodoList.id]: [], ...tasks})
+  }
+  const changeToDoListFilter = (todolistId: string, filter: FilterType) => {
+    setTodoLists(todoLists.map(tl => tl.id === todolistId ? {...tl, filter} : tl))
+  }
+  const removeTodoList = (todolistId: string) => {
+    setTodoLists(todoLists.filter(tl => tl.id !== todolistId))
+    delete tasks[todolistId]
+  }
+  const changeTodoListTitle = (todoListId: string, newTitle: string) => {
+    setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title: newTitle} : tl))
+  }
+
+//UI:
   const getFilteredTasks = (tasks: TaskType[], filter: FilterType) => {
     switch (filter) {
       case "Active":
@@ -60,47 +98,7 @@ function App(): JSX.Element {
     }
   }
 
-  const changeToDoListFilter = (todolistId: string, filter: FilterType) => {
-    setTodoLists(todoLists.map(tl => tl.id === todolistId ? {...tl, filter} : tl))
-  }
-
-  const changeStatus = (todolistId: string, id: string, isDone: boolean) => {
-    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === id ? {...t, isDone: !isDone} : t)})
-  }
-
-  const addNewTask = (todolistId: string, inputTitle: string) => {
-    const newTask: TaskType = {id: v1(), title: inputTitle, isDone: false}
-    setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
-  }
-
-  const removeTask = (todolistId: string, id: string) => {
-    setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== id)})
-  }
-
-  const changeTaskTitle = (todolistId: string, id: string, newTaskTitle: string) => {
-    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === id ? {...t, title: newTaskTitle} : t)})
-  }
-
-  const removeTodoList = (todolistId: string) => {
-    setTodoLists(todoLists.filter(tl => tl.id !== todolistId))
-    delete tasks[todolistId]
-  }
-
-  const addNewTodoList = (todolistTile: string) => {
-    const newTodoList: todoListsType = {
-      id: v1(),
-      title: todolistTile,
-      filter: 'All'
-    }
-    setTodoLists([...todoLists, newTodoList])
-    setTasks({[newTodoList.id]: [], ...tasks})
-  }
-
-  const changeTodoListTitle = (todoListId: string, newTitle: string) => {
-    setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title: newTitle} : tl))
-  }
-
-  const theme = isDarkMode ? 'dark' : 'light'
+  const theme = !isDarkMode ? 'light' : 'dark'
 
   const customTheme = createTheme({
     palette: {
@@ -116,8 +114,8 @@ function App(): JSX.Element {
     }
   });
 
-  return (
 
+  return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline/>
       <div className="App">

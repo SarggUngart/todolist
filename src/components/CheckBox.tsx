@@ -4,7 +4,6 @@ import {Checkbox} from "@mui/material";
 type CheckBoxPropsType = {
   checked: boolean
   callBack: (event: React.ChangeEvent<HTMLInputElement>) => void
-
 }
 
 
