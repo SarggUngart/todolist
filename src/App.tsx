@@ -18,7 +18,7 @@ export type TaskType = {
   isDone: boolean
 }
 
-export type tasksStateType = {
+export type TasksStateType = {
   [tdListId: string]: TaskType[]
 }
 
@@ -33,7 +33,7 @@ function App(): JSX.Element {
       {id: tdList2, title: 'what to buy', filter: 'All'}
     ]
   )
-  const [tasks, setTasks] = React.useState<tasksStateType>({
+  const [tasks, setTasks] = React.useState<TasksStateType>({
     [tdList1]: [
       {id: v1(), title: 'HTML', isDone: true},
       {id: v1(), title: 'CSS', isDone: true},
@@ -86,18 +86,6 @@ function App(): JSX.Element {
     setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title: newTitle} : tl))
   }
 
-//UI:
-  const getFilteredTasks = (tasks: TaskType[], filter: FilterType) => {
-    switch (filter) {
-      case "Active":
-        return tasks.filter(t => !t.isDone);
-      case "Completed":
-        return tasks.filter(t => t.isDone);
-      default:
-        return tasks
-    }
-  }
-
   const theme = !isDarkMode ? 'light' : 'dark'
 
   const customTheme = createTheme({
@@ -131,13 +119,13 @@ function App(): JSX.Element {
           <Grid container spacing={8}>
             {todoLists.map(tl => {
               return (
-                <Grid item>
+                <Grid key={tl.id} item>
                   <Paper elevation={8} sx={{p: '20px'}}>
                     <Todolist key={tl.id}
                               tListId={tl.id}
                               toDoListTitle={tl.title}
                               filter={tl.filter}
-                              tasks={getFilteredTasks(tasks[tl.id], tl.filter)}
+                              tasks={tasks[tl.id]}
                               removeTodoList={removeTodoList}
                               removeTask={removeTask}
                               changeToDoListFilter={changeToDoListFilter}

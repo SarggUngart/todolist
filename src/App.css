@@ -3,6 +3,7 @@ h1, h2, h3, h4, h5 {
 }
 
 ul {
+    min-width: 260px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -27,7 +28,9 @@ input {
 }
 
 span {
-
+    max-width: 165px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     align-self: center;
 
 }
@@ -101,4 +104,5 @@ span {
 .done {
     opacity: 0.5;
     text-decoration: line-through;
+
 }

@@ -5,8 +5,9 @@ import {
   RemoveTodolistAC,
   todolistReducer
 } from "./todolists-reducer";
-import {FilterType, todoListsType} from "../App";
+import {FilterType, TasksStateType, todoListsType} from "../App";
 import {v1} from "uuid";
+import {tasksReducer} from "./tasks-reduces";
 
 test('correct todolist should be removed', () => {
   //
@@ -70,9 +71,30 @@ test('correct filter of todolist should be changed', () => {
     {id: todolistId2, title: 'What to buy', filter: 'All'}
   ]
 
-
   const endState = todolistReducer(startState, ChangeToDoListFilterAC(todolistId2, newFilter))
 
   expect(endState[0].filter).toBe('All')
   expect(endState[1].filter).toBe(newFilter)
 })
+
+test('property with todolistId should be deleted', () => {
+  const startState: TasksStateType = {
+    "todolistId1": [
+      { id: "1", title: "CSS", isDone: false },
+      { id: "2", title: "JS", isDone: true },
+      { id: "3", title: "React", isDone: false }
+    ],
+    "todolistId2": [
+      { id: "1", title: "bread", isDone: false },
+      { id: "2", title: "milk", isDone: true },
+      { id: "3", title: "tea", isDone: false }
+    ]
+  };
+
+  const endState = tasksReducer(startState, RemoveTodolistAC("todolistId2"))
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(1);
+  expect(endState["todolistId2"]).not.toBeDefined();
+});

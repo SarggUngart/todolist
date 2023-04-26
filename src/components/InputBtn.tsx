@@ -54,7 +54,6 @@ export const InputBtn: React.FC<InputPropsType> = (props) => {
         onBlur={() => setError(false)}
         error={error}
         size={'small'}
-
       />
 
 

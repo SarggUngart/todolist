@@ -16,9 +16,10 @@ export const todolistReducer = (todoLists: todoListsType[], action: RootAT): tod
   switch (action.type) {
     case "REMOVE-TODOLIST":
       return todoLists.filter(tl => tl.id !== action.payload.id)
+
     case "ADD-TODOLIST":
       const newTodoList: todoListsType = {
-        id: v1(),
+        id: action.payload.todoListId,
         title: action.payload.todolistTile,
         filter: 'All'
       }
@@ -44,11 +45,12 @@ export const RemoveTodolistAC = (id: string) => {
   } as const
 }
 
-export const AddTodoListAC = (title: string) => {
+export const AddTodoListAC = (title: string, todoListId = v1()) => {
   return {
     type: 'ADD-TODOLIST',
     payload: {
-      todolistTile: title
+      todolistTile: title,
+      todoListId
     }
   } as const
 }

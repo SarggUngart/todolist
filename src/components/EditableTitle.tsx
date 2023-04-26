@@ -18,25 +18,32 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
   const [newTitle, setNewTitle] = React.useState<string>(title)
   const [error, setError] = React.useState<boolean>(false)
 
-
   const OnChangeEditTitleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
     setNewTitle(e.currentTarget.value)
   }
 
-  const onKeyPressTitleHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+  const onKeyPressTitleHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (newTitle && e.key === 'Enter') {
       changeToNewTitle()
+    }
+    if (!newTitle.length && e.key === 'Enter') {
+      setError(true)
     }
   }
 
   const onBlurHandler = () => {
-    changeToNewTitle()
+    if (!newTitle.length) {
+      setNewTitle(title)
+      setIsEdit(!isEdit)
+    } else {
+      changeToNewTitle()
+    }
   }
 
   const changeToNewTitle = () => {
     const trimmedTitle = newTitle.trim()
-    if (!trimmedTitle || trimmedTitle.length === 0 || trimmedTitle === '') {
+    if (!trimmedTitle || !trimmedTitle.length || trimmedTitle === '') {
       setError(true)
       return
     } else {
@@ -46,22 +53,20 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
   }
 
   return (
-    <>
+    < >
       {
         isEdit
           ?
           <>
             <TextField
-              value={newTitle}
+              value={newTitle || ''}
               onChange={OnChangeEditTitleHandler}
               onKeyDown={onKeyPressTitleHandler}
               onBlur={onBlurHandler}
-              autoFocus
               variant="standard"
-              error={error}
               size={'small'}
+              error={error}
             />
-
             <IconButton
               sx={{marginLeft: 'auto'}}
               size={'small'}
@@ -69,12 +74,11 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
               <DoneIcon
                 color={'primary'}/>
             </IconButton>
-            {/*{isError && 'title is required'}*/}
           </>
           :
           <>
             <span
-              onDoubleClick={() => setIsEdit(!isEdit)}
+              onDoubleClick={() => setIsEdit(true)}
               className={titleClass}
             >{title}
                </span>
@@ -85,7 +89,6 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
               onClick={() => setIsEdit(true)}>
               <EditIcon color={'primary'}/>
             </IconButton>
-
           </>
       }
     </>
