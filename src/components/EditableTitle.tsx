@@ -10,13 +10,38 @@ type EditableTitlePropsType = {
   callBack: (newTitle: string) => void
 }
 
-
 export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
   const {title, titleClass, callBack} = props
 
   const [isEdit, setIsEdit] = React.useState<boolean>(false)
   const [newTitle, setNewTitle] = React.useState<string>(title)
   const [error, setError] = React.useState<boolean>(false)
+
+  const inputRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+        if (!newTitle.length) {
+          setIsEdit(false)
+          setNewTitle(title)
+        } else {
+          setNewTitle(newTitle)
+          setIsEdit(false)
+        }
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [inputRef, title]);
+
+
+  const onClickEditTitleHandler = () => {
+    setIsEdit(true)
+    setError(false)
+  }
 
   const OnChangeEditTitleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
@@ -25,25 +50,16 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
 
   const onKeyPressTitleHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (newTitle && e.key === 'Enter') {
-      changeToNewTitle()
+      setToNewTitle()
     }
     if (!newTitle.length && e.key === 'Enter') {
       setError(true)
     }
   }
 
-  const onBlurHandler = () => {
-    if (!newTitle.length) {
-      setNewTitle(title)
-      setIsEdit(!isEdit)
-    } else {
-      changeToNewTitle()
-    }
-  }
-
-  const changeToNewTitle = () => {
+  const setToNewTitle = () => {
     const trimmedTitle = newTitle.trim()
-    if (!trimmedTitle || !trimmedTitle.length || trimmedTitle === '') {
+    if (!trimmedTitle) {
       setError(true)
       return
     } else {
@@ -52,41 +68,44 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
     }
   }
 
+
+
   return (
-    < >
+    <>
       {
         isEdit
           ?
-          <>
+          <div className={'titleWrapper'} ref={inputRef}>
             <TextField
-              value={newTitle || ''}
+              value={newTitle}
               onChange={OnChangeEditTitleHandler}
               onKeyDown={onKeyPressTitleHandler}
-              onBlur={onBlurHandler}
               variant="standard"
               size={'small'}
               error={error}
+              autoFocus
             />
-            <IconButton
-              sx={{marginLeft: 'auto'}}
-              size={'small'}
-              onClick={changeToNewTitle}>
-              <DoneIcon
-                color={'primary'}/>
-            </IconButton>
-          </>
-          :
-          <>
-            <span
-              onDoubleClick={() => setIsEdit(true)}
-              className={titleClass}
-            >{title}
-               </span>
 
             <IconButton
               sx={{marginLeft: 'auto'}}
               size={'small'}
-              onClick={() => setIsEdit(true)}>
+              onClick={setToNewTitle}>
+              <DoneIcon
+                color={'primary'}/>
+            </IconButton>
+          </div>
+
+          :
+          <>
+            <span
+              onDoubleClick={onClickEditTitleHandler}
+              className={titleClass}
+            >{newTitle}
+               </span>
+            <IconButton
+              sx={{marginLeft: 'auto'}}
+              size={'small'}
+              onClick={onClickEditTitleHandler}>
               <EditIcon color={'primary'}/>
             </IconButton>
           </>

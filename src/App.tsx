@@ -111,7 +111,7 @@ function App(): JSX.Element {
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}/>
 
-        <Container fixed>
+        <Container>
           <Grid container sx={{padding: '20px 0 50px 0'}}>
             <InputBtn addNewTask={addNewTodoList}/>
           </Grid>
