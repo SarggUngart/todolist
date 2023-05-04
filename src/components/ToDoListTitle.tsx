@@ -24,7 +24,6 @@ export const ToDoListTitle: React.FC<TaskTitlePropsType> = (props: TaskTitleProp
       </Typography>
 
       <IconButton
-
         size={'small'}
         onClick={removeTodoList}>
         <DeleteIcon color={'primary'}/>

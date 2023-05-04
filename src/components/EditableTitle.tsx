@@ -12,7 +12,6 @@ type EditableTitlePropsType = {
 
 export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
   const {title, titleClass, callBack} = props
-
   const [isEdit, setIsEdit] = React.useState<boolean>(false)
   const [newTitle, setNewTitle] = React.useState<string>(title)
   const [error, setError] = React.useState<boolean>(false)
@@ -67,8 +66,6 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
       callBack(newTitle)
     }
   }
-
-
 
   return (
     <>

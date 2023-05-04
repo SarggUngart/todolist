@@ -3,12 +3,11 @@ import {IconButton, TextField} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 type InputPropsType = {
-  addNewTask: (inputTitle: string) => void
+  addNewItem: (inputTitle: string) => void
 }
 
 export const InputBtn: React.FC<InputPropsType> = (props) => {
-  const {addNewTask} = props
-
+  const {addNewItem} = props
 
   const [inputTitle, setInputTitle] = React.useState('')
   const [error, setError] = React.useState(false)
@@ -24,7 +23,7 @@ export const InputBtn: React.FC<InputPropsType> = (props) => {
       setError(true)
       return
     }
-    addNewTask(inputTitle)
+    addNewItem(trimmedTask)
     setInputTitle('')
   }
 
@@ -46,7 +45,6 @@ export const InputBtn: React.FC<InputPropsType> = (props) => {
 
       <TextField
         variant={'outlined'}
-        defaultValue="Task title"
         label={showLabel || showError}
         value={inputTitle}
         onChange={onChangeInputHandler}

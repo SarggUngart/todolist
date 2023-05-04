@@ -75,14 +75,14 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     <div>
       <ToDoListTitle title={toDoListTitle} removeTodoList={removeTodoListHandler}
                      changeTodoListTitle={onDblClickTodoListTitleHandler}/>
-      <InputBtn addNewTask={addNewTaskHandler}/>
+      <InputBtn addNewItem={addNewTaskHandler}/>
 
       <Tasks onClickChangeTaskTitle={onClickChangeTaskTitle}
              changeStatus={changeStatusHandler}
              tasks={getFilteredTasks(tasks, filter)}
              removeTask={removeTaskHandler}
              filter={filter}
-             getFilteredTasks={getFilteredTasks}
+
       />
 
       <div className="FilterBtnContainer">

@@ -102,7 +102,6 @@ function App(): JSX.Element {
     }
   });
 
-
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline/>
@@ -113,7 +112,7 @@ function App(): JSX.Element {
 
         <Container>
           <Grid container sx={{padding: '20px 0 50px 0'}}>
-            <InputBtn addNewTask={addNewTodoList}/>
+            <InputBtn addNewItem={addNewTodoList}/>
           </Grid>
 
           <Grid container spacing={8}>

@@ -11,21 +11,26 @@ type TasksPropsType = {
   removeTask: (id: string) => void
   changeStatus: (id: string, isDone: boolean) => void
   onClickChangeTaskTitle: (id: string, newTaskTitle: string) => void
-  getFilteredTasks: (tasks: TaskType[], filter: FilterType) => TaskType[]
   filter: FilterType
 }
 
 export const Tasks: React.FC<TasksPropsType> = (props) => {
-  const {tasks, filter, removeTask, changeStatus, onClickChangeTaskTitle, getFilteredTasks} = props
-
-  const onClickRemoveTaskHandler = (id: string) => {
-    removeTask(id)
-  }
+  const {tasks, filter, removeTask, changeStatus, onClickChangeTaskTitle} = props
 
   const changeStatusHandler = (e: React.ChangeEvent<HTMLInputElement>, id: string, isDone: boolean) => {
     changeStatus(id, isDone)
   }
 
+  const getFilteredTasks = (tasks: TaskType[], filter: FilterType): TaskType[] => {
+    switch (filter) {
+      case "Active":
+        return tasks.filter(t => !t.isDone);
+      case "Completed":
+        return tasks.filter(t => t.isDone);
+      default:
+        return tasks
+    }
+  }
 
   return (
     <List>
@@ -39,7 +44,7 @@ export const Tasks: React.FC<TasksPropsType> = (props) => {
             <IconButton
               edge={'end'}
               size={'small'}
-              onClick={() => onClickRemoveTaskHandler(task.id)}>
+              onClick={() => removeTask(task.id)}>
               <DeleteIcon color={'primary'}/>
             </IconButton>
           </ListItem>
