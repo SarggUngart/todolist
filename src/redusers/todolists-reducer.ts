@@ -1,4 +1,4 @@
-import {FilterType} from "../App";
+import {FilterType} from "../old/App";
 import {v1} from "uuid";
 import {TodoListsType} from "../AppRedux";
 

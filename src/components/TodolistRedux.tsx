@@ -1,12 +1,12 @@
 import React from 'react';
-import {FilterType, TaskType} from "../App";
+import {FilterType, TaskType} from "../old/App";
 import {ToDoListTitle} from "./ToDoListTitle";
 import {Tasks} from "./Tasks";
 import {InputBtn} from "./InputBtn";
 import {Btn} from "./Btn";
 import {useDispatch, useSelector} from "react-redux";
 import {ChangeToDoListFilterAC, ChangeToDoListTitleAC, RemoveTodolistAC} from "../redusers/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../redusers/tasks-reduces";
+import {addTaskAC} from "../redusers/tasks-reduces";
 import {TodoListsType} from "../AppRedux";
 import {AppRootStateType} from "../store/store";
 
@@ -15,7 +15,7 @@ type TodolistPropsType = {
   todoLists: TodoListsType
 }
 
-export const TodolistRedux: React.FC<TodolistPropsType> = ({todoLists}) => {
+export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists}) => {
   const {
     tListId,
     title,
@@ -24,69 +24,78 @@ export const TodolistRedux: React.FC<TodolistPropsType> = ({todoLists}) => {
 
   const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[tListId])
   const dispatch = useDispatch()
+  console.log('todolist comp')
 
-  const removeTodoListHandler = () => {
+  const removeTodoListHandler = React.useCallback(() => {
     dispatch(RemoveTodolistAC(tListId))
-  }
+  }, [tListId])
 
-  const addNewTaskHandler = (title: string) => {
+  const addNewTaskHandler = React.useCallback((title: string) => {
     dispatch(addTaskAC(title, tListId))
-  }
+  }, [title, tListId])
 
-  const changeStatusHandler = (id: string, isDone: boolean) => {
-    dispatch(changeTaskStatusAC(id, isDone, tListId))
-  }
-  const removeTaskHandler = (id: string) => {
-    dispatch(removeTaskAC(id, tListId))
-  }
-  const onClickFilterTasksHandler = (tListId: string, filter: FilterType) => {
+
+  const onClickFilterTasksHandler = React.useCallback((tListId: string, filter: FilterType) => {
     dispatch(ChangeToDoListFilterAC(tListId, filter))
-  }
+  }, [dispatch, tListId, filter])
 
-  const onClickChangeTaskTitle = (id: string, title: string) => {
-    dispatch(changeTaskTitleAC(id, title, tListId))
-  }
 
-  const onDblClickTodoListTitleHandler = () => {
+  const onClickFilterTasksHandlerAll = React.useCallback(() => {
+    dispatch(ChangeToDoListFilterAC(tListId, 'All'))
+  }, [])
+
+  const onClickFilterTasksHandlerActive = React.useCallback(() => {
+    dispatch(ChangeToDoListFilterAC(tListId, 'Active'))
+  }, [])
+
+  const onClickFilterTasksHandlerComp = React.useCallback(() => {
+    dispatch(ChangeToDoListFilterAC(tListId, 'Completed'))
+  }, [])
+
+  const onDblClickTodoListTitleHandler = React.useCallback(() => {
     dispatch(ChangeToDoListTitleAC(tListId, title))
-  }
+  }, [tListId, title])
 
+
+  const getFilteredTasks = (tasks: TaskType[], filter: FilterType): TaskType[] => {
+    switch (filter) {
+      case "Active":
+        return tasks.filter(t => !t.isDone);
+      case "Completed":
+        return tasks.filter(t => t.isDone);
+      default:
+        return tasks
+    }
+  }
 
   return (
     <div>
-      <ToDoListTitle title={title} removeTodoList={removeTodoListHandler}
+      <ToDoListTitle title={title}
+                     removeTodoList={removeTodoListHandler}
                      changeTodoListTitle={onDblClickTodoListTitleHandler}/>
+
       <InputBtn addNewItem={addNewTaskHandler}/>
 
-      <Tasks onClickChangeTaskTitle={onClickChangeTaskTitle}
-             changeStatus={changeStatusHandler}
-             tasks={tasks}
-             removeTask={removeTaskHandler}
-             filter={filter}
-      />
+      {getFilteredTasks(tasks, filter).map(t =>
+        <Tasks key={t.id} task={t} tListId={tListId}/>
+      )}
 
       <div className="FilterBtnContainer">
         <Btn
-          btnClass={'FilterBtn'}
           variant={filter === 'All' ? 'contained' : 'outlined'}
-          btnName={'All'} onClickBtn={() => {
-          onClickFilterTasksHandler(tListId, 'All')
-        }}/>
+          btnName={'All'}
+          onClickBtn={onClickFilterTasksHandler.bind(this, tListId, 'All')}/>
 
         <Btn
-          btnClass={'FilterBtn'}
           variant={filter === 'Active' ? 'contained' : 'outlined'}
-          btnName={'Active'} onClickBtn={() => {
-          onClickFilterTasksHandler(tListId, 'Active')
-        }}/>
+          btnName={'Active'}
+          onClickBtn={onClickFilterTasksHandler.bind(this, tListId, 'Active')}/>
 
         <Btn
-          btnClass={'FilterBtn'}
           variant={filter === 'Completed' ? 'contained' : 'outlined'}
-          btnName={'Completed'} onClickBtn={() => {
-          onClickFilterTasksHandler(tListId, 'Completed')
-        }}/>
+          btnName={'Completed'}
+          onClickBtn={onClickFilterTasksHandler.bind(this, tListId, 'Completed')}/>
       </div>
     </div>
   );
-};
+})

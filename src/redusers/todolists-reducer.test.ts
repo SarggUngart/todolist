@@ -5,7 +5,7 @@ import {
   RemoveTodolistAC,
   todolistReducer
 } from "./todolists-reducer";
-import {FilterType, TasksStateType} from "../App";
+import {FilterType, TasksStateType} from "../old/App";
 import {v1} from "uuid";
 import {tasksReducer} from "./tasks-reduces";
 import {TodoListsType} from "../AppRedux";

@@ -10,11 +10,13 @@ type EditableTitlePropsType = {
   callBack: (newTitle: string) => void
 }
 
-export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
+export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props) => {
   const {title, titleClass, callBack} = props
   const [isEdit, setIsEdit] = React.useState<boolean>(false)
   const [newTitle, setNewTitle] = React.useState<string>(title)
   const [error, setError] = React.useState<boolean>(false)
+
+  console.log('new title comp')
 
   const inputRef = React.useRef<HTMLDivElement>(null);
 
@@ -56,7 +58,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
     }
   }
 
-  const setToNewTitle = () => {
+  const setToNewTitle =() => {
     const trimmedTitle = newTitle.trim()
     if (!trimmedTitle) {
       setError(true)
@@ -87,8 +89,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
               sx={{marginLeft: 'auto'}}
               size={'small'}
               onClick={setToNewTitle}>
-              <DoneIcon
-                color={'primary'}/>
+              <DoneIcon color={'primary'}/>
             </IconButton>
           </div>
 
@@ -109,4 +110,4 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = (props) => {
       }
     </>
   )
-};
+})

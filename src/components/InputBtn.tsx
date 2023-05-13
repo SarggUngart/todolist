@@ -6,11 +6,13 @@ type InputPropsType = {
   addNewItem: (inputTitle: string) => void
 }
 
-export const InputBtn: React.FC<InputPropsType> = (props) => {
+export const InputBtn: React.FC<InputPropsType> = React.memo((props) => {
   const {addNewItem} = props
 
   const [inputTitle, setInputTitle] = React.useState('')
   const [error, setError] = React.useState(false)
+
+
 
   const onChangeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
@@ -18,12 +20,12 @@ export const InputBtn: React.FC<InputPropsType> = (props) => {
   }
 
   const addTask = () => {
-    const trimmedTask = inputTitle.trim()
-    if (!trimmedTask) {
+    const trimmedTitle = inputTitle.trim()
+    if (!trimmedTitle) {
       setError(true)
       return
     }
-    addNewItem(trimmedTask)
+    addNewItem(trimmedTitle)
     setInputTitle('')
   }
 
@@ -62,4 +64,4 @@ export const InputBtn: React.FC<InputPropsType> = (props) => {
       </IconButton>
     </div>
   );
-};
+})

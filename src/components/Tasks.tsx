@@ -1,56 +1,64 @@
 import React from 'react';
-import {FilterType, TaskType} from "../App";
-import CheckBox from "./CheckBox";
+import {TaskType} from "../old/App";
 import {EditableTitle} from "./EditableTitle";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {IconButton, List, ListItem} from '@mui/material';
+import {useDispatch} from "react-redux";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../redusers/tasks-reduces";
+import CheckBox from "../old/CheckBox";
 
 
 type TasksPropsType = {
-  tasks: TaskType[]
-  removeTask: (id: string) => void
-  changeStatus: (id: string, isDone: boolean) => void
-  onClickChangeTaskTitle: (id: string, newTaskTitle: string) => void
-  filter: FilterType
+  tListId: string
+  task: TaskType
 }
 
-export const Tasks: React.FC<TasksPropsType> = (props) => {
-  const {tasks, filter, removeTask, changeStatus, onClickChangeTaskTitle} = props
+export const Tasks: React.FC<TasksPropsType> = React.memo((props) => {
+  console.log('tasks сomp')
+  const {tListId, task} = props
 
-  const changeStatusHandler = (e: React.ChangeEvent<HTMLInputElement>, id: string, isDone: boolean) => {
-    changeStatus(id, isDone)
+  const dispatch = useDispatch()
+
+  const changeStatusHandler = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked, tListId))
+  }, [task.id, tListId])
+
+  const removeTaskHandler = () => {
+    dispatch(removeTaskAC(task.id, tListId))
   }
 
-  const getFilteredTasks = (tasks: TaskType[], filter: FilterType): TaskType[] => {
-    switch (filter) {
-      case "Active":
-        return tasks.filter(t => !t.isDone);
-      case "Completed":
-        return tasks.filter(t => t.isDone);
-      default:
-        return tasks
-    }
-  }
+  const onClickChangeTaskTitle = React.useCallback((title: string) => {
+    dispatch(changeTaskTitleAC(task.id, title, tListId))
+  }, [dispatch, task.id, tListId])
+
+  const taskIsDoneStyle = task.isDone ? 'done' : ''
 
   return (
     <List>
-      {getFilteredTasks(tasks, filter).map(task => {
-        const taskIsDoneClass = task.isDone ? 'done' : ''
-        return (
-          <ListItem sx={{justifyContent: 'space-between'}} disablePadding key={task.id}>
-            <CheckBox checked={task.isDone} callBack={(event) => changeStatusHandler(event, task.id, task.isDone)}/>
-            <EditableTitle callBack={(newTitle) => onClickChangeTaskTitle(task.id, newTitle)}
-                           titleClass={taskIsDoneClass} title={task.title}/>
-            <IconButton
-              edge={'end'}
-              size={'small'}
-              onClick={() => removeTask(task.id)}>
-              <DeleteIcon color={'primary'}/>
-            </IconButton>
-          </ListItem>
-        )
-      })}
+      <ListItem sx={{justifyContent: 'space-between'}} disablePadding key={task.id}>
+
+        {/*<Checkbox*/}
+        {/*  edge={'start'}*/}
+        {/*  checked={task.isDone}*/}
+        {/*  size={"small"}*/}
+        {/*  onChange={changeStatusHandler}/>*/}
+
+        <CheckBox checked={task.isDone} callBack={changeStatusHandler}/>
+
+        <EditableTitle
+          titleClass={taskIsDoneStyle}
+          callBack={onClickChangeTaskTitle}
+          title={task.title}/>
+
+        <IconButton
+          edge={'end'}
+          size={'small'}
+          onClick={removeTaskHandler}>
+          <DeleteIcon color={'primary'}/>
+        </IconButton>
+      </ListItem>
+
     </List>
 
   )
-}
+})

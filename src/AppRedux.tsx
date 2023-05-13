@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store/store";
 import {TodolistRedux} from "./components/TodolistRedux";
 import {InputBtn} from "./components/InputBtn";
-import {addTaskAC} from "./redusers/tasks-reduces";
 import {AddTodoListAC} from "./redusers/todolists-reducer";
 
 export type TodoListsType = {
@@ -28,15 +27,17 @@ export type TasksStateType = {
 export type FilterType = 'All' | 'Active' | 'Completed'
 
 function AppRedux(): JSX.Element {
+  console.log('App render')
+
   const todoLists = useSelector<AppRootStateType, TodoListsType[]>(state => state.todoLists)
   const dispatch = useDispatch()
   const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
 
   const theme = !isDarkMode ? 'light' : 'dark'
 
-  const addNewTask = (title: string) => {
+  const addNewTodoList = React.useCallback((title: string) => {
     dispatch(AddTodoListAC(title))
-  }
+  }, [dispatch])
 
   const customTheme = createTheme({
     palette: {
@@ -63,7 +64,7 @@ function AppRedux(): JSX.Element {
 
         <Container>
           <Grid container sx={{padding: '20px 0 50px 0'}}>
-            <InputBtn addNewItem={addNewTask}/>
+            <InputBtn addNewItem={addNewTodoList}/>
           </Grid>
 
           <Grid container spacing={8}>

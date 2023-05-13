@@ -39,16 +39,6 @@ span {
     min-width: 167px;
 }
 
-/*.App {*/
-/*    padding: 30px;*/
-/*    display: flex;*/
-/*}*/
-
-/*.App > div {*/
-/*    margin-right: 50px;*/
-/*}*/
-
-
 .todoListTitleContainer {
     display: flex;
     justify-content: space-between;
@@ -103,12 +93,7 @@ span {
 }
 
 
-.activeBtn {
-    background: teal;
-}
-
 .done {
     opacity: 0.5;
     text-decoration: line-through;
-
 }

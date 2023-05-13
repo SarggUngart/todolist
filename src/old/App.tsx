@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
-import {Todolist} from "./components/Todolist";
+import '../App.css';
+import {Todolist} from "./Todolist";
 import {v1} from "uuid";
-import {InputBtn} from "./components/InputBtn";
+import {InputBtn} from "../components/InputBtn";
 import {Container, createTheme, CssBaseline, Grid, Paper, ThemeProvider} from "@mui/material";
-import HeaderMUI from "./UI/HeaderMUI";
+import HeaderMUI from "../UI/HeaderMUI";
 
 export type todoListsType = {
   id: string

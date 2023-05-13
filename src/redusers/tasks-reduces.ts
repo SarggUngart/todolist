@@ -1,4 +1,4 @@
-import {TasksStateType, TaskType} from "../App";
+import {TasksStateType, TaskType} from "../old/App";
 import {v1} from "uuid";
 import {AddTodoListAT, RemoveTodoListAT} from "./todolists-reducer";
 
@@ -28,7 +28,7 @@ export const tasksReducer = (state = initialState, action: RootTasksAT): TasksSt
       return {
         ...state,
         [action.todoListId]: state[action.todoListId].map(t => t.id === action.taskId
-          ? {...t, isDone: !action.isDone} : t)
+          ? {...t, isDone: action.isDone} : t)
       }
     case "CHANGE-TASK-TITLE":
       return {
