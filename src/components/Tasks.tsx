@@ -8,13 +8,13 @@ import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../redusers/t
 import CheckBox from "../old/CheckBox";
 
 
-type TasksPropsType = {
+export type TasksPropsType = {
   tListId: string
   task: TaskType
 }
 
 export const Tasks: React.FC<TasksPropsType> = React.memo((props) => {
-  console.log('tasks сomp')
+  // console.log('tasks сomp')
   const {tListId, task} = props
 
   const dispatch = useDispatch()

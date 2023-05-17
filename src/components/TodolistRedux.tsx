@@ -24,7 +24,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
 
   const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[tListId])
   const dispatch = useDispatch()
-  console.log('todolist comp')
+  // console.log('todolist comp')
 
   const removeTodoListHandler = React.useCallback(() => {
     dispatch(RemoveTodolistAC(tListId))

@@ -2,7 +2,7 @@ import React from 'react';
 import {IconButton, TextField} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-type InputPropsType = {
+export type InputPropsType = {
   addNewItem: (inputTitle: string) => void
 }
 
