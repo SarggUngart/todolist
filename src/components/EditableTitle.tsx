@@ -16,7 +16,6 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
   const [newTitle, setNewTitle] = React.useState<string>(title)
   const [error, setError] = React.useState<boolean>(false)
 
-  // console.log('new title comp')
 
   const inputRef = React.useRef<HTMLDivElement>(null);
 
