@@ -1,19 +1,19 @@
 import React from 'react';
 import {Checkbox} from "@mui/material";
+import {TaskStatuses} from "../api/todolist-api";
 
 type CheckBoxPropsType = {
-  checked: boolean
+  checked: TaskStatuses | Boolean
   callBack: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-
 const CheckBox: React.FC<CheckBoxPropsType> = React.memo((props) => {
     const {checked, callBack} = props
-    console.log('Checkbox сomp')
-    return (
+
+     return (
       <Checkbox
         edge={'start'}
-        checked={checked}
+        checked={checked === TaskStatuses.Complited}
         size={"small"}
         onChange={(event) => callBack(event)}
       />

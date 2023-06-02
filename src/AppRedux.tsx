@@ -6,29 +6,29 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store/store";
 import {TodolistRedux} from "./components/TodolistRedux";
 import {InputBtn} from "./components/InputBtn";
-import {AddTodoListAC} from "./redusers/todolists-reducer";
+import {AddTodoListAC, TodolistDomainType} from "./redusers/todolists-reducer";
+import {TaskType} from "./api/todolist-api";
 
-export type TodoListsType = {
-  tListId: string
-  title: string
-  filter: FilterType
-}
+// export type TodoListsType = {
+//   tListId: string
+//   title: string
+//   filter: FilterType
+// }
 
-export type TaskType = {
-  id: string
-  title: string
-  isDone: boolean
-}
+// export type TaskType = {
+//   id: string
+//   title: string
+//   isDone: boolean
+// }
 
 export type TasksStateType = {
   [tdListId: string]: TaskType[]
 }
 
-export type FilterType = 'All' | 'Active' | 'Completed'
 
 function AppRedux(): JSX.Element {
 
-  const todoLists = useSelector<AppRootStateType, TodoListsType[]>(state => state.todoLists)
+  const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
   const dispatch = useDispatch()
   const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
 
@@ -69,7 +69,7 @@ function AppRedux(): JSX.Element {
           <Grid container spacing={8}>
             {todoLists.map(tl => {
               return (
-                <Grid key={tl.tListId} item>
+                <Grid key={tl.id} item>
                   <Paper elevation={8} sx={{p: '20px'}}>
                     <TodolistRedux todoLists={tl}/>
                   </Paper>

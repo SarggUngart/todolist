@@ -20,7 +20,7 @@ export const todoListAPI = {
     return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title})
   },
   getTasks(todolistId: string) {
-    return instance.get<ResponseType>(`todo-lists/${todolistId}/tasks`)
+    return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
   },
   createTask(todolistId: string, title: string) {
     return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
@@ -34,23 +34,45 @@ export const todoListAPI = {
 }
 
 export type TodoListApiType = {
-  "id": string,
-  "title": string,
-  "addedDate": Date,
-  "order": number
+  "id": string
+  "title": string
+  "addedDate"?: Date
+  "order"?: number
+}
+
+
+export type GetTasksResponse = {
+  items: TaskType[]
+  totalCount: number
+  error: string
+}
+
+export enum TaskStatuses {
+  New = 0,
+  InProgress = 1,
+  Complited = 2,
+  Draft = 3
+}
+
+export enum TaskPriority {
+  Low = 0,
+  Middle = 1,
+  Hi = 2,
+  Ungrentlu = 3,
+  Later = 4
 }
 
 export type TaskType = {
-  addedDate: Date
-  deadline: null
-  description: null
+  addedDate?: Date
+  deadline?: null
+  description?: null
   id: string
-  order: number
-  priority: number
-  startDate: null
-  status: number
+  order?: number
+  priority?: TaskPriority
+  startDate?: null
+  status: TaskStatuses
   title: string
-  todoListId: string
+  todoListId?: string
 }
 
 export type ResponseType<T = {}> = {
