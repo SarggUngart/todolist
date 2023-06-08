@@ -5,10 +5,10 @@ import {InputBtn} from "./InputBtn";
 import {Btn} from "./Btn";
 import {
   ChangeToDoListFilterAC,
-  ChangeToDoListTitleAC,
   FilterType,
-  RemoveTodolistAC,
-  TodolistDomainType
+  removeTodoListTC,
+  TodolistDomainType,
+  updateTodoListTitleTC
 } from "../redusers/todolists-reducer";
 import {addTaskTC, getTasksTC} from "../redusers/tasks-reduces";
 import {useAppDispatch, useAppSelector} from "../store/store";
@@ -34,7 +34,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
   }, [])
 
   const removeTodoListHandler = React.useCallback(() => {
-    dispatch(RemoveTodolistAC(id))
+    dispatch(removeTodoListTC(id))
   }, [id])
 
   const onClickAddNewItemHandler = React.useCallback((title: string) => {
@@ -47,21 +47,9 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
   }, [dispatch, id, filter])
 
 
-  const onClickFilterTasksHandlerAll = React.useCallback(() => {
-    dispatch(ChangeToDoListFilterAC(id, 'All'))
+  const changeTodoListTitleHandler = React.useCallback((newTitle: string) => {
+    dispatch(updateTodoListTitleTC(id, newTitle))
   }, [])
-
-  const onClickFilterTasksHandlerActive = React.useCallback(() => {
-    dispatch(ChangeToDoListFilterAC(id, 'Active'))
-  }, [])
-
-  const onClickFilterTasksHandlerComp = React.useCallback(() => {
-    dispatch(ChangeToDoListFilterAC(id, 'Completed'))
-  }, [])
-
-  const onDblClickTodoListTitleHandler = React.useCallback(() => {
-    dispatch(ChangeToDoListTitleAC(id, title))
-  }, [id, title])
 
 
   const getFilteredTasks = (tasks: TaskType[], filter: FilterType): TaskType[] => {
@@ -79,7 +67,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
     <div>
       <ToDoListTitle title={title}
                      removeTodoList={removeTodoListHandler}
-                     changeTodoListTitle={onDblClickTodoListTitleHandler}/>
+                     changeTodoListTitle={changeTodoListTitleHandler}/>
 
       <InputBtn addNewItem={onClickAddNewItemHandler}/>
 

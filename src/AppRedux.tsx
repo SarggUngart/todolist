@@ -5,7 +5,7 @@ import HeaderMUI from "./UI/HeaderMUI";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import {TodolistRedux} from "./components/TodolistRedux";
 import {InputBtn} from "./components/InputBtn";
-import {AddTodoListAC, getTodoListsTC, TodolistDomainType} from "./redusers/todolists-reducer";
+import {createTodoListTC, getTodoListsTC, TodolistDomainType} from "./redusers/todolists-reducer";
 import {TaskType} from "./api/todolist-api";
 
 export type TasksStateType = {
@@ -14,7 +14,7 @@ export type TasksStateType = {
 
 function AppRedux(): JSX.Element {
 
-  const todoLists = useAppSelector<TodolistDomainType[]>(state => state.todoLists)
+  const todoLists = useAppSelector(state => state.todoLists)
   const dispatch = useAppDispatch()
   const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
 
@@ -25,7 +25,7 @@ function AppRedux(): JSX.Element {
   const theme = !isDarkMode ? 'light' : 'dark'
 
   const addNewTodoList = React.useCallback((title: string) => {
-    dispatch(AddTodoListAC(title))
+    dispatch(createTodoListTC(title))
   }, [dispatch])
 
   const customTheme = createTheme({

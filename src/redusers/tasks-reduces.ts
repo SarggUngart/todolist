@@ -52,7 +52,7 @@ export const tasksReducer = (state = initialState, action: RootTasksAT): TasksSt
     case "ADD-TODOLIST": {
       return {
         ...state,
-        [action.payload.id]: []
+        [action.payload.todolist.id]: []
       }
     }
     case 'REMOVE-TODOLIST': {
@@ -111,17 +111,17 @@ export const setTasksAC = (todoListId: string, tasks: TaskType[]) => ({
 } as const)
 
 export const getTasksTC = ((todoListId: string) => (dispatch: Dispatch) => {
-  todoListAPI.getTasks(todoListId)
+  todoListAPI.GetTasks(todoListId)
     .then(res => dispatch(setTasksAC(todoListId, res.data.items)))
 })
 
 export const removeTaskTC = ((todoListId: string, taskId: string) => (dispatch: Dispatch) => {
-  todoListAPI.deleteTask(todoListId, taskId)
+  todoListAPI.DeleteTask(todoListId, taskId)
     .then(() => dispatch(removeTaskAC(todoListId, taskId)))
 })
 
 export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispatch) => {
-  todoListAPI.createTask(todoListId, title)
+  todoListAPI.CreateTask(todoListId, title)
     .then((res) => dispatch(addTaskAC(res.data.data.item)))
 }
 
@@ -149,7 +149,7 @@ export const updateTaskTC = (todoListId: string, taskId: string, data: FLexTaskT
       ...data
     }
 
-    todoListAPI.updateTask(todoListId, taskId, model)
+    todoListAPI.UpdateTask(todoListId, taskId, model)
       .then(() => dispatch(changeTaskAC(todoListId, taskId, model)))
   }
 }

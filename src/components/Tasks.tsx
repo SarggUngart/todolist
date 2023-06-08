@@ -37,7 +37,7 @@ export const Tasks: React.FC<TasksPropsType> = React.memo((props) => {
 
   return (
     <List sx={{padding: '0', height: '35px'}}>
-      <ListItem sx={{justifyContent: 'space-between'}} disablePadding key={task.id}>
+      <ListItem sx={{justifyContent: 'space-between', marginTop: '10px'}} disablePadding key={task.id}>
 
         <CheckBox checked={task.status} callBack={changeStatusHandler}/>
 

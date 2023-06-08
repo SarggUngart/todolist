@@ -52,11 +52,12 @@ span {
 }
 
 .inputWrapper {
+    height: 35px;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     position: relative;
-    /*align-items: end;*/
+    align-items: stretch;
 }
 
 
@@ -66,7 +67,7 @@ span {
 
 .FilterBtnContainer {
     display: flex;
-    margin-top: 15px;
+    margin-top: 30px;
     gap: 10px;
 }
 

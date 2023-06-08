@@ -26,8 +26,8 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
           setIsEdit(false)
           setNewTitle(title)
         } else {
-          setNewTitle(newTitle)
           setIsEdit(false)
+          setNewTitle(newTitle)
         }
       }
     };
@@ -35,7 +35,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [ title]);
+  }, [ title, newTitle]);
 
 
   const onClickEditTitleHandler = () => {

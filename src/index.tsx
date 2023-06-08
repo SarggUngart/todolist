@@ -10,16 +10,13 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <>
-      {/*<App/>*/}
-      {/*<AppUseReducer/>*/}
-      <Provider store={store}>
-        <AppRedux/>
-      </Provider>
-
-    </>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <>
+    <Provider store={store}>
+      <AppRedux/>
+    </Provider>
+  </>
+  // </React.StrictMode>
 );
 
 
