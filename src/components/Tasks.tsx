@@ -2,10 +2,10 @@ import React from 'react';
 import {EditableTitle} from "./EditableTitle";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {IconButton, List, ListItem} from '@mui/material';
-import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../redusers/tasks-reduces";
+import {removeTaskTC, updateTaskTC} from "../redusers/tasks-reduces";
 import {TaskStatuses, TaskType} from '../api/todolist-api';
 import CheckBox from "./CheckBox";
+import {useAppDispatch} from "../store/store";
 
 
 export type TasksPropsType = {
@@ -14,27 +14,29 @@ export type TasksPropsType = {
 }
 
 export const Tasks: React.FC<TasksPropsType> = React.memo((props) => {
-  // console.log('tasks сomp')
+
   const {id, task} = props
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const changeStatusHandler = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked ? TaskStatuses.Complited : TaskStatuses.New, id))
-  }, [task.id, id])
+
+    let status = e.currentTarget.checked ? TaskStatuses.Complited : TaskStatuses.New
+    dispatch(updateTaskTC(id, task.id, {status}))
+  }, [id, task.id])
 
   const removeTaskHandler = () => {
-    dispatch(removeTaskAC(task.id, id))
+    dispatch(removeTaskTC(id, task.id))
   }
 
   const onClickChangeTaskTitle = React.useCallback((title: string) => {
-    dispatch(changeTaskTitleAC(task.id, title, id))
+    dispatch(updateTaskTC(id, task.id, {title}))
   }, [dispatch, task.id, id])
 
   const taskIsDoneStyle = task.status === TaskStatuses.Complited ? 'done' : ''
 
   return (
-    <List>
+    <List sx={{padding: '0', height: '35px'}}>
       <ListItem sx={{justifyContent: 'space-between'}} disablePadding key={task.id}>
 
         <CheckBox checked={task.status} callBack={changeStatusHandler}/>

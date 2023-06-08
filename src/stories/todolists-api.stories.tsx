@@ -1,5 +1,5 @@
 import React from 'react'
-import {todoListAPI} from "../api/todolist-api";
+import {todoListAPI, UpdateTaskModelType} from "../api/todolist-api";
 import axios from "axios";
 
 export default {
@@ -13,7 +13,7 @@ const settings = {
 export const GetTodolists = () => {
   const [state, setState] = React.useState<any>(null)
   React.useEffect(() => {
-    todoListAPI.getTodoLists()
+    todoListAPI.GetTodoLists()
       .then(res => setState(res.data))
 
   }, [])
@@ -78,14 +78,23 @@ export const DeleteTask = () => {
   return <div>{JSON.stringify(state)}</div>
 }
 
-export const UpdateTask =()=>{
-  const [state, setState] = React.useState<any>(null)
-  React.useEffect(() => {
-    todoListAPI.updateTask('4b772467-ed66-4a80-862d-5af25b2190aa', 'f692f0f3-012f-4db9-a60e-cce90acb123a', '123321')
-      .then(res => setState(res.data))
-  }, [])
-  return <div>{JSON.stringify(state)}</div>
-}
+// export const UpdateTask =()=>{
+//   const [state, setState] = React.useState<any>(null)
+//   React.useEffect(() => {
+//     const model: UpdateTaskModelType = {
+//       title: task.title,
+//       description: task.description,
+//       priority: task.priority,
+//       startDate: task.startDate,
+//       deadline: task.deadline,
+//       status
+//     }
+//
+//     todoListAPI.updateTask('4b772467-ed66-4a80-862d-5af25b2190aa', 'f692f0f3-012f-4db9-a60e-cce90acb123a', model)
+//       .then(res => setState(res.data))
+//   }, [])
+//   return <div>{JSON.stringify(state)}</div>
+// }
 
 export const ReordetTodolist = () => {
   const [state, setState] = React.useState<any>(null)

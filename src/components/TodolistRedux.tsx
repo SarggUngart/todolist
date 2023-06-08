@@ -3,7 +3,6 @@ import {ToDoListTitle} from "./ToDoListTitle";
 import {Tasks} from "./Tasks";
 import {InputBtn} from "./InputBtn";
 import {Btn} from "./Btn";
-import {useDispatch, useSelector} from "react-redux";
 import {
   ChangeToDoListFilterAC,
   ChangeToDoListTitleAC,
@@ -11,8 +10,8 @@ import {
   RemoveTodolistAC,
   TodolistDomainType
 } from "../redusers/todolists-reducer";
-import {addTaskAC} from "../redusers/tasks-reduces";
-import {AppRootStateType} from "../store/store";
+import {addTaskTC, getTasksTC} from "../redusers/tasks-reduces";
+import {useAppDispatch, useAppSelector} from "../store/store";
 import {TaskStatuses, TaskType} from "../api/todolist-api";
 
 
@@ -27,17 +26,20 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
     filter
   } = todoLists
 
-  const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
-  const dispatch = useDispatch()
-  // console.log('todolist comp')
+  const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
+  const dispatch = useAppDispatch()
+
+  React.useEffect(() => {
+    dispatch(getTasksTC(id))
+  }, [])
 
   const removeTodoListHandler = React.useCallback(() => {
     dispatch(RemoveTodolistAC(id))
   }, [id])
 
-  const addNewTaskHandler = React.useCallback((title: string) => {
-    dispatch(addTaskAC(title, id))
-  }, [title, id])
+  const onClickAddNewItemHandler = React.useCallback((title: string) => {
+    dispatch(addTaskTC(id, title))
+  }, [id, title])
 
 
   const onClickFilterTasksHandler = React.useCallback((id: string, filter: FilterType) => {
@@ -79,7 +81,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
                      removeTodoList={removeTodoListHandler}
                      changeTodoListTitle={onDblClickTodoListTitleHandler}/>
 
-      <InputBtn addNewItem={addNewTaskHandler}/>
+      <InputBtn addNewItem={onClickAddNewItemHandler}/>
 
       {getFilteredTasks(tasks, filter).map(t =>
         <Tasks key={t.id} task={t} id={id}/>

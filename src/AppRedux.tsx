@@ -2,35 +2,25 @@ import React from 'react';
 import './App.css';
 import {Container, createTheme, CssBaseline, Grid, Paper, ThemeProvider} from "@mui/material";
 import HeaderMUI from "./UI/HeaderMUI";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store/store";
+import {useAppDispatch, useAppSelector} from "./store/store";
 import {TodolistRedux} from "./components/TodolistRedux";
 import {InputBtn} from "./components/InputBtn";
-import {AddTodoListAC, TodolistDomainType} from "./redusers/todolists-reducer";
+import {AddTodoListAC, getTodoListsTC, TodolistDomainType} from "./redusers/todolists-reducer";
 import {TaskType} from "./api/todolist-api";
-
-// export type TodoListsType = {
-//   tListId: string
-//   title: string
-//   filter: FilterType
-// }
-
-// export type TaskType = {
-//   id: string
-//   title: string
-//   isDone: boolean
-// }
 
 export type TasksStateType = {
   [tdListId: string]: TaskType[]
 }
 
-
 function AppRedux(): JSX.Element {
 
-  const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
-  const dispatch = useDispatch()
+  const todoLists = useAppSelector<TodolistDomainType[]>(state => state.todoLists)
+  const dispatch = useAppDispatch()
   const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    dispatch(getTodoListsTC())
+  }, [])
 
   const theme = !isDarkMode ? 'light' : 'dark'
 
@@ -70,7 +60,7 @@ function AppRedux(): JSX.Element {
             {todoLists.map(tl => {
               return (
                 <Grid key={tl.id} item>
-                  <Paper elevation={8} sx={{p: '20px'}}>
+                  <Paper elevation={8} sx={{p: '20px', minWidth: '310px'}}>
                     <TodolistRedux todoLists={tl}/>
                   </Paper>
                 </Grid>

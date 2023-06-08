@@ -52,6 +52,7 @@ span {
 }
 
 .inputWrapper {
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     position: relative;
