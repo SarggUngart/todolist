@@ -109,9 +109,11 @@ export const getTodoListsTC = (() => (dispatch: Dispatch) => {
 })
 
 export const createTodoListTC = ((title: string) => (dispatch: Dispatch) => {
+  dispatch(setStatusAC('loading'))
   todoListAPI.CreateTodolist(title)
     .then((res) => {
       dispatch(AddTodoListAC(res.data.data.item))
+      dispatch(setStatusAC('succeeded'))
     })
 })
 

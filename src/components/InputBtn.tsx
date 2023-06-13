@@ -1,6 +1,7 @@
 import React from 'react';
 import {IconButton, TextField} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export type InputPropsType = {
   addNewItem: (inputTitle: string) => void
@@ -11,8 +12,7 @@ export const InputBtn: React.FC<InputPropsType> = React.memo((props) => {
 
   const [inputTitle, setInputTitle] = React.useState('')
   const [error, setError] = React.useState(false)
-
-
+  const inputRef = React.useRef<HTMLDivElement>(null);
 
   const onChangeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
@@ -39,13 +39,29 @@ export const InputBtn: React.FC<InputPropsType> = React.memo((props) => {
     }
   }
 
+  const onClickClear = () => {
+    if (inputRef.current) {
+      setInputTitle('')
+      inputRef.current.focus()
+    }
+  }
+
   const showError = error ? 'title is required' : '';
   const showLabel = error ? '' : 'enter a title'
 
   return (
     <div className={'inputWrapper'}>
+      {inputTitle &&
+        <ClearIcon sx={{transition: 'opacity 0.1s linear'}}
+          fontSize={'small'}
+          color={'secondary'}
+          className={'clearInputIcon'}
+          onClick={onClickClear}/>
+      }
 
       <TextField
+        inputRef={inputRef}
+        autoFocus
         variant={'outlined'}
         label={showLabel || showError}
         value={inputTitle}

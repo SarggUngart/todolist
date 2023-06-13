@@ -54,8 +54,6 @@ li > span {
 }
 
 .inputWrapper {
-    height: 35px;
-    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     position: relative;
@@ -101,3 +99,20 @@ li > span {
     opacity: 0.5;
     text-decoration: line-through;
 }
+
+.clearInputIcon {
+    display: flex;
+    position: absolute;
+    right: 16%;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.6;
+    transition: opacity 0.2s linear;
+}
+
+.clearInputIcon:hover{
+    opacity: 1;
+}
+

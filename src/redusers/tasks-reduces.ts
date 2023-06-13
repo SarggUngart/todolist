@@ -137,8 +137,12 @@ export const removeTaskTC = ((todoListId: string, taskId: string) => (dispatch: 
 })
 
 export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispatch) => {
+  dispatch(setStatusAC('loading'))
   todoListAPI.CreateTask(todoListId, title)
-    .then((res) => dispatch(addTaskAC(res.data.data.item)))
+    .then((res) => {
+      dispatch(addTaskAC(res.data.data.item))
+      dispatch(setStatusAC('succeeded'))
+    } )
 }
 
 interface FLexTaskType {

@@ -7,7 +7,6 @@ import {TaskStatuses, TaskType} from '../api/todolist-api';
 import CheckBox from "./CheckBox";
 import {useAppDispatch} from "../store/store";
 
-
 export type TasksPropsType = {
   id: string
   task: TaskType

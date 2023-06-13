@@ -2,6 +2,7 @@ import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import {IconButton, TextField} from "@mui/material";
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 type EditableTitlePropsType = {
@@ -35,7 +36,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [ title, newTitle]);
+  }, [title, newTitle]);
 
 
   const onClickEditTitleHandler = () => {
@@ -57,7 +58,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
     }
   }
 
-  const setToNewTitle =() => {
+  const setToNewTitle = () => {
     const trimmedTitle = newTitle.trim()
     if (!trimmedTitle) {
       setError(true)
@@ -68,12 +69,15 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
     }
   }
 
+
+
   return (
     <>
       {
         isEdit
           ?
           <div className={'titleWrapper'} ref={inputRef}>
+
             <TextField
               value={newTitle}
               onChange={OnChangeEditTitleHandler}
