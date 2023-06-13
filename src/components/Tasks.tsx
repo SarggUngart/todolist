@@ -1,7 +1,9 @@
 import React from 'react';
 import {EditableTitle} from "./EditableTitle";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {IconButton, List, ListItem} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import {removeTaskTC, updateTaskTC} from "../redusers/tasks-reduces";
 import {TaskStatuses, TaskType} from '../api/todolist-api';
 import CheckBox from "./CheckBox";

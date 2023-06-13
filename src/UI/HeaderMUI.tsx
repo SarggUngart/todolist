@@ -1,20 +1,27 @@
 import React from 'react';
-import {AppBar, Button, FormControlLabel, FormGroup, IconButton, Toolbar, Typography} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+// import {MenuIcon} from "@mui/material/MenuIcon";
 import {MaterialUISwitch} from "./ModeSwitcher";
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import {RequestStatusType} from "../redusers/app-reduser";
+import {RequestStatusType, setColorModeAC} from "../redusers/app-reduser";
+import {useAppDispatch} from "../store/store";
 
 type HeaderMUIType = {
   isDarkMode: boolean
-  setIsDarkMode: (isDarkMode: boolean) => void
   status: RequestStatusType
 }
 
 export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
-  const {isDarkMode, status, setIsDarkMode} = props
-  console.log(status)
+  const {status, isDarkMode} = props
+  const dispatch = useAppDispatch()
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -25,7 +32,7 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
           aria-label="menu"
           sx={{mr: 2}}
         >
-          <MenuIcon/>
+          {/*<MenuIcon/>*/}
         </IconButton>
 
         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
@@ -36,7 +43,7 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
           <FormControlLabel
             control={
               <MaterialUISwitch sx={{m: 1}}
-                                onChange={(e) => setIsDarkMode(e.currentTarget.checked)}
+                                onChange={(e) => dispatch(setColorModeAC(e.currentTarget.checked))}
               />}
             label={isDarkMode ? 'Dark' : 'Light'}
           />
@@ -48,7 +55,7 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
       {status === 'loading'
         &&
         <Box sx={{width: '100%', position: 'absolute', top: '60px'}}>
-          <LinearProgress/>
+          <LinearProgress color={'secondary'}/>
         </Box>
       }
     </AppBar>

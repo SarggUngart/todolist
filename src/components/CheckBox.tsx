@@ -1,5 +1,5 @@
 import React from 'react';
-import {Checkbox} from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 import {TaskStatuses} from "../api/todolist-api";
 
 type CheckBoxPropsType = {

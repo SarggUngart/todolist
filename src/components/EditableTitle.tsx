@@ -1,8 +1,8 @@
 import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
-import {IconButton, TextField} from "@mui/material";
-import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
 
 
 type EditableTitlePropsType = {
@@ -70,7 +70,6 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
   }
 
 
-
   return (
     <>
       {
@@ -79,6 +78,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
           <div className={'titleWrapper'} ref={inputRef}>
 
             <TextField
+              sx={{width:'175px'}}
               value={newTitle}
               onChange={OnChangeEditTitleHandler}
               onKeyDown={onKeyPressTitleHandler}

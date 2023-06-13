@@ -1,5 +1,6 @@
 import React from 'react';
-import {IconButton, TextField} from "@mui/material";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ClearIcon from '@mui/icons-material/Clear';
 
@@ -60,6 +61,7 @@ export const InputBtn: React.FC<InputPropsType> = React.memo((props) => {
       }
 
       <TextField
+        sx={{width:'230px'}}
         inputRef={inputRef}
         autoFocus
         variant={'outlined'}

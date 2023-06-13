@@ -1,7 +1,8 @@
 import React from 'react';
 import {EditableTitle} from "./EditableTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {IconButton, Typography} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
 type TaskTitlePropsType = {
   title: string
@@ -9,10 +10,8 @@ type TaskTitlePropsType = {
   changeTodoListTitle: (newTitle: string) => void
 }
 
-
 export const ToDoListTitle: React.FC<TaskTitlePropsType> = (props: TaskTitlePropsType) => {
   const {title, removeTodoList, changeTodoListTitle} = props
-
 
 
   return (
@@ -23,13 +22,11 @@ export const ToDoListTitle: React.FC<TaskTitlePropsType> = (props: TaskTitleProp
       }}>
         <EditableTitle title={title} callBack={changeTodoListTitle}/>
       </Typography>
-
       <IconButton
         size={'small'}
         onClick={removeTodoList}>
         <DeleteIcon color={'primary'}/>
       </IconButton>
-
     </div>
   );
 };

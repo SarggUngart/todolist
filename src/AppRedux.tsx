@@ -1,22 +1,28 @@
 import React from 'react';
 import './App.css';
-import {Container, createTheme, CssBaseline, Grid, Paper, ThemeProvider} from "@mui/material";
+import Container from "@mui/material/Container";
+import {createTheme, ThemeProvider} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import HeaderMUI from "./UI/HeaderMUI";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import {TodolistRedux} from "./components/TodolistRedux";
 import {InputBtn} from "./components/InputBtn";
-import {createTodoListTC, getTodoListsTC} from "./redusers/todolists-reducer";
+import {createTodoListTC, getTodoListsTC, TodolistDomainType} from "./redusers/todolists-reducer";
 import {TaskType} from "./api/todolist-api";
+import {RequestStatusType} from "./redusers/app-reduser";
+import {ErrorSnackbar} from "./UI/ErrorSnackBar";
 
 export type TasksStateType = {
   [tdListId: string]: TaskType[]
 }
 
 function AppRedux(): JSX.Element {
-  const status = useAppSelector(state => state.app.status)
-  const todoLists = useAppSelector(state => state.todoLists)
+  const status = useAppSelector<RequestStatusType>(state => state.app.status)
+  const todoLists = useAppSelector<TodolistDomainType[]>(state => state.todoLists)
+  const isDarkMode = useAppSelector<boolean>(state => state.app.isDarkMode)
   const dispatch = useAppDispatch()
-  const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     dispatch(getTodoListsTC())
@@ -43,35 +49,36 @@ function AppRedux(): JSX.Element {
   });
 
 
-  return (
-    <ThemeProvider theme={customTheme}>
-      <CssBaseline/>
-      <div className="App">
-        <HeaderMUI
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
-          status={status}
-        />
+  return (<>
+      <ThemeProvider theme={customTheme}>
+        <CssBaseline/>
+        <div className="App">
+          <ErrorSnackbar/>
+          <HeaderMUI
+            isDarkMode={isDarkMode}
+            status={status}
+          />
 
-        <Container>
-          <Grid container sx={{padding: '20px 0 50px 0'}}>
-            <InputBtn addNewItem={addNewTodoList}/>
-          </Grid>
+          <Container sx={{height: '100vh'}}>
+            <Grid container sx={{padding: '20px 0 50px 0'}}>
+              <InputBtn addNewItem={addNewTodoList}/>
+            </Grid>
+            <Grid container spacing={8}>
+              {todoLists.map(tl => {
+                return (
+                  <Grid key={tl.id} item>
+                    <Paper elevation={8} sx={{p: '20px', minWidth: '310px'}}>
+                      <TodolistRedux todoLists={tl}/>
+                    </Paper>
+                  </Grid>
+                )
+              })}
+            </Grid>
+          </Container>
+        </div>
+      </ThemeProvider>
 
-          <Grid container spacing={8}>
-            {todoLists.map(tl => {
-              return (
-                <Grid key={tl.id} item>
-                  <Paper elevation={8} sx={{p: '20px', minWidth: '310px'}}>
-                    <TodolistRedux todoLists={tl}/>
-                  </Paper>
-                </Grid>
-              )
-            })}
-          </Grid>
-        </Container>
-      </div>
-    </ThemeProvider>
+    </>
 
 
   );
