@@ -5,7 +5,7 @@ import HeaderMUI from "./UI/HeaderMUI";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import {TodolistRedux} from "./components/TodolistRedux";
 import {InputBtn} from "./components/InputBtn";
-import {createTodoListTC, getTodoListsTC, TodolistDomainType} from "./redusers/todolists-reducer";
+import {createTodoListTC, getTodoListsTC} from "./redusers/todolists-reducer";
 import {TaskType} from "./api/todolist-api";
 
 export type TasksStateType = {
@@ -13,7 +13,7 @@ export type TasksStateType = {
 }
 
 function AppRedux(): JSX.Element {
-
+  const status = useAppSelector(state => state.app.status)
   const todoLists = useAppSelector(state => state.todoLists)
   const dispatch = useAppDispatch()
   const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
@@ -49,7 +49,9 @@ function AppRedux(): JSX.Element {
       <div className="App">
         <HeaderMUI
           isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}/>
+          setIsDarkMode={setIsDarkMode}
+          status={status}
+        />
 
         <Container>
           <Grid container sx={{padding: '20px 0 50px 0'}}>

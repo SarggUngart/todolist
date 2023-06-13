@@ -14,7 +14,6 @@ import {addTaskTC, getTasksTC} from "../redusers/tasks-reduces";
 import {useAppDispatch, useAppSelector} from "../store/store";
 import {TaskStatuses, TaskType} from "../api/todolist-api";
 
-
 type TodolistPropsType = {
   todoLists: TodolistDomainType
 }

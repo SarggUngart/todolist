@@ -36,7 +36,7 @@ export const todoListAPI = {
 export type TodoListApiType = {
   "id": string
   "title": string
-  "addedDate"?: Date
+  "addedDate"?: Date | string
   "order"?: number
 }
 
@@ -63,13 +63,13 @@ export enum TaskPriority {
 }
 
 export type TaskType = {
-  addedDate: Date
-  deadline: Date
+  addedDate: Date | string
+  deadline: Date | string
   description: string
   id: string
   order: number
   priority: TaskPriority
-  startDate: Date
+  startDate: Date | string
   status: TaskStatuses
   title: string
   todoListId: string
@@ -87,6 +87,6 @@ export type UpdateTaskModelType = {
   description: string
   status: TaskStatuses
   priority: TaskPriority
-  startDate: Date
-  deadline: Date
+  startDate: Date | string
+  deadline: Date | string
 }

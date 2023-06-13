@@ -2,15 +2,19 @@ import React from 'react';
 import {AppBar, Button, FormControlLabel, FormGroup, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import {MaterialUISwitch} from "./ModeSwitcher";
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
+import {RequestStatusType} from "../redusers/app-reduser";
 
 type HeaderMUIType = {
   isDarkMode: boolean
   setIsDarkMode: (isDarkMode: boolean) => void
+  status: RequestStatusType
 }
 
 export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
-  const {isDarkMode, setIsDarkMode} = props
-
+  const {isDarkMode, status, setIsDarkMode} = props
+  console.log(status)
   return (
     <AppBar position="static">
       <Toolbar>
@@ -39,7 +43,14 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
         </FormGroup>
 
         <Button color="inherit">Login</Button>
+
       </Toolbar>
+      {status === 'loading'
+        &&
+        <Box sx={{width: '100%', position: 'absolute', top: '60px'}}>
+          <LinearProgress/>
+        </Box>
+      }
     </AppBar>
   );
 };

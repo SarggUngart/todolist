@@ -1,5 +1,6 @@
 import {todoListAPI, TodoListApiType} from "../api/todolist-api";
 import {Dispatch} from "redux";
+import {setStatusAC} from "./app-reduser";
 
 export type RemoveTodoListAT = ReturnType<typeof RemoveTodolistAC>
 
@@ -9,7 +10,7 @@ export type ChangeToDoListTitleAT = ReturnType<typeof ChangeToDoListTitleAC>
 
 export type ChangeToDoListFilterAT = ReturnType<typeof ChangeToDoListFilterAC>
 
-export type SetTodoListsAT = ReturnType<typeof setTodolistsAC>
+export type SetTodoListsAT = ReturnType<typeof setTodoListsAC>
 
 export type RootTodoListAT =
   | RemoveTodoListAT
@@ -30,6 +31,7 @@ export const todolistReducer = (state = initialState, action: RootTodoListAT): T
   switch (action.type) {
     case "REMOVE-TODOLIST":
       return state.filter(tl => tl.id !== action.payload.todoListId)
+
     case "ADD-TODOLIST":
       return [{...action.payload.todolist, filter: 'All'}, ...state]
 
@@ -90,7 +92,7 @@ export const ChangeToDoListFilterAC = (todolistId: string, filter: FilterType) =
   } as const
 }
 
-export const setTodolistsAC = (todoLists: TodoListApiType []) => {
+export const setTodoListsAC = (todoLists: TodoListApiType []) => {
   return {
     type: 'SET-TODOLISTS',
     todoLists
@@ -98,13 +100,19 @@ export const setTodolistsAC = (todoLists: TodoListApiType []) => {
 }
 
 export const getTodoListsTC = (() => (dispatch: Dispatch) => {
+  dispatch(setStatusAC('loading'))
   todoListAPI.GetTodoLists()
-    .then(res => dispatch(setTodolistsAC(res.data)))
+    .then(res => {
+      dispatch(setTodoListsAC(res.data))
+      dispatch(setStatusAC('succeeded'))
+    })
 })
 
 export const createTodoListTC = ((title: string) => (dispatch: Dispatch) => {
   todoListAPI.CreateTodolist(title)
-    .then((res) => dispatch(AddTodoListAC(res.data.data.item)))
+    .then((res) => {
+      dispatch(AddTodoListAC(res.data.data.item))
+    })
 })
 
 export const removeTodoListTC = ((todoListId: string) => (dispatch: Dispatch) => {
