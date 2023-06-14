@@ -32,6 +32,11 @@ export const SetLoadingStatusAC = (status: RequestStatusType) => ({type: 'APP/SE
 export const SetErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
 export const SetColorModeAC = (isDarkMode: boolean) => ({type: 'APP/SET-COLOR-MODE', isDarkMode} as const)
 
+export type SetLoadingStatusType = ReturnType<typeof SetLoadingStatusAC>
+export type SetErrorType = ReturnType<typeof SetErrorAC>
+export type SetSetColorModeType = ReturnType<typeof SetColorModeAC>
+
+
 type AppActionsType =
   | ReturnType<typeof SetLoadingStatusAC>
   | ReturnType<typeof SetErrorAC>

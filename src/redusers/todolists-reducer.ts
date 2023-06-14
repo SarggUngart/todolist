@@ -1,6 +1,8 @@
 import {todoListAPI, TodoListApiType} from "../api/todolist-api";
 import {Dispatch} from "redux";
-import {RequestStatusType, SetLoadingStatusAC} from "./app-reduser";
+import {RequestStatusType, SetErrorType, SetLoadingStatusAC, SetLoadingStatusType} from "./app-reduser";
+import {ResultCode} from "./tasks-reduces";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error.utils";
 
 export type RemoveTodoListAT = ReturnType<typeof RemoveTodolistAC>
 export type AddTodoListAT = ReturnType<typeof AddTodoListAC>
@@ -17,6 +19,8 @@ export type RootTodoListAT =
   | ChangeToDoListFilterAT
   | SetTodoListsAT
   | ChangeTodoListStatusByIdAT
+  | SetLoadingStatusType
+  | SetErrorType
 
 export type FilterType = 'All' | 'Active' | 'Completed'
 
@@ -121,16 +125,23 @@ export const getTodoListsTC = (() => (dispatch: Dispatch) => {
     })
 })
 
-export const createTodoListTC = ((title: string) => (dispatch: Dispatch) => {
+export const createTodoListTC = ((title: string) => (dispatch: Dispatch<RootTodoListAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.CreateTodolist(title)
     .then((res) => {
-      dispatch(AddTodoListAC(res.data.data.item))
-      dispatch(SetLoadingStatusAC('succeeded'))
+      if (res.data.resultCode === ResultCode.SUCCESS) {
+        dispatch(AddTodoListAC(res.data.data.item))
+        dispatch(SetLoadingStatusAC('succeeded'))
+      } else {
+        handleServerAppError<{ item: TodoListApiType }>(dispatch, res.data)
+      }
+    })
+    .catch((e) => {
+      handleServerNetworkError(dispatch, e)
     })
 })
 
-export const removeTodoListTC = ((todoListId: string) => (dispatch: Dispatch) => {
+export const removeTodoListTC = ((todoListId: string) => (dispatch: Dispatch<RootTodoListAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   dispatch(ChangeTodoListStatusByIdAC(todoListId, 'loading'))
   todoListAPI.DeleteTodolist(todoListId)
@@ -138,12 +149,12 @@ export const removeTodoListTC = ((todoListId: string) => (dispatch: Dispatch) =>
       dispatch(RemoveTodolistAC(todoListId))
       dispatch(SetLoadingStatusAC('succeeded'))
     })
-    .catch(()=>{
+    .catch(() => {
       dispatch(ChangeTodoListStatusByIdAC(todoListId, 'idle'))
     })
 })
 
-export const updateTodoListTitleTC = ((todoListId: string, title: string) => (dispatch: Dispatch) => {
+export const updateTodoListTitleTC = ((todoListId: string, title: string) => (dispatch: Dispatch<RootTodoListAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.UpdateTodolist(todoListId, title)
     .then(() => {

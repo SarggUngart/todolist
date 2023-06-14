@@ -3,7 +3,8 @@ import {TasksStateType} from "../AppRedux";
 import {TaskPriority, TaskStatuses, TaskType, todoListAPI, UpdateTaskModelType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../store/store";
-import {SetErrorAC, SetLoadingStatusAC} from "./app-reduser";
+import {SetErrorAC, SetErrorType, SetLoadingStatusAC, SetLoadingStatusType} from "./app-reduser";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error.utils";
 
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 export type AddTaskACType = ReturnType<typeof addTaskAC>
@@ -20,6 +21,8 @@ export type RootTasksAT =
   | RemoveTodoListAT
   | SetTodoListsAT
   | SetTasksACType
+  | SetLoadingStatusType
+  | SetErrorType
 
 const initialState: TasksStateType = {}
 
@@ -121,7 +124,7 @@ export const setTasksAC = (todoListId: string, tasks: TaskType[]) => ({
   tasks
 } as const)
 
-export const getTasksTC = ((todoListId: string) => (dispatch: Dispatch) => {
+export const getTasksTC = ((todoListId: string) => (dispatch: Dispatch<RootTasksAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.GetTasks(todoListId)
     .then(res => {
@@ -131,7 +134,7 @@ export const getTasksTC = ((todoListId: string) => (dispatch: Dispatch) => {
     )
 })
 
-export const removeTaskTC = ((todoListId: string, taskId: string) => (dispatch: Dispatch) => {
+export const removeTaskTC = ((todoListId: string, taskId: string) => (dispatch: Dispatch<RootTasksAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.DeleteTask(todoListId, taskId)
     .then(() => {
@@ -141,13 +144,13 @@ export const removeTaskTC = ((todoListId: string, taskId: string) => (dispatch: 
     )
 })
 
-enum ResultCode {
+export enum ResultCode {
   SUCCESS = 0,
   ERROR = 1,
   ERROR_CAPTCHA = 10
 }
 
-export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispatch) => {
+export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispatch<RootTasksAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.CreateTask(todoListId, title)
     .then((res) => {
@@ -164,8 +167,7 @@ export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispa
         }
       }
     ).catch((e) => {
-    dispatch(SetErrorAC(e.message))
-    dispatch(SetLoadingStatusAC('failed'))
+    handleServerNetworkError(dispatch, e)
   })
 }
 
@@ -178,7 +180,8 @@ interface FLexTaskType {
   status?: TaskStatuses
 }
 
-export const updateTaskTC = (todoListId: string, taskId: string, data: FLexTaskType) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+
+export const updateTaskTC = (todoListId: string, taskId: string, data: FLexTaskType) => (dispatch: Dispatch<RootTasksAT>, getState: () => AppRootStateType) => {
 
   const task = getState().tasks[todoListId].find(t => t.id === taskId)
 
@@ -194,7 +197,16 @@ export const updateTaskTC = (todoListId: string, taskId: string, data: FLexTaskT
     }
     dispatch(SetLoadingStatusAC('loading'))
     todoListAPI.UpdateTask(todoListId, taskId, model)
-      .then(() => dispatch(changeTaskAC(todoListId, taskId, model)))
-    dispatch(SetLoadingStatusAC('succeeded'))
+      .then((res) => {
+        if (res.data.resultCode === ResultCode.SUCCESS) {
+          dispatch(changeTaskAC(todoListId, taskId, model))
+          dispatch(SetLoadingStatusAC('succeeded'))
+        } else {
+          handleServerAppError<{item: TaskType}>(dispatch, res.data)
+        }
+      })
+      .catch((e) => {
+        handleServerNetworkError(dispatch, e)
+      })
   }
 }
