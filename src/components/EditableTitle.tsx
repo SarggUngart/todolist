@@ -3,16 +3,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
+import {RequestStatusType} from "../redusers/app-reduser";
 
 
 type EditableTitlePropsType = {
   title: string
   titleClass?: string
+  entityStatus?:RequestStatusType
   callBack: (newTitle: string) => void
 }
 
 export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props) => {
-  const {title, titleClass, callBack} = props
+  const {title, titleClass, callBack, entityStatus} = props
   const [isEdit, setIsEdit] = React.useState<boolean>(false)
   const [newTitle, setNewTitle] = React.useState<string>(title)
   const [error, setError] = React.useState<boolean>(false)
@@ -78,7 +80,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
           <div className={'titleWrapper'} ref={inputRef}>
 
             <TextField
-              sx={{width:'175px'}}
+              sx={{width: '175px'}}
               value={newTitle}
               onChange={OnChangeEditTitleHandler}
               onKeyDown={onKeyPressTitleHandler}
@@ -89,10 +91,12 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
             />
 
             <IconButton
+              disabled={entityStatus === 'loading'}
+              color={'primary'}
               sx={{marginLeft: 'auto'}}
               size={'small'}
               onClick={setToNewTitle}>
-              <DoneIcon color={'primary'}/>
+              <DoneIcon />
             </IconButton>
           </div>
 
@@ -104,10 +108,12 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
             >{newTitle}
                </span>
             <IconButton
+              disabled={entityStatus === 'loading'}
               sx={{marginLeft: 'auto'}}
+              color={'primary'}
               size={'small'}
               onClick={onClickEditTitleHandler}>
-              <EditIcon color={'primary'}/>
+              <EditIcon/>
             </IconButton>
           </>
       }

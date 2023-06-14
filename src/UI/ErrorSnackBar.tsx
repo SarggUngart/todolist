@@ -2,7 +2,7 @@ import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useAppDispatch, useAppSelector} from "../store/store";
-import {setErrorAC} from "../redusers/app-reduser";
+import {SetErrorAC} from "../redusers/app-reduser";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -19,14 +19,14 @@ export const ErrorSnackbar = () => {
     if (reason === 'clickaway') {
       return;
     }
-    dispatch(setErrorAC(null))
+    dispatch(SetErrorAC(null))
   };
 
   return (
     <Snackbar open={!!error} autoHideDuration={5000} onClose={handleClose}
               anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}>
       <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-        the title cannot exceed 100 characters
+        {error}
       </Alert>
     </Snackbar>
   );

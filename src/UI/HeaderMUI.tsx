@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import {MaterialUISwitch} from "./ModeSwitcher";
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import {RequestStatusType, setColorModeAC} from "../redusers/app-reduser";
+import {RequestStatusType, SetColorModeAC} from "../redusers/app-reduser";
 import {useAppDispatch} from "../store/store";
 
 type HeaderMUIType = {
@@ -43,7 +43,7 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
           <FormControlLabel
             control={
               <MaterialUISwitch sx={{m: 1}}
-                                onChange={(e) => dispatch(setColorModeAC(e.currentTarget.checked))}
+                                onChange={(e) => dispatch(SetColorModeAC(e.currentTarget.checked))}
               />}
             label={isDarkMode ? 'Dark' : 'Light'}
           />

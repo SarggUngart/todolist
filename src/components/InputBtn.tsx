@@ -1,15 +1,17 @@
 import React from 'react';
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ClearIcon from '@mui/icons-material/Clear';
+import styled from 'styled-components';
 
 export type InputPropsType = {
   addNewItem: (inputTitle: string) => void
+  disabled?: boolean
 }
 
 export const InputBtn: React.FC<InputPropsType> = React.memo((props) => {
-  const {addNewItem} = props
+  const {addNewItem, disabled} = props
 
   const [inputTitle, setInputTitle] = React.useState('')
   const [error, setError] = React.useState(false)
@@ -54,14 +56,14 @@ export const InputBtn: React.FC<InputPropsType> = React.memo((props) => {
     <div className={'inputWrapper'}>
       {inputTitle &&
         <ClearIcon sx={{transition: 'opacity 0.1s linear'}}
-          fontSize={'small'}
-          color={'secondary'}
-          className={'clearInputIcon'}
-          onClick={onClickClear}/>
+                   fontSize={'small'}
+                   color={'secondary'}
+                   className={'clearInputIcon'}
+                   onClick={onClickClear}/>
       }
 
-      <TextField
-        sx={{width:'230px'}}
+      <Input><TextField
+        sx={{width: '230px'}}
         inputRef={inputRef}
         autoFocus
         variant={'outlined'}
@@ -72,14 +74,24 @@ export const InputBtn: React.FC<InputPropsType> = React.memo((props) => {
         onBlur={() => setError(false)}
         error={error}
         size={'small'}
-      />
+        disabled={disabled}
+      /></Input>
 
 
-      <IconButton
-        size={'small'}
-        onClick={onClickBtnHandler}>
-        <AddCircleIcon color={'secondary'}/>
+      <IconButton color={'secondary'}
+                  disabled={disabled}
+                  size={'small'}
+                  onClick={onClickBtnHandler}>
+        <AddCircleIcon/>
       </IconButton>
     </div>
   );
 })
+
+const Input = styled.div`
+  .MuiInputBase-input, .MuiOutlinedInput-input, .MuiInputBase-inputSizeSmall, .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input {
+    padding-right: 28px
+  }
+`
+
+

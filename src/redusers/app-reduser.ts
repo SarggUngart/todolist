@@ -28,13 +28,13 @@ export type InitialStateType = {
   isDarkMode: boolean
 }
 
-export const setLoadingStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
-export const setErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
-export const setColorModeAC = (isDarkMode: boolean) => ({type: 'APP/SET-COLOR-MODE', isDarkMode} as const)
+export const SetLoadingStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
+export const SetErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
+export const SetColorModeAC = (isDarkMode: boolean) => ({type: 'APP/SET-COLOR-MODE', isDarkMode} as const)
 
 type AppActionsType =
-  | ReturnType<typeof setLoadingStatusAC>
-  | ReturnType<typeof setErrorAC>
-  | ReturnType<typeof setColorModeAC>
+  | ReturnType<typeof SetLoadingStatusAC>
+  | ReturnType<typeof SetErrorAC>
+  | ReturnType<typeof SetColorModeAC>
 
 

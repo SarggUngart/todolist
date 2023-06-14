@@ -22,7 +22,8 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
   const {
     id,
     title,
-    filter
+    filter,
+    entityStatus
   } = todoLists
 
   const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
@@ -66,9 +67,11 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
     <div>
       <ToDoListTitle title={title}
                      removeTodoList={removeTodoListHandler}
-                     changeTodoListTitle={changeTodoListTitleHandler}/>
+                     changeTodoListTitle={changeTodoListTitleHandler}
+                     entityStatus={entityStatus}
+      />
 
-      <InputBtn addNewItem={onClickAddNewItemHandler}/>
+      <InputBtn addNewItem={onClickAddNewItemHandler} disabled={entityStatus === 'loading'}/>
 
       {getFilteredTasks(tasks, filter).map(t =>
         <Tasks key={t.id} task={t} id={id}/>
