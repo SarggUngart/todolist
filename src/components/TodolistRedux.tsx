@@ -1,7 +1,7 @@
 import React from 'react';
 import {ToDoListTitle} from "./ToDoListTitle";
 import {Tasks} from "./Tasks";
-import {InputBtn} from "./InputBtn";
+import {InputWithBtn} from "./InputWithBtn";
 import {Btn} from "./Btn";
 import {
   ChangeToDoListFilterAC,
@@ -12,7 +12,7 @@ import {
 } from "../redusers/todolists-reducer";
 import {addTaskTC, getTasksTC} from "../redusers/tasks-reduces";
 import {useAppDispatch, useAppSelector} from "../store/store";
-import {TaskStatuses, TaskType} from "../api/todolist-api";
+import {TaskStatuses, TaskApiType} from "../api/todolist-api";
 
 type TodolistPropsType = {
   todoLists: TodolistDomainType
@@ -26,7 +26,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
     entityStatus
   } = todoLists
 
-  const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
+  const tasks = useAppSelector<TaskApiType[]>(state => state.tasks[id])
   const dispatch = useAppDispatch()
 
   React.useEffect(() => {
@@ -52,7 +52,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
   }, [])
 
 
-  const getFilteredTasks = (tasks: TaskType[], filter: FilterType): TaskType[] => {
+  const getFilteredTasks = (tasks: TaskApiType[], filter: FilterType): TaskApiType[] => {
     switch (filter) {
       case "Active":
         return tasks.filter(t => t.status === TaskStatuses.New);
@@ -71,7 +71,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
                      entityStatus={entityStatus}
       />
 
-      <InputBtn addNewItem={onClickAddNewItemHandler} disabled={entityStatus === 'loading'}/>
+      <InputWithBtn addNewItem={onClickAddNewItemHandler} disabled={entityStatus === 'loading'}/>
 
       {getFilteredTasks(tasks, filter).map(t =>
         <Tasks key={t.id} task={t} id={id}/>

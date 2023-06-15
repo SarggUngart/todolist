@@ -1,4 +1,4 @@
-import {SetErrorAC, SetErrorType, SetLoadingStatusAC, SetLoadingStatusType} from "../redusers/app-reduser";
+import {SetErrorAC, SetErrorACType, SetLoadingStatusAC, SetLoadingStatusACType} from "../redusers/app-reduser";
 import {Dispatch} from "redux";
 import {ResponseType} from "../api/todolist-api";
 
@@ -19,4 +19,4 @@ export const handleServerNetworkError = (dispatch: Dispatch<ErrorUtilsDispatchTy
 }
 
 
-type ErrorUtilsDispatchType = SetLoadingStatusType | SetErrorType
+type ErrorUtilsDispatchType = SetLoadingStatusACType | SetErrorACType

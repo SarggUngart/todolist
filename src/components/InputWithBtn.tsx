@@ -10,7 +10,7 @@ export type InputPropsType = {
   disabled?: boolean
 }
 
-export const InputBtn: React.FC<InputPropsType> = React.memo((props) => {
+export const InputWithBtn: React.FC<InputPropsType> = React.memo((props) => {
   const {addNewItem, disabled} = props
 
   const [inputTitle, setInputTitle] = React.useState('')

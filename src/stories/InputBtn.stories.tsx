@@ -1,14 +1,14 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {InputBtn} from "../components/InputBtn";
+import {InputWithBtn} from "../components/InputWithBtn";
 import {action} from '@storybook/addon-actions'
 import {IconButton, TextField} from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import React from "react";
 
 
-const meta: Meta<typeof InputBtn> = {
+const meta: Meta<typeof InputWithBtn> = {
   title: 'Todolist/InputBtn',
-  component: InputBtn,
+  component: InputWithBtn,
   tags: ['autodocs'],
   argTypes: {
     addNewItem: {
@@ -19,7 +19,7 @@ const meta: Meta<typeof InputBtn> = {
 };
 
 export default meta
-type Story = StoryObj<typeof InputBtn>;
+type Story = StoryObj<typeof InputWithBtn>;
 
 export const PrimaryInput: Story = {
   // More on args: https://storybook.js.org/docs/react/writing-stories/args

@@ -8,9 +8,9 @@ type CheckBoxPropsType = {
 }
 
 const CheckBox: React.FC<CheckBoxPropsType> = React.memo((props) => {
-    const {checked, callBack} = props
+    const {checked, callBack,} = props
 
-     return (
+    return (
       <Checkbox
         edge={'start'}
         checked={checked === TaskStatuses.Complited}

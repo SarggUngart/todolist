@@ -8,15 +8,13 @@ import Paper from "@mui/material/Paper";
 import HeaderMUI from "./UI/HeaderMUI";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import {TodolistRedux} from "./components/TodolistRedux";
-import {InputBtn} from "./components/InputBtn";
+import {InputWithBtn} from "./components/InputWithBtn";
 import {createTodoListTC, getTodoListsTC, TodolistDomainType} from "./redusers/todolists-reducer";
-import {TaskType} from "./api/todolist-api";
 import {RequestStatusType} from "./redusers/app-reduser";
 import {ErrorSnackbar} from "./UI/ErrorSnackBar";
+import {Login} from "./components/Login";
+import {Navigate, Route, Routes} from "react-router-dom";
 
-export type TasksStateType = {
-  [tdListId: string]: TaskType[]
-}
 
 function AppRedux(): JSX.Element {
   const status = useAppSelector<RequestStatusType>(state => state.app.status)
@@ -59,22 +57,28 @@ function AppRedux(): JSX.Element {
             status={status}
           />
 
-          <Container sx={{height: '100vh'}}>
-            <Grid container sx={{padding: '20px 0 50px 0'}}>
-              <InputBtn addNewItem={addNewTodoList}/>
-            </Grid>
-            <Grid container spacing={8}>
-              {todoLists.map(tl => {
-                return (
-                  <Grid key={tl.id} item>
-                    <Paper elevation={8} sx={{p: '20px', minWidth: '310px'}}>
-                      <TodolistRedux todoLists={tl}/>
-                    </Paper>
-                  </Grid>
-                )
-              })}
-            </Grid>
-          </Container>
+          <Routes>
+            <Route path={'/'} element={<Container sx={{height: '100vh'}}>
+              <Grid container sx={{padding: '20px 0 50px 0'}}>
+                <InputWithBtn addNewItem={addNewTodoList}/>
+              </Grid>
+              <Grid container spacing={8}>
+                {todoLists.map(tl => {
+                  return (
+                    <Grid key={tl.id} item>
+                      <Paper elevation={8} sx={{p: '20px', minWidth: '310px'}}>
+                        <TodolistRedux todoLists={tl}/>
+                      </Paper>
+                    </Grid>
+                  )
+                })}
+              </Grid>
+            </Container>}/>
+            <Route path={'/login'} element={<Login/>}/>
+            <Route path={'/404'} element={<h1>Page not found</h1>}/>
+            <Route path={'/*'} element={<Navigate to={'/404'}/>}/>
+          </Routes>
+
         </div>
       </ThemeProvider>
 
