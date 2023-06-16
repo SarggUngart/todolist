@@ -4,7 +4,7 @@ import {Dispatch} from "redux";
 import {AppRootStateType} from "../store/store";
 import {RequestStatusType, SetErrorACType, SetLoadingStatusAC, SetLoadingStatusACType} from "./app-reduser";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error.utils";
-import {TasksStateType} from "../components/Tasks";
+
 
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 export type AddTaskACType = ReturnType<typeof addTaskAC>
@@ -26,26 +26,41 @@ export type RootTasksAT =
   | SetErrorACType
   | ChangeTaskAPIStatusACType
 
-export type TasksDomainType = TasksStateType & {
-  entityStatus?: RequestStatusType
+export type TasksStateType = {
+  [tdListId: string]: TaskDomainType[]
 }
 
-const initialState: TasksDomainType = {}
+export type TaskDomainType = TaskApiType & {
+  entityStatus: RequestStatusType
+}
 
-export const tasksReducer = (state = initialState, action: RootTasksAT): TasksDomainType => {
+const initialState: TasksStateType = {}
+
+export const tasksReducer = (state = initialState, action: RootTasksAT): TasksStateType => {
   switch (action.type) {
+    case "SET-TASKS": {
+      return {
+        ...state,
+        [action.todoListId]: action.tasks
+          .map(t => ({...t, entityStatus: 'idle'}))
+      }
+    }
+    case 'ADD-TASK':
+      return {
+        ...state,
+        [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]
+          .map(t => ({
+            ...t,
+            entityStatus: 'idle'
+          }))
+      }
     case 'REMOVE-TASK':
       return {
         ...state, [action.todoListId]: state[action.todoListId]
           .filter(t => t.id !== action.taskId)
       }
-    case 'ADD-TASK':
-      return {
-        ...state,
-        [action.task.todoListId]: [action.task, ...state[action.task.todoListId]],
-      }
     case "CHANGE-TASK":
-      return <TasksDomainType>{
+      return {
         ...state,
         [action.todoListId]: state[action.todoListId]
           .map(t => t.id === action.taskId
@@ -67,17 +82,11 @@ export const tasksReducer = (state = initialState, action: RootTasksAT): TasksDo
       }
     }
     case 'REMOVE-TODOLIST': {
-      const copyState: TasksDomainType = {...state}
+      const copyState: TasksStateType = {...state}
       delete copyState[action.payload.todoListId]
       return copyState
       // const {[action.payload.todoListId]: [], ...rest} = state
       // return rest;
-    }
-    case "SET-TASKS": {
-      return {
-        ...state,
-        [action.todoListId]: action.tasks
-      }
     }
     case "SET-TODOLISTS": {
       const copyState = {...state}
@@ -87,7 +96,7 @@ export const tasksReducer = (state = initialState, action: RootTasksAT): TasksDo
       return copyState
     }
     case "CHANGE-TASK-API-STATUS": {
-      return <TasksDomainType>{
+      return {
         ...state,
         [action.todoListId]: state[action.todoListId]
           .map(t => t.id === action.tasksId
@@ -108,7 +117,7 @@ export const removeTaskAC = (todoListId: string, taskId: string) => {
   } as const
 }
 
-export const addTaskAC = (task: TaskApiType) => {
+export const addTaskAC = (task: TaskDomainType) => {
   return {
     type: 'ADD-TASK',
     task
@@ -133,7 +142,7 @@ export const changeTaskTitleAC = (todoListId: string, taskId: string, title: str
   } as const
 }
 
-export const setTasksAC = (todoListId: string, tasks: TaskApiType[]) => ({
+export const setTasksAC = (todoListId: string, tasks: TaskDomainType[]) => ({
   type: 'SET-TASKS',
   todoListId,
   tasks
@@ -223,11 +232,13 @@ export const updateTaskTC = (todoListId: string, taskId: string, data: FLexTaskT
       ...data
     }
     dispatch(SetLoadingStatusAC('loading'))
+    dispatch(changeTaskAPIStatusAC(todoListId, taskId, 'loading'))
     todoListAPI.UpdateTask(todoListId, taskId, model)
       .then((res) => {
         if (res.data.resultCode === ResultCode.SUCCESS) {
           dispatch(changeTaskAC(todoListId, taskId, model))
           dispatch(SetLoadingStatusAC('succeeded'))
+          dispatch(changeTaskAPIStatusAC(todoListId, taskId, 'succeeded'))
         } else {
           handleServerAppError<{ item: TaskApiType }>(dispatch, res.data)
         }

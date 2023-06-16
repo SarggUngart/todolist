@@ -22,6 +22,7 @@ export const appReducer = (state = initialState, action: AppActionsType): Initia
 }
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+
 export type InitialStateType = {
   status: RequestStatusType
   error: string | null
@@ -34,7 +35,7 @@ export const SetColorModeAC = (isDarkMode: boolean) => ({type: 'APP/SET-COLOR-MO
 
 export type SetLoadingStatusACType = ReturnType<typeof SetLoadingStatusAC>
 export type SetErrorACType = ReturnType<typeof SetErrorAC>
-export type SetSetColorModeType = ReturnType<typeof SetColorModeAC>
+type SetSetColorModeType = ReturnType<typeof SetColorModeAC>
 
 
 type AppActionsType =

@@ -9,12 +9,14 @@ import {RequestStatusType} from "../redusers/app-reduser";
 type EditableTitlePropsType = {
   title: string
   titleClass?: string
-  entityStatus?:RequestStatusType
+  entityStatus?: RequestStatusType
   callBack: (newTitle: string) => void
 }
 
 export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props) => {
+
   const {title, titleClass, callBack, entityStatus} = props
+
   const [isEdit, setIsEdit] = React.useState<boolean>(false)
   const [newTitle, setNewTitle] = React.useState<string>(title)
   const [error, setError] = React.useState<boolean>(false)
@@ -42,6 +44,9 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
 
 
   const onClickEditTitleHandler = () => {
+    if(entityStatus === 'loading'){
+      return
+    }
     setIsEdit(true)
     setError(false)
   }
@@ -81,6 +86,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
 
             <TextField
               sx={{width: '175px'}}
+              disabled={entityStatus === 'loading'}
               value={newTitle}
               onChange={OnChangeEditTitleHandler}
               onKeyDown={onKeyPressTitleHandler}
@@ -96,7 +102,7 @@ export const EditableTitle: React.FC<EditableTitlePropsType> = React.memo((props
               sx={{marginLeft: 'auto'}}
               size={'small'}
               onClick={setToNewTitle}>
-              <DoneIcon />
+              <DoneIcon/>
             </IconButton>
           </div>
 

@@ -1,4 +1,5 @@
 import axios, {AxiosResponse} from 'axios'
+import {RequestStatusType} from "../redusers/app-reduser";
 
 
 const instance = axios.create({
@@ -79,6 +80,7 @@ export type TaskApiType = {
   status: TaskStatuses
   title: string
   todoListId: string
+  entityStatus: RequestStatusType
 }
 
 export type ResponseType<T = {}> = {

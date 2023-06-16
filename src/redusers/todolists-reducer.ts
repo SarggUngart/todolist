@@ -115,6 +115,9 @@ export const ChangeTodoListStatusByIdAC = (todolistId: string, entityStatus: Req
   } as const
 }
 
+
+
+
 export const getTodoListsTC = (() => (dispatch: Dispatch) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.GetTodoLists()
@@ -127,7 +130,7 @@ export const getTodoListsTC = (() => (dispatch: Dispatch) => {
     })
 })
 
-export const createTodoListTC = ((title: string) => (dispatch: Dispatch<RootTodoListAT>) => {
+export const createTodoListTC = ((title: string, ) => (dispatch: Dispatch<RootTodoListAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.CreateTodolist(title)
     .then((res) => {

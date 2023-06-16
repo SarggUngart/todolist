@@ -10,9 +10,9 @@ import {
   TodolistDomainType,
   updateTodoListTitleTC
 } from "../redusers/todolists-reducer";
-import {addTaskTC, getTasksTC} from "../redusers/tasks-reduces";
+import {addTaskTC, getTasksTC, TaskDomainType} from "../redusers/tasks-reduces";
 import {useAppDispatch, useAppSelector} from "../store/store";
-import {TaskStatuses, TaskApiType} from "../api/todolist-api";
+import {TaskApiType, TaskStatuses} from "../api/todolist-api";
 
 type TodolistPropsType = {
   todoLists: TodolistDomainType
@@ -25,6 +25,8 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
     filter,
     entityStatus
   } = todoLists
+
+  console.log('todoLists', todoLists)
 
   const tasks = useAppSelector<TaskApiType[]>(state => state.tasks[id])
   const dispatch = useAppDispatch()
@@ -52,7 +54,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
   }, [])
 
 
-  const getFilteredTasks = (tasks: TaskApiType[], filter: FilterType): TaskApiType[] => {
+  const getFilteredTasks = (tasks: TaskDomainType[], filter: FilterType): TaskApiType[] => {
     switch (filter) {
       case "Active":
         return tasks.filter(t => t.status === TaskStatuses.New);

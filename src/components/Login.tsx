@@ -19,20 +19,13 @@ const validate = (values: any) => {
   const errors: FormikErrorType = {};
   if (!values.email) {
     errors.email = 'Required';
-  } else if (values.email.length > 15) {
-    errors.email = 'Must be 15 characters or less';
-  }
-
-  if (!values.password) {
-    errors.password = 'Required';
-  } else if (values.password.length > 20) {
-    errors.password = 'Must be 20 characters or less';
-  }
-
-  if (!values.email) {
-    errors.email = 'Required';
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address';
+  }
+  if (!values.password) {
+    errors.password = 'Required';
+  } else if (values.password.length < 4) {
+    errors.password = 'Must be 4 characters or more';
   }
   return errors;
 };
@@ -52,6 +45,8 @@ export const Login = () => {
     },
   });
 
+
+  console.log(formik.errors)
   return <Grid container justifyContent={'center'}>
     <Grid item justifyContent={'center'}>
       <form onSubmit={formik.handleSubmit}>
@@ -72,7 +67,10 @@ export const Login = () => {
               label="Email"
               value={formik.values.email}
               name="email"
-              margin="normal"/>
+              margin="normal"
+            />
+            {formik.errors.email && <div>{formik.errors.email}</div>}
+
             <TextField
               onChange={formik.handleChange}
               type="password"
@@ -81,6 +79,8 @@ export const Login = () => {
               name="password"
               margin="normal"
             />
+            {formik.errors.password && <div>{formik.errors.password}</div>}
+
             <FormControlLabel
               label={'Remember me'}
               control={<Checkbox

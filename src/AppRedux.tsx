@@ -46,7 +46,6 @@ function AppRedux(): JSX.Element {
     }
   });
 
-
   return (<>
       <ThemeProvider theme={customTheme}>
         <CssBaseline/>

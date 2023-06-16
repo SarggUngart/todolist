@@ -4,24 +4,22 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import {removeTaskTC, updateTaskTC} from "../redusers/tasks-reduces";
-import {TaskApiType, TaskStatuses} from '../api/todolist-api';
+import {removeTaskTC, TaskDomainType, updateTaskTC} from "../redusers/tasks-reduces";
+import {TaskStatuses} from '../api/todolist-api';
 import CheckBox from "./CheckBox";
 import {useAppDispatch} from "../store/store";
 
-export type TasksStateType = {
-  [tdListId: string]: TaskApiType[]
-}
-
 export type TasksPropsType = {
   id: string
-  task: TaskApiType
+  task: TaskDomainType
 }
 
 export const Tasks: React.FC<TasksPropsType> = React.memo((props) => {
 
   const {id, task} = props
 
+  // console.log('task', task.entityStatus)
+  // console.log('task', task)
 
   const dispatch = useAppDispatch()
 
@@ -45,18 +43,21 @@ export const Tasks: React.FC<TasksPropsType> = React.memo((props) => {
     <List sx={{padding: '0', height: '35px'}}>
       <ListItem sx={{justifyContent: 'space-between', marginTop: '10px'}} disablePadding key={task.id}>
 
-        <CheckBox checked={task.status} callBack={changeStatusHandler}/>
+        <CheckBox disabled={task.entityStatus === 'loading'} checked={task.status} callBack={changeStatusHandler}/>
 
         <EditableTitle
+          entityStatus={task.entityStatus}
           titleClass={taskIsDoneStyle}
           callBack={onClickChangeTaskTitle}
           title={task.title}/>
 
         <IconButton
+          disabled={task.entityStatus === 'loading'}
+          color={'primary'}
           edge={'end'}
           size={'small'}
           onClick={removeTaskHandler}>
-          <DeleteIcon color={'primary'}/>
+          <DeleteIcon/>
         </IconButton>
       </ListItem>
 
