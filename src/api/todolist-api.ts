@@ -15,6 +15,10 @@ export const authAPI = {
       userId: number
     }>>, LoginType>('auth/login', data);
   },
+  Logout(){
+    return instance.delete<ResponseType>('auth/login')
+  }
+  ,
   Me() {
     return instance.get<ResponseType<MeType>>('auth/me')
   }
@@ -30,7 +34,7 @@ export const todoListAPI = {
     }>>, { title: string }>('todo-lists', {title});
   },
   DeleteTodolist(id: string) {
-    return instance.delete<ResponseType>(`todo-lists/${id}`);
+    return instance.delete<ResponseType>(`todo-lists/${id  }`);
   },
   UpdateTodolist(id: string, title: string) {
     return instance.put<ResponseType, AxiosResponse<ResponseType>, { title: string }>(`todo-lists/${id}`, {title});

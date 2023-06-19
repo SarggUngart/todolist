@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import {RequestStatusType, SetColorModeAC} from "../redusers/app-reduser";
 import {useAppDispatch, useAppSelector} from "../store/store";
+import {LogoutTC} from "../redusers/auth-reducer";
 
 type HeaderMUIType = {
   isDarkMode: boolean
@@ -23,8 +24,15 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
   const status = useAppSelector<RequestStatusType>(state => state.app.status)
   let isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
+  const onClickLogoutHandler = () => {
+    dispatch(LogoutTC())
+  }
+
+
   return (
     <AppBar position="static">
+
+
       <Toolbar>
         <IconButton
           size="large"
@@ -39,17 +47,23 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
           TodoLists
         </Typography>
 
-        <FormGroup sx={{mr: 10}}>
+        <FormGroup sx={{
+          position: 'absolute',
+          right: '100px'
+        }}>
           <FormControlLabel
             control={
-              <MaterialUISwitch sx={{m: 1}}
-                                onChange={(e) => dispatch(SetColorModeAC(e.currentTarget.checked))}
+              <MaterialUISwitch
+                onChange={(e) => dispatch(SetColorModeAC(e.currentTarget.checked))}
               />}
             label={isDarkMode ? 'Dark' : 'Light'}
           />
         </FormGroup>
 
-        <Button color="inherit">{!isLoggedIn ? '' : 'Logout'}</Button>
+        {isLoggedIn
+          &&
+          <Button onClick={onClickLogoutHandler} color="inherit">{'Logout'}</Button>
+        }
 
       </Toolbar>
       {status === 'loading'
@@ -58,6 +72,7 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
           <LinearProgress color={'secondary'}/>
         </Box>
       }
+
     </AppBar>
   );
 };
