@@ -54,7 +54,8 @@ export const InputWithBtn: React.FC<InputPropsType> = React.memo((props) => {
 
   return (
     <div className={'inputWrapper'}>
-      {inputTitle &&
+      {inputTitle
+        &&
         <ClearIcon sx={{transition: 'opacity 0.1s linear'}}
                    fontSize={'small'}
                    color={'secondary'}
@@ -62,21 +63,22 @@ export const InputWithBtn: React.FC<InputPropsType> = React.memo((props) => {
                    onClick={onClickClear}/>
       }
 
-      <Input><TextField
-        sx={{width: '230px'}}
-        inputRef={inputRef}
-        autoFocus
-        variant={'outlined'}
-        label={showLabel || showError}
-        value={inputTitle}
-        onChange={onChangeInputHandler}
-        onKeyDown={onKeyPressInputHandler}
-        onBlur={() => setError(false)}
-        error={error}
-        size={'small'}
-        disabled={disabled}
-      /></Input>
-
+      <Input>
+        <TextField
+          sx={{width: '230px'}}
+          inputRef={inputRef}
+          autoFocus
+          variant={'outlined'}
+          label={showLabel || showError}
+          value={inputTitle}
+          onChange={onChangeInputHandler}
+          onKeyDown={onKeyPressInputHandler}
+          onBlur={() => setError(false)}
+          error={error}
+          size={'small'}
+          disabled={disabled}
+        />
+      </Input>
 
       <IconButton color={'secondary'}
                   disabled={disabled}

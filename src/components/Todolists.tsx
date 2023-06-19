@@ -18,7 +18,7 @@ type TodolistPropsType = {
   todoLists: TodolistDomainType
 }
 
-export const Todolists: React.FC<TodolistPropsType> = React.memo(({todoLists}) => {
+export const TodoLists: React.FC<TodolistPropsType> = React.memo(({todoLists}) => {
   const {
     id,
     title,

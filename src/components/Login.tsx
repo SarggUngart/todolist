@@ -25,8 +25,6 @@ export type LoginType = {
 };
 
 
-
-
 const validate = (values: any) => {
   const errors: FormikErrorType = {};
   if (!values.email) {
@@ -47,8 +45,6 @@ export const Login = () => {
 
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-
-  console.log(isLoggedIn)
 
   const formik = useFormik({
     initialValues: {

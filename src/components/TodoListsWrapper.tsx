@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import {Todolists} from "./Todolists";
+import {TodoLists} from "./Todolists";
 import {createTodoListTC, getTodoListsTC, TodolistDomainType} from "../redusers/todolists-reducer";
 import {useAppDispatch, useAppSelector} from "../store/store";
 import {InputWithBtn} from "./InputWithBtn";
@@ -23,7 +23,6 @@ export const TodoListsWrapper = () => {
     dispatch(createTodoListTC(title))
   }, [dispatch])
 
-
   if (!isLoggedIn) {
     return <Navigate to={'/login'}/>
   }
@@ -38,7 +37,7 @@ export const TodoListsWrapper = () => {
           return (
             <Grid key={tl.id} item>
               <Paper elevation={8} sx={{p: '20px', minWidth: '310px'}}>
-                <Todolists todoLists={tl}/>
+                <TodoLists todoLists={tl}/>
               </Paper>
             </Grid>
           )

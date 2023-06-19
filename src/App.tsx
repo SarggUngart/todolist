@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
-import {Container, createTheme, ThemeProvider} from "@mui/material";
+import { Container, createTheme, ThemeProvider} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import CircularProgress from "@mui/material//CircularProgress";
 import HeaderMUI from "./UI/HeaderMUI";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import {ErrorSnackbar} from "./UI/ErrorSnackBar";
@@ -15,6 +16,7 @@ import {MeTC} from "./redusers/auth-reducer";
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
   const isDarkMode = useAppSelector<boolean>(state => state.app.isDarkMode)
+  const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
   const theme = !isDarkMode ? 'light' : 'dark'
   const customTheme = createTheme({
     palette: {
@@ -34,6 +36,12 @@ function App(): JSX.Element {
     dispatch(MeTC())
   }, [])
 
+  if (!isInitialized) {
+    return <div
+      style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+      <CircularProgress/>
+    </div>
+  }
 
   return (<>
       <ThemeProvider theme={customTheme}>

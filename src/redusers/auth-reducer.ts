@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {SetErrorACType, SetLoadingStatusAC, SetLoadingStatusACType} from "./app-reduser";
+import {SetErrorACType, SetInitAC, SetLoadingStatusAC, SetLoadingStatusACType} from "./app-reduser";
 import {authAPI} from "../api/todolist-api";
 import {LoginType} from "../components/Login";
 import {ResultCode} from "./tasks-reduces";
@@ -50,9 +50,16 @@ export const MeTC = () => async (dispatch: Dispatch<ActionsType>) => {
     }
   } catch (e) {
     const err = (e as { message: string })
+    console.log(err)
     handleServerNetworkError(dispatch, err)
+  } finally {
+    dispatch(SetInitAC(true))
   }
 }
 
 
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetLoadingStatusACType | SetErrorACType
+type ActionsType =
+  ReturnType<typeof setIsLoggedInAC>
+  | SetLoadingStatusACType
+  | SetErrorACType
+  | ReturnType<typeof SetInitAC>
