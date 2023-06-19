@@ -42,9 +42,11 @@ const validate = (values: any) => {
 
 
 export const Login = () => {
+
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
+  console.log(isLoggedIn)
 
   const formik = useFormik({
     initialValues: {
@@ -61,14 +63,15 @@ export const Login = () => {
 
   const formValidErrorStyle = {color: "red", fontSize: "13px"};
 
-  if (!isLoggedIn){
+  console.log(isLoggedIn)
+
+  if (isLoggedIn === true) {
     return <Navigate to={'/'}/>
   }
 
-
   return (
     <Grid container justifyContent={"center"}>
-      <Grid item justifyContent={"center"}>
+      <Grid sx={{marginTop:'50px'}} item justifyContent={"center"}>
         <form onSubmit={formik.handleSubmit}>
           <FormControl>
             <FormLabel>

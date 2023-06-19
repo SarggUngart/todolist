@@ -11,7 +11,7 @@ import {MaterialUISwitch} from "./ModeSwitcher";
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import {RequestStatusType, SetColorModeAC} from "../redusers/app-reduser";
-import {useAppDispatch} from "../store/store";
+import {useAppDispatch, useAppSelector} from "../store/store";
 
 type HeaderMUIType = {
   isDarkMode: boolean
@@ -21,6 +21,7 @@ type HeaderMUIType = {
 export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
   const {status, isDarkMode} = props
   const dispatch = useAppDispatch()
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
   return (
     <AppBar position="static">
@@ -49,7 +50,7 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
           />
         </FormGroup>
 
-        <Button color="inherit">Login</Button>
+        <Button color="inherit">{isLoggedIn === false ? '' : 'Logout'}</Button>
 
       </Toolbar>
       {status === 'loading'

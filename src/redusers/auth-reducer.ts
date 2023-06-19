@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {SetLoadingStatusAC} from "./app-reduser";
+import {SetErrorACType, SetLoadingStatusAC, SetLoadingStatusACType} from "./app-reduser";
 import {authAPI} from "../api/todolist-api";
 import {LoginType} from "../components/Login";
 import {ResultCode} from "./tasks-reduces";
@@ -10,7 +10,7 @@ const initialState = {
 }
 type InitialStateType = typeof initialState
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const authReducer = (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
     case 'login/SET-IS-LOGGED-IN':
       return {...state, isLoggedIn: action.value}
@@ -19,9 +19,10 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
   }
 }
 
+
 export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
-export const LoginTC = (data: LoginType) => async (dispatch: Dispatch) => {
+export const LoginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsType>) => {
   dispatch(SetLoadingStatusAC('loading'))
   const res = await authAPI.Login(data)
   try {
@@ -37,4 +38,4 @@ export const LoginTC = (data: LoginType) => async (dispatch: Dispatch) => {
   }
 }
 
-type ActionsType = ReturnType<typeof setIsLoggedInAC>
+type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetLoadingStatusACType | SetErrorACType

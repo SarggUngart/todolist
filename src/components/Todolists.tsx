@@ -18,7 +18,7 @@ type TodolistPropsType = {
   todoLists: TodolistDomainType
 }
 
-export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists}) => {
+export const Todolists: React.FC<TodolistPropsType> = React.memo(({todoLists}) => {
   const {
     id,
     title,
@@ -28,6 +28,8 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
 
 
   const tasks = useAppSelector<TaskApiType[]>(state => state.tasks[id])
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+
   const dispatch = useAppDispatch()
 
   React.useEffect(() => {
@@ -63,6 +65,7 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
         return tasks
     }
   }
+
 
   return (
     <div>

@@ -13,7 +13,7 @@ export const authAPI = {
   Login(data: LoginType) {
     return instance.post<ResponseType<{ userId: number }>, AxiosResponse<ResponseType<{
       userId: number
-    }>>, LoginType>('auth/login', data)
+    }>>, LoginType>('auth/login', data);
   }
 }
 
