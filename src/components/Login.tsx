@@ -24,12 +24,17 @@ const validate = (values: any) => {
   }
   if (!values.password) {
     errors.password = 'Required';
-  } else if (values.password.length < 4) {
+  } else if (values.password.trim().length < 4) {
     errors.password = 'Must be 4 characters or more';
   }
   return errors;
 };
 
+export type LoginType = {
+  email: string,
+  password: string,
+  rememberMe: boolean
+}
 
 export const Login = () => {
 
@@ -42,11 +47,12 @@ export const Login = () => {
     validate,
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      formik.resetForm()
     },
   });
 
+  const formValidErrorStyle = {color: 'red', fontSize: '13px'}
 
-  console.log(formik.errors)
   return <Grid container justifyContent={'center'}>
     <Grid item justifyContent={'center'}>
       <form onSubmit={formik.handleSubmit}>
@@ -63,29 +69,29 @@ export const Login = () => {
           </FormLabel>
           <FormGroup>
             <TextField
-              onChange={formik.handleChange}
               label="Email"
-              value={formik.values.email}
-              name="email"
               margin="normal"
+              {...formik.getFieldProps('email')}
             />
-            {formik.errors.email && <div>{formik.errors.email}</div>}
+            {formik.touched.email && formik.errors.email &&
+              <div style={formValidErrorStyle}>{formik.errors.email}</div>}
 
             <TextField
-              onChange={formik.handleChange}
               type="password"
               label="Password"
-              value={formik.values.password}
-              name="password"
-              margin="normal"
+              margin='normal'
+              {...formik.getFieldProps('password')}
             />
-            {formik.errors.password && <div>{formik.errors.password}</div>}
+            {formik.touched.password && formik.errors.password &&
+              <div style={formValidErrorStyle}>{formik.errors.password}</div>}
 
             <FormControlLabel
               label={'Remember me'}
-              control={<Checkbox
-                onChange={formik.handleChange}
-                name="rememberMe"/>}
+              control={
+                <Checkbox
+                  checked={formik.values.rememberMe}
+                  {...formik.getFieldProps('rememberMe')}
+                />}
             />
             <Button type={'submit'} variant={'contained'} color={'primary'}>
               Login

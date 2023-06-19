@@ -232,13 +232,13 @@ export const updateTaskTC = (todoListId: string, taskId: string, data: FLexTaskT
       ...data
     }
     dispatch(SetLoadingStatusAC('loading'))
-    dispatch(changeTaskAPIStatusAC(todoListId, taskId, 'loading'))
+    // dispatch(changeTaskAPIStatusAC(todoListId, taskId, 'loading'))
     todoListAPI.UpdateTask(todoListId, taskId, model)
       .then((res) => {
         if (res.data.resultCode === ResultCode.SUCCESS) {
           dispatch(changeTaskAC(todoListId, taskId, model))
           dispatch(SetLoadingStatusAC('succeeded'))
-          dispatch(changeTaskAPIStatusAC(todoListId, taskId, 'succeeded'))
+          // dispatch(changeTaskAPIStatusAC(todoListId, taskId, 'succeeded'))
         } else {
           handleServerAppError<{ item: TaskApiType }>(dispatch, res.data)
         }

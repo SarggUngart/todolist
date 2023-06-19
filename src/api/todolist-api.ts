@@ -1,11 +1,21 @@
 import axios, {AxiosResponse} from 'axios'
 import {RequestStatusType} from "../redusers/app-reduser";
+import {LoginType} from "../components/Login";
 
 
 const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.1/',
   withCredentials: true,
 })
+
+
+export const authAPI = {
+  Login(data: LoginType) {
+    return instance.post<ResponseType<{ userId: number }>, AxiosResponse<ResponseType<{
+      userId: number
+    }>>, LoginType>('auth/login', data)
+  }
+}
 
 export const todoListAPI = {
   GetTodoLists() {
@@ -98,3 +108,4 @@ export type UpdateTaskModelType = {
   startDate: Date | string
   deadline: Date | string
 }
+

@@ -26,7 +26,6 @@ export const TodolistRedux: React.FC<TodolistPropsType> = React.memo(({todoLists
     entityStatus
   } = todoLists
 
-  console.log('todoLists', todoLists)
 
   const tasks = useAppSelector<TaskApiType[]>(state => state.tasks[id])
   const dispatch = useAppDispatch()

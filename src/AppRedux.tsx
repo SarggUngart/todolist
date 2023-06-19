@@ -74,7 +74,8 @@ function AppRedux(): JSX.Element {
               </Grid>
             </Container>}/>
             <Route path={'/login'} element={<Login/>}/>
-            <Route path={'/404'} element={<h1>Page not found</h1>}/>
+            <Route path={'/404'} element={<Grid container justifyContent={'center'}>
+              <h1>Page not found</h1></Grid>}/>
             <Route path={'/*'} element={<Navigate to={'/404'}/>}/>
           </Routes>
 
