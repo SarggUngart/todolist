@@ -4,24 +4,18 @@ import {Container, createTheme, ThemeProvider} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import HeaderMUI from "./UI/HeaderMUI";
 import {useAppDispatch, useAppSelector} from "./store/store";
-import {getTodoListsTC} from "./redusers/todolists-reducer";
-import {RequestStatusType} from "./redusers/app-reduser";
 import {ErrorSnackbar} from "./UI/ErrorSnackBar";
-import {TodolistsWrapper} from "./components/TodolistsWrapper";
+import {TodoListsWrapper} from "./components/TodoListsWrapper";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./components/Login";
 import {NotFound} from "./components/NotFound";
+import {MeTC} from "./redusers/auth-reducer";
 
 
-function AppRedux(): JSX.Element {
-
-  const status = useAppSelector<RequestStatusType>(state => state.app.status)
-  const isDarkMode = useAppSelector<boolean>(state => state.app.isDarkMode)
-
+function App(): JSX.Element {
   const dispatch = useAppDispatch()
-
+  const isDarkMode = useAppSelector<boolean>(state => state.app.isDarkMode)
   const theme = !isDarkMode ? 'light' : 'dark'
-
   const customTheme = createTheme({
     palette: {
       primary: {
@@ -37,7 +31,7 @@ function AppRedux(): JSX.Element {
   });
 
   React.useEffect(() => {
-    dispatch(getTodoListsTC())
+    dispatch(MeTC())
   }, [])
 
 
@@ -48,11 +42,11 @@ function AppRedux(): JSX.Element {
           <ErrorSnackbar/>
           <HeaderMUI
             isDarkMode={isDarkMode}
-            status={status}
+
           />
           <Container>
             <Routes>
-              <Route path={'/'} element={<TodolistsWrapper/>}/>
+              <Route path={'/'} element={<TodoListsWrapper/>}/>
               <Route path={'/login'} element={<Login/>}/>
               <Route path={'/404'} element={<NotFound/>}/>
               <Route path={'*'} element={<Navigate to={'404'}/>}/>
@@ -64,4 +58,4 @@ function AppRedux(): JSX.Element {
   );
 }
 
-export default AppRedux;
+export default App;

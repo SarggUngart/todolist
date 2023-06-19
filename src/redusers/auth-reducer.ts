@@ -24,8 +24,8 @@ export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-
 
 export const LoginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsType>) => {
   dispatch(SetLoadingStatusAC('loading'))
-  const res = await authAPI.Login(data)
   try {
+    const res = await authAPI.Login(data)
     if (res.data.resultCode === ResultCode.SUCCESS) {
       dispatch(setIsLoggedInAC(true))
       dispatch(SetLoadingStatusAC('succeeded'))
@@ -37,5 +37,22 @@ export const LoginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsTyp
     handleServerNetworkError(dispatch, err)
   }
 }
+
+export const MeTC = () => async (dispatch: Dispatch<ActionsType>) => {
+  dispatch(SetLoadingStatusAC('loading'))
+  try {
+    const res = await authAPI.Me()
+    if (res.data.resultCode === ResultCode.SUCCESS) {
+      dispatch(setIsLoggedInAC(true))
+      dispatch(SetLoadingStatusAC('succeeded'))
+    } else {
+      handleServerAppError(dispatch, res.data)
+    }
+  } catch (e) {
+    const err = (e as { message: string })
+    handleServerNetworkError(dispatch, err)
+  }
+}
+
 
 type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetLoadingStatusACType | SetErrorACType

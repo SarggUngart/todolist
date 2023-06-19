@@ -6,7 +6,6 @@ import FormGroup from "@mui/material/FormGroup";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-// import {MenuIcon} from "@mui/material/MenuIcon";
 import {MaterialUISwitch} from "./ModeSwitcher";
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -15,13 +14,14 @@ import {useAppDispatch, useAppSelector} from "../store/store";
 
 type HeaderMUIType = {
   isDarkMode: boolean
-  status: RequestStatusType
+
 }
 
 export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
-  const {status, isDarkMode} = props
+  const {isDarkMode} = props
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+  const status = useAppSelector<RequestStatusType>(state => state.app.status)
+  let isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
   return (
     <AppBar position="static">
@@ -33,7 +33,6 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
           aria-label="menu"
           sx={{mr: 2}}
         >
-          {/*<MenuIcon/>*/}
         </IconButton>
 
         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
@@ -50,7 +49,7 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
           />
         </FormGroup>
 
-        <Button color="inherit">{isLoggedIn === false ? '' : 'Logout'}</Button>
+        <Button color="inherit">{!isLoggedIn ? '' : 'Logout'}</Button>
 
       </Toolbar>
       {status === 'loading'

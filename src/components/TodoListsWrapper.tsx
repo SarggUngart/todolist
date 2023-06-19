@@ -2,20 +2,31 @@ import React from 'react';
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {Todolists} from "./Todolists";
-import {createTodoListTC, TodolistDomainType} from "../redusers/todolists-reducer";
+import {createTodoListTC, getTodoListsTC, TodolistDomainType} from "../redusers/todolists-reducer";
 import {useAppDispatch, useAppSelector} from "../store/store";
 import {InputWithBtn} from "./InputWithBtn";
+import {Navigate} from "react-router-dom";
 
 
-export const TodolistsWrapper = () => {
-
+export const TodoListsWrapper = () => {
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const todoLists = useAppSelector<TodolistDomainType[]>(state => state.todoLists)
   const dispatch = useAppDispatch()
 
 
+  React.useEffect(() => {
+    if (!isLoggedIn) return
+    dispatch(getTodoListsTC())
+  }, [])
+
   const addNewTodoList = React.useCallback((title: string) => {
     dispatch(createTodoListTC(title))
   }, [dispatch])
+
+
+  if (!isLoggedIn) {
+    return <Navigate to={'/login'}/>
+  }
 
   return (
     <>

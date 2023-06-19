@@ -28,7 +28,6 @@ export const Todolists: React.FC<TodolistPropsType> = React.memo(({todoLists}) =
 
 
   const tasks = useAppSelector<TaskApiType[]>(state => state.tasks[id])
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
   const dispatch = useAppDispatch()
 

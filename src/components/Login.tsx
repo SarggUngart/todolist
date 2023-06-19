@@ -25,6 +25,8 @@ export type LoginType = {
 };
 
 
+
+
 const validate = (values: any) => {
   const errors: FormikErrorType = {};
   if (!values.email) {
@@ -63,15 +65,13 @@ export const Login = () => {
 
   const formValidErrorStyle = {color: "red", fontSize: "13px"};
 
-  console.log(isLoggedIn)
-
-  if (isLoggedIn === true) {
+  if (isLoggedIn) {
     return <Navigate to={'/'}/>
   }
 
   return (
     <Grid container justifyContent={"center"}>
-      <Grid sx={{marginTop:'50px'}} item justifyContent={"center"}>
+      <Grid sx={{marginTop: '50px'}} item justifyContent={"center"}>
         <form onSubmit={formik.handleSubmit}>
           <FormControl>
             <FormLabel>
@@ -118,7 +118,7 @@ export const Login = () => {
                   />
                 }
               />
-              <Button type={"submit"} variant={"contained"} color={"primary"}>
+              <Button sx={{marginTop: '30px'}} type={"submit"} variant={"contained"} color={"primary"}>
                 Login
               </Button>
             </FormGroup>
