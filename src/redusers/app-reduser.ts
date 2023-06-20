@@ -5,7 +5,7 @@ const initialState: InitialStateType = {
   isDarkMode: false
 }
 
-export const appReducer = (state = initialState, action: AppActionsType): InitialStateType => {
+export const appReducer = (state = initialState, action: RootAppAT): InitialStateType => {
   switch (action.type) {
     case "APP/SET-ERROR": {
       return {...state, error: action.error}
@@ -44,7 +44,7 @@ export type SetErrorACType = ReturnType<typeof SetErrorAC>
 type SetSetColorModeType = ReturnType<typeof SetColorModeAC>
 
 
-type AppActionsType =
+export type RootAppAT =
   | ReturnType<typeof SetLoadingStatusAC>
   | ReturnType<typeof SetErrorAC>
   | ReturnType<typeof SetColorModeAC>

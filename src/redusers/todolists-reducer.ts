@@ -1,8 +1,8 @@
 import {todoListAPI, TodoListApiType} from "../api/todolist-api";
-import {Dispatch} from "redux";
 import {RequestStatusType, SetErrorACType, SetLoadingStatusAC, SetLoadingStatusACType} from "./app-reduser";
-import {ResultCode} from "./tasks-reduces";
+import {getTasksTC, ResultCode} from "./tasks-reduces";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error.utils";
+import {AppThunk} from "../store/store";
 
 export type RemoveTodoListAT = ReturnType<typeof RemoveTodolistAC>
 export type AddTodoListAT = ReturnType<typeof AddTodoListAC>
@@ -10,6 +10,7 @@ export type ChangeToDoListTitleAT = ReturnType<typeof ChangeToDoListTitleAC>
 export type ChangeToDoListFilterAT = ReturnType<typeof ChangeToDoListFilterAC>
 export type SetTodoListsAT = ReturnType<typeof setTodoListsAC>
 export type ChangeTodoListStatusByIdAT = ReturnType<typeof ChangeTodoListStatusByIdAC>
+export type ClearDataAT = ReturnType<typeof ClearDataAC>
 
 
 export type RootTodoListAT =
@@ -21,6 +22,8 @@ export type RootTodoListAT =
   | ChangeTodoListStatusByIdAT
   | SetLoadingStatusACType
   | SetErrorACType
+  | ClearDataAT
+
 
 export type FilterType = 'All' | 'Active' | 'Completed'
 
@@ -56,6 +59,10 @@ export const todolistReducer = (state = initialState, action: RootTodoListAT): T
       })
     case "CHANGE-TODOLIST-STATUS_BY_ID":
       return state.map(tl => tl.id === action.todolistId ? {...tl, entityStatus: action.entityStatus} : tl)
+
+    case "CLEAR-DATA": {
+      return []
+    }
 
     default:
       return state
@@ -115,22 +122,24 @@ export const ChangeTodoListStatusByIdAC = (todolistId: string, entityStatus: Req
   } as const
 }
 
+export const ClearDataAC = () => ({type: 'CLEAR-DATA'} as const)
 
-
-
-export const getTodoListsTC = (() => (dispatch: Dispatch) => {
+export const getTodoListsTC = (): AppThunk => async dispatch => {
   dispatch(SetLoadingStatusAC('loading'))
-  todoListAPI.GetTodoLists()
-    .then(res => {
-      dispatch(setTodoListsAC(res.data))
-      dispatch(SetLoadingStatusAC('succeeded'))
+  const res = await todoListAPI.GetTodoLists()
+  try {
+    dispatch(setTodoListsAC(res.data))
+    dispatch(SetLoadingStatusAC('succeeded'))
+    res.data.forEach(tl => {
+      dispatch(getTasksTC(tl.id))
     })
-    .catch(e => {
-      handleServerNetworkError(dispatch, e)
-    })
-})
+  } catch (e) {
+    const err = e as { message: string }
+    handleServerNetworkError(dispatch, err)
+  }
+}
 
-export const createTodoListTC = ((title: string, ) => (dispatch: Dispatch<RootTodoListAT>) => {
+export const createTodoListTC = ((title: string,): AppThunk => (dispatch) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.CreateTodolist(title)
     .then((res) => {
@@ -146,7 +155,7 @@ export const createTodoListTC = ((title: string, ) => (dispatch: Dispatch<RootTo
     })
 })
 
-export const removeTodoListTC = ((todoListId: string) => (dispatch: Dispatch<RootTodoListAT>) => {
+export const removeTodoListTC = ((todoListId: string): AppThunk => (dispatch) => {
   dispatch(SetLoadingStatusAC('loading'))
   dispatch(ChangeTodoListStatusByIdAC(todoListId, 'loading'))
   todoListAPI.DeleteTodolist(todoListId)
@@ -163,7 +172,7 @@ export const removeTodoListTC = ((todoListId: string) => (dispatch: Dispatch<Roo
     })
 })
 
-export const updateTodoListTitleTC = ((todoListId: string, title: string) => (dispatch: Dispatch<RootTodoListAT>) => {
+export const updateTodoListTitleTC = ((todoListId: string, title: string): AppThunk => (dispatch) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.UpdateTodolist(todoListId, title)
     .then((res) => {

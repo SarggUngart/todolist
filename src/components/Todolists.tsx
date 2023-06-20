@@ -10,7 +10,7 @@ import {
   TodolistDomainType,
   updateTodoListTitleTC
 } from "../redusers/todolists-reducer";
-import {addTaskTC, getTasksTC, TaskDomainType} from "../redusers/tasks-reduces";
+import {addTaskTC, TaskDomainType} from "../redusers/tasks-reduces";
 import {useAppDispatch, useAppSelector} from "../store/store";
 import {TaskApiType, TaskStatuses} from "../api/todolist-api";
 
@@ -26,14 +26,13 @@ export const TodoLists: React.FC<TodolistPropsType> = React.memo(({todoLists}) =
     entityStatus
   } = todoLists
 
-
   const tasks = useAppSelector<TaskApiType[]>(state => state.tasks[id])
 
   const dispatch = useAppDispatch()
 
-  React.useEffect(() => {
-    dispatch(getTasksTC(id))
-  }, [])
+  // React.useEffect(() => {
+  //   dispatch(getTasksTC(id))
+  // }, [])
 
   const removeTodoListHandler = React.useCallback(() => {
     dispatch(removeTodoListTC(id))

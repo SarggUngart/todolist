@@ -4,13 +4,14 @@ import {authAPI} from "../api/todolist-api";
 import {LoginType} from "../components/Login";
 import {ResultCode} from "./tasks-reduces";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error.utils";
+import {ClearDataAC, ClearDataAT} from "./todolists-reducer";
 
 const initialState = {
   isLoggedIn: false
 }
 type InitialStateType = typeof initialState
 
-export const authReducer = (state = initialState, action: ActionsType): InitialStateType => {
+export const authReducer = (state = initialState, action: RooAuthAT): InitialStateType => {
   switch (action.type) {
     case 'login/SET-IS-LOGGED-IN':
       return {...state, isLoggedIn: action.value}
@@ -22,7 +23,7 @@ export const authReducer = (state = initialState, action: ActionsType): InitialS
 
 export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
-export const LoginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsType>) => {
+export const LoginTC = (data: LoginType) => async (dispatch: Dispatch<RooAuthAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   try {
     const res = await authAPI.Login(data)
@@ -38,7 +39,7 @@ export const LoginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsTyp
   }
 }
 
-export const MeTC = () => async (dispatch: Dispatch<ActionsType>) => {
+export const MeTC = () => async (dispatch: Dispatch<RooAuthAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   try {
     const res = await authAPI.Me()
@@ -57,13 +58,14 @@ export const MeTC = () => async (dispatch: Dispatch<ActionsType>) => {
   }
 }
 
-export const LogoutTC = () => async (dispatch: Dispatch<ActionsType>) => {
+export const LogoutTC = () => async (dispatch: Dispatch<RooAuthAT>) => {
   dispatch(SetLoadingStatusAC('loading'))
   try {
     const res = await authAPI.Logout()
     if (res.data.resultCode === ResultCode.SUCCESS) {
       dispatch(setIsLoggedInAC(false))
       dispatch(SetLoadingStatusAC('succeeded'))
+      dispatch(ClearDataAC())
     } else {
       handleServerAppError(dispatch, res.data)
     }
@@ -75,8 +77,9 @@ export const LogoutTC = () => async (dispatch: Dispatch<ActionsType>) => {
 }
 
 
-type ActionsType =
+export type RooAuthAT =
   ReturnType<typeof setIsLoggedInAC>
   | SetLoadingStatusACType
   | SetErrorACType
   | ReturnType<typeof SetInitAC>
+  | ClearDataAT

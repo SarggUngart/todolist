@@ -1,7 +1,6 @@
-import {AddTodoListAT, RemoveTodoListAT, SetTodoListsAT} from "./todolists-reducer";
+import {AddTodoListAT, ClearDataAT, RemoveTodoListAT, SetTodoListsAT} from "./todolists-reducer";
 import {TaskApiType, TaskPriority, TaskStatuses, todoListAPI, UpdateTaskModelType} from "../api/todolist-api";
-import {Dispatch} from "redux";
-import {AppRootStateType} from "../store/store";
+import {AppRootStateType, AppThunk} from "../store/store";
 import {RequestStatusType, SetErrorACType, SetLoadingStatusAC, SetLoadingStatusACType} from "./app-reduser";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error.utils";
 
@@ -25,6 +24,7 @@ export type RootTasksAT =
   | SetLoadingStatusACType
   | SetErrorACType
   | ChangeTaskAPIStatusACType
+  | ClearDataAT
 
 export type TasksStateType = {
   [tdListId: string]: TaskDomainType[]
@@ -104,6 +104,8 @@ export const tasksReducer = (state = initialState, action: RootTasksAT): TasksSt
             : t)
       }
     }
+    case "CLEAR-DATA":
+      return {}
     default:
       return state
   }
@@ -156,7 +158,7 @@ export const changeTaskAPIStatusAC = (todoListId: string, tasksId: string, entit
 } as const)
 
 
-export const getTasksTC = ((todoListId: string) => (dispatch: Dispatch<RootTasksAT>) => {
+export const getTasksTC = ((todoListId: string): AppThunk => (dispatch) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.GetTasks(todoListId)
     .then(res => {
@@ -168,7 +170,7 @@ export const getTasksTC = ((todoListId: string) => (dispatch: Dispatch<RootTasks
     })
 })
 
-export const removeTaskTC = ((todoListId: string, taskId: string) => (dispatch: Dispatch<RootTasksAT>) => {
+export const removeTaskTC = ((todoListId: string, taskId: string): AppThunk => (dispatch) => {
   dispatch(SetLoadingStatusAC('loading'))
   dispatch(changeTaskAPIStatusAC(todoListId, taskId, 'loading'))
   todoListAPI.DeleteTask(todoListId, taskId)
@@ -191,7 +193,7 @@ export enum ResultCode {
   ERROR_CAPTCHA = 10
 }
 
-export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispatch<RootTasksAT>) => {
+export const addTaskTC = (todoListId: string, title: string): AppThunk => (dispatch) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.CreateTask(todoListId, title)
     .then((res) => {
@@ -217,7 +219,7 @@ interface FLexTaskType {
 }
 
 
-export const updateTaskTC = (todoListId: string, taskId: string, data: FLexTaskType) => (dispatch: Dispatch<RootTasksAT>, getState: () => AppRootStateType) => {
+export const updateTaskTC = (todoListId: string, taskId: string, data: FLexTaskType): AppThunk => (dispatch, getState: () => AppRootStateType) => {
 
   const task = getState().tasks[todoListId].find(t => t.id === taskId)
 

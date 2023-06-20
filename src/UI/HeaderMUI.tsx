@@ -32,7 +32,6 @@ export const HeaderMUI: React.FC<HeaderMUIType> = (props) => {
   return (
     <AppBar position="static">
 
-
       <Toolbar>
         <IconButton
           size="large"
