@@ -4,7 +4,7 @@ import {authAPI} from "../api/todolist-api";
 import {LoginType} from "../components/Login";
 import {ResultCode} from "./tasks-reduces";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error.utils";
-import {ClearDataAC, ClearDataAT} from "./todolists-reducer";
+import {clearDataAC, ClearDataAT} from "./todolists-reducer";
 
 const initialState = {
   isLoggedIn: false
@@ -65,7 +65,7 @@ export const LogoutTC = () => async (dispatch: Dispatch<RooAuthAT>) => {
     if (res.data.resultCode === ResultCode.SUCCESS) {
       dispatch(setIsLoggedInAC(false))
       dispatch(SetLoadingStatusAC('succeeded'))
-      dispatch(ClearDataAC())
+      dispatch(clearDataAC())
     } else {
       handleServerAppError(dispatch, res.data)
     }

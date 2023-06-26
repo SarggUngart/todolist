@@ -4,7 +4,7 @@ import {Tasks} from "./Tasks";
 import {InputWithBtn} from "./InputWithBtn";
 import {Btn} from "./Btn";
 import {
-  ChangeToDoListFilterAC,
+  changeToDoListFilterAC,
   FilterType,
   removeTodoListTC,
   TodolistDomainType,
@@ -42,11 +42,9 @@ export const TodoLists: React.FC<TodolistPropsType> = React.memo(({todoLists}) =
     dispatch(addTaskTC(id, title))
   }, [id, title])
 
-
   const onClickFilterTasksHandler = React.useCallback((id: string, filter: FilterType) => {
-    dispatch(ChangeToDoListFilterAC(id, filter))
+    dispatch(changeToDoListFilterAC(id, filter))
   }, [dispatch, id, filter])
-
 
   const changeTodoListTitleHandler = React.useCallback((newTitle: string) => {
     dispatch(updateTodoListTitleTC(id, newTitle))
@@ -63,7 +61,6 @@ export const TodoLists: React.FC<TodolistPropsType> = React.memo(({todoLists}) =
         return tasks
     }
   }
-
 
   return (
     <div>

@@ -38,7 +38,6 @@ export const Tasks: React.FC<TasksPropsType> = React.memo((props) => {
 
   const taskIsDoneStyle = task.status === TaskStatuses.Complited ? 'done' : ''
 
-
   return (
     <List sx={{padding: '0', height: '35px'}}>
       <ListItem sx={{justifyContent: 'space-between', marginTop: '10px'}} disablePadding key={task.id}>
@@ -60,8 +59,6 @@ export const Tasks: React.FC<TasksPropsType> = React.memo((props) => {
           <DeleteIcon/>
         </IconButton>
       </ListItem>
-
     </List>
-
   )
 })

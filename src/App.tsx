@@ -18,6 +18,7 @@ function App(): JSX.Element {
   const isDarkMode = useAppSelector<boolean>(state => state.app.isDarkMode)
   const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
   const theme = !isDarkMode ? 'light' : 'dark'
+
   const customTheme = createTheme({
     palette: {
       primary: {

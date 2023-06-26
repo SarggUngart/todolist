@@ -54,6 +54,7 @@ export const InputWithBtn: React.FC<InputPropsType> = React.memo((props) => {
 
   return (
     <div className={'inputWrapper'}>
+
       {inputTitle
         &&
         <ClearIcon sx={{transition: 'opacity 0.1s linear'}}

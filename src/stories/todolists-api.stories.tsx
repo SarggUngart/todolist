@@ -1,6 +1,5 @@
 import React from 'react'
-import {todoListAPI, UpdateTaskModelType} from "../api/todolist-api";
-import axios from "axios";
+import {todoListAPI} from "../api/todolist-api";
 
 export default {
   title: 'API'
@@ -79,30 +78,16 @@ export const DeleteTask = () => {
   return <div>{JSON.stringify(state)}</div>
 }
 
-// export const UpdateTask =()=>{
-//   const [state, setState] = React.useState<any>(null)
-//   React.useEffect(() => {
-//     const model: UpdateTaskModelType = {
-//       title: task.title,
-//       description: task.description,
-//       priority: task.priority,
-//       startDate: task.startDate,
-//       deadline: task.deadline,
-//       status
-//     }
-//
-//     todoListAPI.updateTask('4b772467-ed66-4a80-862d-5af25b2190aa', 'f692f0f3-012f-4db9-a60e-cce90acb123a', model)
-//       .then(res => setState(res.data))
-//   }, [])
-//   return <div>{JSON.stringify(state)}</div>
-// }
 
 export const ReordetTodolist = () => {
   const [state, setState] = React.useState<any>(null)
-  const todolistId = "983bd76c-6e1d-4b90-a65f-8283935d9995"
+  const todolistId = "4b77b551-1338-4bb0-9060-71450b4846bb"
+  const putAfterID = "67db7a19-6487-424f-9d4d-f7963dadcbe7"
   React.useEffect(() => {
-    axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/reorder`, {putAfterItemId: null}, settings)
-      .then(res => setState(res.data))
+    todoListAPI.ReorderTodoList(todolistId, putAfterID)
+      .then(res => {
+        setState(res.data)
+      })
   }, [])
 
   return <div>{JSON.stringify(state)}</div>

@@ -15,7 +15,7 @@ export const authAPI = {
       userId: number
     }>>, LoginType>('auth/login', data);
   },
-  Logout(){
+  Logout() {
     return instance.delete<ResponseType>('auth/login')
   }
   ,
@@ -34,7 +34,7 @@ export const todoListAPI = {
     }>>, { title: string }>('todo-lists', {title});
   },
   DeleteTodolist(id: string) {
-    return instance.delete<ResponseType>(`todo-lists/${id  }`);
+    return instance.delete<ResponseType>(`todo-lists/${id}`);
   },
   UpdateTodolist(id: string, title: string) {
     return instance.put<ResponseType, AxiosResponse<ResponseType>, { title: string }>(`todo-lists/${id}`, {title});
@@ -54,6 +54,9 @@ export const todoListAPI = {
     return instance.put<ResponseType<{ item: TaskApiType }>, AxiosResponse<ResponseType<{
       item: TaskApiType
     }>>, UpdateTaskModelType>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
+  },
+  ReorderTodoList(id: string, putAfterItemId: string | null) {
+    return instance.put<ResponseType<{ item: ResponseType }>>(`todo-lists/${id}/reorder`, {putAfterItemId})
   }
 }
 
@@ -61,7 +64,7 @@ export type TodoListApiType = {
   "id": string
   "title": string
   "addedDate"?: Date | string
-  "order"?: number
+  "order": number
 }
 
 export type MeType = {
