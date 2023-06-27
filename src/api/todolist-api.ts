@@ -55,7 +55,7 @@ export const todoListAPI = {
       item: TaskApiType
     }>>, UpdateTaskModelType>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
   },
-  ReorderTodoList(id: string, putAfterItemId: string | null) {
+  ReorderTodoList(id: string | null, putAfterItemId: string | null) {
     return instance.put<ResponseType<{ item: ResponseType }>>(`todo-lists/${id}/reorder`, {putAfterItemId})
   }
 }

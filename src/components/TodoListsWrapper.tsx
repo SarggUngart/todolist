@@ -14,7 +14,7 @@ export const TodoListsWrapper = () => {
 
   const dispatch = useAppDispatch()
 
-  const [currentTlId, setCurrentTlId] = useState('')
+  let [currentTlId, setCurrentTlId] = useState<string | null>('')
 
   React.useEffect(() => {
     if (!isLoggedIn) return
@@ -29,11 +29,17 @@ export const TodoListsWrapper = () => {
     return <Navigate to={'/login'}/>
   }
 
-  const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, todolistID: string) => {
+  const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, todolistID: string | null) => {
     setCurrentTlId(todolistID)
   }
 
-  const dragDropHandler = (e: React.DragEvent<HTMLDivElement>, putAfterID: string) => {
+  const dragDropHandler = (e: React.DragEvent<HTMLDivElement>, putAfterID: string | null) => {
+    if (currentTlId === putAfterID) {
+      return
+    }
+    if (todoLists[0].id === putAfterID) {
+      putAfterID = null
+    }
     dispatch(reorderTodoListTC(currentTlId, putAfterID))
     setCurrentTlId('')
   }
@@ -46,8 +52,6 @@ export const TodoListsWrapper = () => {
     e.preventDefault()
 
   }
-
-  console.log(currentTlId)
 
   return (
     <>

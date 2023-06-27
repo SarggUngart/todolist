@@ -191,7 +191,7 @@ export const updateTodoListTitleTC = ((todoListId: string, title: string): AppTh
     })
 })
 
-export const reorderTodoListTC = ((todoListId: string, putAfterID: string): AppThunk => (dispatch) => {
+export const reorderTodoListTC = ((todoListId: string | null, putAfterID: string | null): AppThunk => (dispatch) => {
   dispatch(SetLoadingStatusAC('loading'))
   todoListAPI.ReorderTodoList(todoListId, putAfterID)
     .then((res) => {
